@@ -173,6 +173,9 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <h3>RÉSZLETEK</h3>
 <div><div class="lbl">Fogantyú</div><div class="chips" id="hnd"></div></div>
 <div><div class="lbl">Alátámasztás</div><div class="chips" id="bas"></div></div>
+<div id="topBox"><div class="lbl">Felső lezárás</div><div class="chips" id="topSel"></div><p class="note" style="margin-top:6px">Konyhai alsó elemnél tetőlap helyett 2 db 10 cm-es merevítő: vízszintesen fekvő, vagy mosogatószekrénynél függőlegesen álló.</p></div>
+<div><div class="lbl">Hátfal</div><div class="chips" id="backSel"></div></div>
+<div><div class="lbl">Zsanér</div><div class="chips" id="hingeSel"></div></div>
 </div>
 
 <div class="pane on" data-p="room">
@@ -238,7 +241,7 @@ const T = 18, HDF = 3, GAP = 3, SHEET = [2800, 2070], KERF = 4, TRIM = 10;
 const DECORS = [{n:'Amerikai dió',c:'#6B4A31',g:'#56391f',wood:1},{n:'Natúr tölgy',c:'#B58C60',g:'#9a7448',wood:1},{n:'Antracit matt',c:'#3A3734'},{n:'Fekete',c:'#1F1D1B'},{n:'Kasmír',c:'#CFC3B3'},{n:'Fehér',c:'#ECEAE6'},{n:'Zsálya',c:'#7D8B78'},{n:'Agyagszürke',c:'#8E857A'}];
 const HANDLES = ['Tip-on (fogantyú nélkül)', 'Bronz rúd', 'Fekete rúd'];
 const BASES = [{n:'Fém lábak 10 cm', h:100}, {n:'Lábazat 8 cm', h:80}, {n:'Falra szerelt', h:0}];
-const TYPES = [{k:'o',n:'Nyitott polcos',c:'Polcok'},{k:'d',n:'Ajtós',c:'Belső polcok'},{k:'f',n:'Fiókos',c:'Fiókok'}];
+const TYPES = [{k:'o',n:'Nyitott polcos',c:'Polcok'},{k:'d',n:'Egyajtós',c:'Belső polcok'},{k:'f',n:'Fiókos',c:'Fiókok'},{k:'D',n:'Kétajtós',c:'Belső polcok'}];
 const PRESETS = [
  {n:'Sideboard', w:1800, h:800, d:450, s:['d1','f3','d1'], b:0, c:0, f:0, hd:1},
  {n:'Komód', w:1000, h:900, d:480, s:['f4','f4'], b:0, c:2, f:0, hd:1},
@@ -247,15 +250,16 @@ const PRESETS = [
  {n:'Ruhásszekrény', w:1500, h:2200, d:600, s:['d4','d4','f4'], b:1, c:4, f:4, hd:2},
  {n:'Könyvespolc', w:900, h:2000, d:320, s:['o5','o5'], b:1, c:0, f:0, hd:0},
  {n:'Fali elem', w:1200, h:400, d:320, s:['d0','o1','d0'], b:2, c:0, f:2, hd:0, el:1500},
- {n:'Konyhai alsó', w:600, h:870, d:560, s:['f3'], b:1, c:5, f:2, hd:1}];
+ {n:'Konyhai alsó', w:600, h:870, d:560, s:['f3'], b:1, c:5, f:2, hd:1, top:'railH'},
+ {n:'Mosogatószekrény', w:800, h:870, d:560, s:['D0'], b:1, c:5, f:2, hd:1, top:'railV', back:false}];
 const WALLS = {N:'Felső fal (É)', S:'Alsó fal (D)', W:'Bal fal (Ny)', E:'Jobb fal (K)'};
 const ROOMS = [{n:'Iroda 4×5 m', w:4000, d:5000, h:2700}, {n:'Vezetői iroda 5×5 m', w:5000, d:5000, h:2800}, {n:'Nappali 6×4,5 m', w:6000, d:4500, h:2700}, {n:'Hálószoba 4×3,5 m', w:4000, d:3500, h:2650}];
-let PRICE = {tabla:28000, hdf:6500, vagas:250, el1:350, el2:550, zsan:1800, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:20000, mfront:6000, mpolc:2500, szorzo:1.4};
-const PLAB = {tabla:'Bútorlap 18 mm (Ft/tábla, 2800×2070)', hdf:'HDF 3 mm (Ft/tábla)', vagas:'Szabás (Ft/fm)', el1:'Élzárás 1 mm (Ft/fm)', el2:'Élzárás 2 mm (Ft/fm)', zsan:'Zsanér (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj / elem alap (Ft)', mfront:'Munkadíj / front (Ft)', mpolc:'Munkadíj / polc (Ft)', szorzo:'Árrés-szorzó'};
+let PRICE = {tabla:28000, hdf:6500, vagas:250, el1:350, el2:550, zsan:1800, zsanS:600, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:20000, mfront:6000, mpolc:2500, szorzo:1.4};
+const PLAB = {tabla:'Bútorlap 18 mm (Ft/tábla, 2800×2070)', hdf:'HDF 3 mm (Ft/tábla)', vagas:'Szabás (Ft/fm)', el1:'Élzárás 1 mm (Ft/fm)', el2:'Élzárás 2 mm (Ft/fm)', zsan:'Zsanér, fékes (Ft/db)', zsanS:'Zsanér, sima (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj / elem alap (Ft)', mfront:'Munkadíj / front (Ft)', mpolc:'Munkadíj / polc (Ft)', szorzo:'Árrés-szorzó'};
 try { const p = JSON.parse(localStorage.getItem('nakom-ar2') || 'null'); if (p) PRICE = {...PRICE, ...p}; } catch (e) {}
 
 let uid = 1;
-const newItem = (p, x, z, rot) => ({id:uid++, name:p.n, cfg:{w:p.w, h:p.h, d:p.d, s:[...p.s], b:p.b, c:p.c, f:p.f, hd:p.hd, el:p.el || 0}, x, z, rot:rot || 0});
+const newItem = (p, x, z, rot) => ({id:uid++, name:p.n, cfg:{w:p.w, h:p.h, d:p.d, s:[...p.s], b:p.b, c:p.c, f:p.f, hd:p.hd, el:p.el || 0, top:p.top || 'panel', back:p.back !== false, soft:true}, x, z, rot:rot || 0});
 function defaultProj() {
   const P = {name:'Új projekt', room:{w:5000, d:5000, h:2700, doors:[{wall:'S', off:500, w:900, hinge:'L', swing:'in'}], wins:[{wall:'N', off:1800, w:1600}], floor:{t:0, c:'#8a6c50'}, wall:{t:0, c:'#8c8077'}}, items:[]};
   return P;
@@ -298,19 +302,28 @@ function build(cfg) {
   // Szerkezet: felső (falra szerelt) elemnél az oldalak adják a teljes magasságot, a tető és a fenék az oldalak közé kerül;
   // alsó (álló) elemnél – a konyhai alsókat is beleértve – fordítva: a tető és a fenék teljes szélességű, az oldalak közéjük kerülnek.
   const upper = cfg.b === 2;
+  const top = upper ? 'panel' : (cfg.top || 'panel'), back = cfg.back !== false;
   if (upper) { add('Oldallap (teljes magasságú)', HC, D, 2, 'K', 'H1 Sz2'); add('Tető- és fenéklap (oldalak közé)', W - 2 * T, D, 2, 'K', 'H1'); }
-  else { add('Oldallap (tető és fenék közé)', HC - 2 * T, D, 2, 'K', 'H1'); add('Tető- és fenéklap (teljes szélességű)', W, D, 2, 'K', 'H1 Sz2'); }
-  const sideH = upper ? HC : HC - 2 * T, hw2 = upper ? W - 2 * T : W;
-  box(-W / 2 + T / 2, B + HC / 2, 0, T, sideH, D, 'K'); box(W / 2 - T / 2, B + HC / 2, 0, T, sideH, D, 'K');
-  box(0, B + HC - T / 2, 0, hw2, T, D, 'K'); box(0, B + T / 2, 0, hw2, T, D, 'K');
-  add('Válaszfal', ih, D - HDF, n - 1, 'K', 'H1'); add('Hátfal', W - 4, HC - 4, 1, 'H', '–');
-  box(0, B + HC / 2, -D / 2 + HDF / 2, W - 4, HC - 4, HDF, 'H');
+  else if (top === 'panel') { add('Oldallap (tető és fenék közé)', HC - 2 * T, D, 2, 'K', 'H1'); add('Tető- és fenéklap (teljes szélességű)', W, D, 2, 'K', 'H1 Sz2'); }
+  else { // konyhai alsó: tetőlap helyett 2 db 10 cm-es merevítő heveder az oldalak között, a fenéklap teljes szélességű
+    add('Oldallap (fenéklapra állítva)', HC - T, D, 2, 'K', 'H1'); add('Fenéklap (teljes szélességű)', W, D, 1, 'K', 'H1 Sz2');
+    add('Merevítő heveder 100 mm (' + (top === 'railV' ? 'függőleges – mosogató' : 'vízszintes') + ')', W - 2 * T, 100, 2, 'K', 'H1'); }
+  const sideH = upper ? HC : top === 'panel' ? HC - 2 * T : HC - T, sideY = upper || top === 'panel' ? B + HC / 2 : B + T + (HC - T) / 2, hw2 = upper ? W - 2 * T : W;
+  box(-W / 2 + T / 2, sideY, 0, T, sideH, D, 'K'); box(W / 2 - T / 2, sideY, 0, T, sideH, D, 'K');
+  box(0, B + T / 2, 0, hw2, T, D, 'K');
+  if (top === 'panel') box(0, B + HC - T / 2, 0, hw2, T, D, 'K');
+  else if (top === 'railH') { [D / 2 - 50, -D / 2 + (back ? HDF : 0) + 50].forEach(z => box(0, B + HC - T / 2, z, W - 2 * T, T, 100, 'K')); }
+  else { [D / 2 - T / 2, -D / 2 + (back ? HDF : 0) + T / 2].forEach(z => box(0, B + HC - 50, z, W - 2 * T, 100, T, 'K')); }
+  add('Válaszfal', ih, D - (back ? HDF : 0), n - 1, 'K', 'H1');
+  if (back) { add('Hátfal', W - 4, HC - 4, 1, 'H', '–'); box(0, B + HC / 2, -D / 2 + HDF / 2, W - 4, HC - 4, HDF, 'H'); }
   let x0 = -W / 2 + T;
   cfg.s.forEach((code, i) => {
     const t = code[0], k = +code[1], cx = x0 + iw / 2, fx = -W / 2 + GAP + i * (fw + GAP) + fw / 2, lab = n > 1 ? ' (' + (i + 1) + '. rekesz)' : '';
     if (i < n - 1) box(x0 + iw + T / 2, B + HC / 2, HDF / 2, T, ih, D - HDF, 'K');
     if (t !== 'f') { const gaps = secParts(cfg, i, ih - k * T); let yy = B + T; for (let j = 1; j <= k; j++) { yy += gaps[j - 1]; box(cx, yy + T / 2, 0, iw - 2, T, D - 20, 'K'); yy += T; } hw.polc += k; add('Polc' + lab, iw - 2, D - 20, k, 'K', 'H1'); }
-    if (t === 'd') { const fh = HC - GAP; hw.front++; hw.zsan += fh <= 900 ? 2 : fh <= 1600 ? 3 : 4; add('Ajtó' + lab, fh, fw, 1, 'F', 'H2 Sz2', 1); box(fx, B + HC / 2, D / 2 + T / 2 + 1, fw, fh, T, 'F', {door:1, hinge:i % 2 ? 1 : -1}); }
+    if (t === 'd') { const fh = HC - GAP; hw.front++; hw[cfg.soft !== false ? 'zsan' : 'zsanS'] = (hw[cfg.soft !== false ? 'zsan' : 'zsanS'] || 0) + (fh <= 900 ? 2 : fh <= 1600 ? 3 : 4); add('Ajtó' + lab, fh, fw, 1, 'F', 'H2 Sz2', 1); box(fx, B + HC / 2, D / 2 + T / 2 + 1, fw, fh, T, 'F', {door:1, hinge:i % 2 ? 1 : -1}); }
+    if (t === 'D') { const fh = HC - GAP, dw = (fw - GAP) / 2, nh = fh <= 900 ? 2 : fh <= 1600 ? 3 : 4, hk = cfg.soft !== false ? 'zsan' : 'zsanS'; hw.front += 2; hw[hk] = (hw[hk] || 0) + 2 * nh;
+      add('Ajtó, kétszárnyú' + lab, fh, dw, 2, 'F', 'H2 Sz2', 1); [-1, 1].forEach(sd => box(fx + sd * (dw + GAP) / 2, B + HC / 2, D / 2 + T / 2 + 1, dw, fh, T, 'F', {door:1, hinge:sd})); }
     if (t === 'f') {
       const m = Math.max(1, k), fhs = secParts(cfg, i, HC - GAP * (m + 1)), L = Math.max(250, Math.min(550, Math.floor((D - 40) / 50) * 50)), bw = iw - 26;
       hw.front += m; hw.csuszo += m; let y0 = B + GAP;
@@ -344,25 +357,25 @@ function pack(parts, wood) {
   return sheets;
 }
 function calc() {
-  const all = [], groups = {}, hw = {zsan:0, csuszo:0, front:0, polc:0, lab:0, fali:0, tip:0, fog:0, lpz:0};
+  const all = [], groups = {}, hw = {zsan:0, zsanS:0, csuszo:0, front:0, polc:0, lab:0, fali:0, tip:0, fog:0, lpz:0};
   let el1 = 0, el2 = 0, cutLen = 0, fronts = 0, polcs = 0;
   P.items.forEach(it => {
     const B = build(it.cfg); it._b = B;
     B.parts.forEach(p => {
-      const mat = p.mat === 'H' ? 'HDF 3 mm' : DECORS[p.mat === 'F' ? it.cfg.f : it.cfg.c].n + ' 18 mm';
+      const mat = p.mat === 'H' ? (/Hátfal/.test(p.name) ? 'MDF hátfal 3 mm' : 'HDF 3 mm') : DECORS[p.mat === 'F' ? it.cfg.f : it.cfg.c].n + ' 18 mm';
       const q = {...p, item:it.name, matName:mat, tag:it.name}; all.push(q); (groups[mat] = groups[mat] || []).push(q);
       let len = 0; if (/H1/.test(p.edge)) len += p.L; if (/H2/.test(p.edge)) len += 2 * p.L; if (/Sz2/.test(p.edge)) len += 2 * p.W;
       if (p.el2) el2 += len * p.q / 1000; else el1 += len * p.q / 1000;
       cutLen += (p.L + p.W) * p.q / 1000;
     });
-    hw.zsan += B.hw.zsan; hw.csuszo += B.hw.csuszo; hw.polc += B.hw.polc; hw.lab += B.hw.lab; hw.fali += B.hw.fali || 0;
+    hw.zsan += B.hw.zsan || 0; hw.zsanS += B.hw.zsanS || 0; hw.csuszo += B.hw.csuszo; hw.polc += B.hw.polc; hw.lab += B.hw.lab; hw.fali += B.hw.fali || 0;
     if (it.cfg.hd === 0) hw.tip += B.hw.front; else hw.fog += B.hw.front;
     if (it.cfg.b === 1) hw.lpz += it.cfg.w / 1000;
     fronts += B.hw.front; polcs += B.hw.polc;
   });
   const sheets = {}; let nLap = 0, nHdf = 0;
-  Object.entries(groups).forEach(([m, ps]) => { const wood = DECORS.some(d => d.wood && m.startsWith(d.n)); sheets[m] = pack(ps, wood); if (m.startsWith('HDF')) nHdf += sheets[m].length; else nLap += sheets[m].length; });
-  const hwRows = [['Zsanér (fékes)', hw.zsan, PRICE.zsan], ['Fiókcsúszó, golyós, pár', hw.csuszo, PRICE.csuszo], ['Fogantyú', hw.fog, PRICE.fog], ['Tip-on nyitó egység', hw.tip, PRICE.tip], ['Bútorláb, fém', hw.lab, PRICE.lab], ['Lábazat-szerelvény (fm)', +hw.lpz.toFixed(2), PRICE.lpz], ['Polctartó', hw.polc * 4, PRICE.polct], ['Falra akasztó vasalat, pár', hw.fali, PRICE.fali]].filter(r => r[1] > 0);
+  Object.entries(groups).forEach(([m, ps]) => { const wood = DECORS.some(d => d.wood && m.startsWith(d.n)); sheets[m] = pack(ps, wood); if (m.startsWith('HDF') || m.startsWith('MDF')) nHdf += sheets[m].length; else nLap += sheets[m].length; });
+  const hwRows = [['Zsanér, fékes (lassított)', hw.zsan, PRICE.zsan], ['Zsanér, sima', hw.zsanS, PRICE.zsanS], ['Fiókcsúszó, golyós, pár', hw.csuszo, PRICE.csuszo], ['Fogantyú', hw.fog, PRICE.fog], ['Tip-on nyitó egység', hw.tip, PRICE.tip], ['Bútorláb, fém', hw.lab, PRICE.lab], ['Lábazat-szerelvény (fm)', +hw.lpz.toFixed(2), PRICE.lpz], ['Polctartó', hw.polc * 4, PRICE.polct], ['Falra akasztó vasalat, pár', hw.fali, PRICE.fali]].filter(r => r[1] > 0);
   const hwSum = hwRows.reduce((a, r) => a + r[1] * r[2], 0);
   const rows = [['Bútorlap 18 mm: ' + nLap + ' tábla', nLap * PRICE.tabla], ['HDF 3 mm: ' + nHdf + ' tábla', nHdf * PRICE.hdf], ['Szabás: ' + cutLen.toFixed(1).replace('.', ',') + ' fm', cutLen * PRICE.vagas], ['Élzárás: ' + (el1 + el2).toFixed(1).replace('.', ',') + ' fm', el1 * PRICE.el1 + el2 * PRICE.el2], ['Vasalat', hwSum], ['Munkadíj (' + P.items.length + ' elem, ' + fronts + ' front, ' + polcs + ' polc)', P.items.length * PRICE.munka + fronts * PRICE.mfront + polcs * PRICE.mpolc]];
   const cost = rows.reduce((a, r) => a + r[1], 0);
@@ -643,13 +656,17 @@ function editor(it) {
   nums($('#nSec'), 6, c.s.length, n => { while (c.s.length < n) c.s.push(c.s[c.s.length - 1]); c.s.length = n; refresh(); });
   nums($('#selSec'), c.s.length, sec + 1, i => { sec = i - 1; refresh(); });
   const code = c.s[sec], ti = TYPES.findIndex(t => t.k === code[0]);
-  chips($('#secType'), TYPES.map(t => t.n), ti, i => { c.s[sec] = TYPES[i].k + (i === 2 ? 3 : i === 0 ? 3 : 1); resetH(c, sec); refresh(); });
+  chips($('#secType'), TYPES.map(t => t.n), ti, i => { c.s[sec] = TYPES[i].k + (i === 2 ? 3 : i === 0 ? 3 : i === 3 ? 0 : 1); resetH(c, sec); refresh(); });
   { const tot = secTotal(c, sec), arr = secParts(c, sec, tot), isF = code[0] === 'f', mn = MINH[isF ? 'f' : 'o'];
     $('#hBox').hidden = arr.length < 2; $('#hTitle').textContent = (isF ? 'Fiókok magassága' : (code[0] === 'd' ? 'Belső terek magassága' : 'Polcközök magassága')) + ' (mm)';
     const ex = $$('#hList input[type=range]'); if (hDrag && ex.length === arr.length) { arr.forEach((v, j) => { if (document.activeElement !== ex[j]) ex[j].value = Math.round(v); $('#hs' + j).value = Math.round(v); const lb = $('[data-lock="' + j + '"]'); if (lb && c.hl && c.hl[sec]) lb.setAttribute('aria-pressed', !!c.hl[sec][j]); }); } else $('#hList').innerHTML = arr.map((v, j) => '<div class="row"><label for="hs' + j + '" style="width:92px;font-size:13px;font-weight:600">' + (j + 1) + '. ' + (isF ? 'fiók' : 'tér') + '</label><input type="range" id="hs' + j + 'r" data-j="' + j + '" min="' + mn + '" max="' + Math.round(tot - mn * (arr.length - 1)) + '" step="5" value="' + Math.round(v) + '" aria-label="' + (j + 1) + '. ' + (isF ? 'fiók' : 'tér') + ' magassága"><input type="number" id="hs' + j + '" data-j="' + j + '" step="5" value="' + Math.round(v) + '" style="width:84px"><button type="button" class="ib lk" data-lock="' + j + '" aria-pressed="' + !!(c.hl && c.hl[sec] && c.hl[sec][j]) + '" title="Rögzítés: a többi tér állítása nem változtatja" style="min-width:40px;min-height:40px;padding:0">' + ((c.hl && c.hl[sec] && c.hl[sec][j]) ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg>') + '</button></div>').join(''); }
   const cnt = $('#cnt'); cnt.min = ti === 2 ? 1 : 0; cnt.value = code[1]; $('#cntL').firstChild.textContent = TYPES[ti].c + ' '; $('#cntO').textContent = code[1];
   swatches($('#swC'), c.c, i => { c.c = i; refresh(); }); swatches($('#swF'), c.f, i => { c.f = i; refresh(); });
   chips($('#hnd'), HANDLES, c.hd, i => { c.hd = i; refresh(); });
+  $('#topBox').hidden = c.b === 2; const TOPS = [['panel', 'Tetőlap'], ['railH', '2 merevítő, vízszintes'], ['railV', '2 merevítő, függőleges (mosogató)']];
+  chips($('#topSel'), TOPS.map(x => x[1]), TOPS.findIndex(x => x[0] === (c.top || 'panel')), i => { c.top = TOPS[i][0]; refresh(); });
+  chips($('#backSel'), ['MDF hátfal (3 mm)', 'Nincs hátfal'], c.back !== false ? 0 : 1, i => { c.back = i === 0; refresh(); });
+  chips($('#hingeSel'), ['Fékes (lassított)', 'Sima'], c.soft !== false ? 0 : 1, i => { c.soft = i === 0; refresh(); });
   chips($('#bas'), BASES.map(b => b.n), c.b, i => { c.b = i; if (i === 2 && !c.el) c.el = 1400; refresh(); });
 }
 function room() {

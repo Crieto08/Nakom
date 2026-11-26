@@ -279,6 +279,7 @@ const P = [
  {id:'komod4', n:'Dió 4 komód', c:'haloszoba', s:['komod', 'ejjeli'], p:159000, img:'komod.jpg', tag:'Népszerű', d:'Nyolc fiók, fékes csúszóval, fém lábakon.', sizes:[['100 cm',0],['120 cm',18000]], preset:1},
  {id:'also60', n:'Konyhai alsó elem 60', c:'konyha', s:['also'], p:69000, img:'konyha.jpg', tag:'Modul', d:'Fiókos alsó elem lábazattal, fogantyúval vagy anélkül.', sizes:[['40 cm',-9000],['60 cm',0],['80 cm',11000]], preset:7},
  {id:'felso', n:'Konyhai felső elem', c:'konyha', s:['felso'], p:52000, img:'konyha.jpg', tag:'Modul', d:'Kétajtós felső elem, falra akasztó vasalattal.', sizes:[['60 cm',0],['80 cm',8000]], preset:6},
+ {id:'mosogato', n:'Mosogatószekrény', c:'konyha', s:['also'], p:74000, img:'konyha.jpg', tag:'Modul', d:'Kétajtós alsó elem függőleges merevítőkkel, hátfal nélkül a csövek miatt.', sizes:[['80 cm',0],['90 cm',6000],['100 cm',12000]], preset:8},
  {id:'kamra', n:'Kamraszekrény', c:'konyha', s:['kamra'], p:189000, img:'szekreny.jpg', tag:'Konyhába', d:'Magas kamraszekrény állítható polcokkal.', sizes:[['60 cm',0],['80 cm',22000]], preset:3}];
 P.forEach(p => { if (!CATS.find(c => c.id === 'tarolas').subs.some(s => p.s.includes(s[0]))) return; p.c2 = 'tarolas'; });
 const COLORS = [['Amerikai dió','#6B4A31'],['Natúr tölgy','#B58C60'],['Antracit','#3A3734'],['Kasmír','#CFC3B3'],['Fehér','#ECEAE6']];
