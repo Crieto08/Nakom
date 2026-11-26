@@ -1,252 +1,415 @@
-<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>NAKOM – Furniture &amp; Design</title><meta name="description" content="Egyedi bútorok az Ön igényeire szabva – tervezze meg online, mi legyártjuk."><link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NAKOM – Furniture &amp; Design</title>
+<meta name="description" content="Egyedi bútorok az Ön igényeire szabva – tervezze meg online, mi legyártjuk.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Montserrat:wght@500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#1C1916}
-a{color:#F2ECE4}a:hover{color:#D9B48A}
-.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+/* VOICE: prémium, nyugodt bútorbolt – mégis gyors, rendes webshop.
+   IDEA: a műhely kirakata: dió, antracit, tan fény.
+   PICTURE: nagy enteriőr a hero-ban, alatta kategóriák és termékrács.
+   COLOUR/TYPE: #1C1916 alap, kasmír szöveg, #D9B48A kiemelés; Figtree, Montserrat logó.
+   LAYOUT: fejléc kategória-menüvel és keresővel; mobilon fiók-menü, 2 oszlopos rács. */
+:root{color-scheme:dark;--bg:#1C1916;--p1:#24201C;--p2:#2A2520;--line:#3A332C;--ink:#F2ECE4;--mut:#BDB3A6;--acc:#D9B48A;--acc2:#A88462}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:150px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}button,input,select,textarea{font:inherit;color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1360px;margin:0 auto;padding-inline:clamp(14px,3vw,40px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 22px;border-radius:4px;border:1px solid var(--acc);background:transparent;cursor:pointer;font-weight:600;text-decoration:none;white-space:nowrap}
+.btn.pri{background:var(--acc);color:#1C1916}.btn.ghost{border-color:var(--line)}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* top bar + header */
+.top{background:#141210;font-size:13px;color:var(--mut)}
+.top .wrap{display:flex;gap:8px 28px;justify-content:center;flex-wrap:wrap;padding-block:8px}
+.top b{color:var(--acc);font-weight:600}
+header{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:14px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex:none}
+.logo b{font:500 26px/1 Montserrat,sans-serif;letter-spacing:.08em;display:block}.logo small{font:600 10px/1.4 Montserrat,sans-serif;letter-spacing:.24em}
+.catbtn{display:flex;align-items:center;gap:8px;min-height:46px;padding:0 16px;border-radius:24px;border:0;background:var(--acc);color:#1C1916;font-weight:700;cursor:pointer;flex:none}
+.search{position:relative;flex:1}
+.search input{width:100%;min-height:46px;border-radius:24px;border:1px solid var(--line);background:var(--p1);padding:0 52px 0 20px;font-size:16px}
+.search>button{position:absolute;right:4px;top:4px;width:38px;height:38px;border-radius:50%;border:0;background:var(--acc);color:#1C1916;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sugg{position:absolute;left:0;right:0;top:52px;background:var(--p1);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 40px #0008;display:none;max-height:70vh;overflow:auto;z-index:5}
+.sugg.on{display:block}
+.sugg a,.sugg button{display:flex;gap:12px;align-items:center;padding:10px 14px;text-decoration:none;border:0;background:none;width:100%;text-align:left;cursor:pointer;min-height:44px}
+.sugg a:hover,.sugg button:hover,.sugg .act{background:var(--p2)}
+.sugg img{width:44px;height:44px;object-fit:cover;border-radius:4px;background:#2E2924}
+.sugg small{color:var(--mut);display:block;font-size:13px}.sugg h4{margin:0;padding:10px 14px 4px;font-size:12px;color:var(--acc);letter-spacing:.06em}
+.hact{display:flex;gap:4px;align-items:center;flex:none}
+.hact a,.hact button{position:relative;display:flex;align-items:center;gap:8px;min-height:46px;padding:0 10px;border:0;background:none;cursor:pointer;text-decoration:none;font-weight:600;font-size:15px}
+.badge{position:absolute;top:4px;left:22px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--acc);color:#1C1916;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+#menuBtn{display:none}.hact .lbl{margin-left:6px}
+/* mega menu */
+.mega{position:absolute;left:0;right:0;top:100%;display:none;z-index:4}
+.mega.on{display:block}
+.mega .wrap{display:grid;grid-template-columns:260px minmax(0,1fr);background:var(--p1);border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;box-shadow:0 24px 50px #000a;max-height:calc(100vh - 140px);overflow:hidden;padding:0}
+.mcats{border-right:1px solid var(--line);padding:10px;overflow:auto}
+.mcats button{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:46px;padding:0 14px;border:0;border-radius:6px;background:none;cursor:pointer;font-weight:600;text-align:left}
+.mcats button[aria-current=true]{background:var(--p2);color:var(--acc)}
+.msub{padding:22px;overflow:auto}
+.msub h3{margin:0 0 16px;font-size:20px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.msub h3 a{font-size:14px;color:var(--acc);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:18px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;text-align:center;font-size:14px;font-weight:500;background:none;border:0;cursor:pointer;padding:4px}
+.tile img,.tile span.ph{width:96px;height:96px;border-radius:50%;object-fit:cover;border:1px solid var(--line);background:#2E2924;transition:transform .2s}
+.tile:hover img{transform:scale(1.05)}
+.tile span.ph{display:flex;align-items:center;justify-content:center;color:var(--acc)}
+/* hero */
+.hero{position:relative;overflow:hidden;background:var(--p1)}
+.hero>img{position:absolute;right:0;top:0;width:72%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 26%,#1C1916b3 46%,#1C191600 72%)}
+.hero .wrap{position:relative;z-index:1;padding-block:clamp(48px,8vw,96px);display:flex;flex-direction:column;gap:22px}
+.hero h1{margin:0;font-size:clamp(36px,5vw,64px);line-height:1.08;font-weight:600;max-width:600px;text-wrap:balance}
+.hero p{margin:0;font-size:clamp(17px,1.6vw,20px);color:#E2D9CD;max-width:500px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.usps{display:flex;flex-wrap:wrap;gap:14px 34px;margin-top:10px;font-size:14px;font-weight:500}
+.usps span{display:flex;align-items:center;gap:8px}
+/* sections */
+section.band{padding-block:clamp(40px,6vw,72px)}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.sh h2{margin:0;font-size:clamp(26px,3vw,36px);line-height:1.1;font-weight:600}
+.sh a,.sh .lnk{color:var(--acc);text-decoration:none;font-weight:600;background:none;border:0;cursor:pointer}
+.cats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.cat{position:relative;height:190px;border-radius:8px;overflow:hidden;border:1px solid var(--line);text-decoration:none;display:block;background:var(--p2);cursor:pointer;padding:0;text-align:left}
+.cat img{width:100%;height:100%;object-fit:cover;transition:transform .3s}.cat:hover img{transform:scale(1.04)}
+.cat span{position:absolute;inset:auto 0 0 0;padding:40px 16px 14px;background:linear-gradient(0deg,#141210f2,#14121000);font-size:18px;font-weight:600}
+.cat.tool{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}.cat.tool span{position:static;background:none;padding:0;text-align:center}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.chip{min-height:42px;padding:0 16px;border-radius:21px;border:1px solid var(--line);background:var(--p1);cursor:pointer;font-weight:600;font-size:14px}
+.chip[aria-pressed=true]{background:var(--acc);color:#1C1916;border-color:var(--acc)}
+.filters select{margin-left:auto;min-height:42px;border-radius:21px;border:1px solid var(--line);background:var(--p1);padding:0 14px;font-size:15px}
+.count{color:var(--mut);font-size:14px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.card{background:var(--p1);border:1px solid #332D27;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.card .im{position:relative;aspect-ratio:1/1;background:#2E2924;cursor:pointer;border:0;padding:0;display:block;width:100%}
+.card .im img{width:100%;height:100%;object-fit:cover}.card .im img.cut{object-fit:contain;padding:8%}
+.tag{position:absolute;top:10px;left:10px;background:var(--bg);color:var(--acc);font-size:12px;font-weight:600;padding:4px 9px;border-radius:3px}
+.card .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:3px;flex:1}
+.card h3{margin:0;font-size:17px;font-weight:600;line-height:1.3}
+.card .ds{font-size:14px;color:var(--mut)}
+.card .ft{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:12px}
+.price{font-size:18px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.addc{width:46px;height:46px;border-radius:4px;border:0;background:var(--acc);color:#1C1916;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
+.empty{padding:40px;text-align:center;border:1px dashed var(--line);border-radius:8px;color:var(--mut)}
+.cta{position:relative;overflow:hidden;background:var(--p2);border-block:1px solid var(--line)}
+.cta>img{position:absolute;left:0;top:0;height:100%;width:26%;object-fit:cover}
+.cta .wrap{position:relative;display:flex;gap:28px;align-items:center;flex-wrap:wrap;padding-block:36px;padding-left:max(28%,40px)}
+.cta h2{margin:0 0 6px;font-size:28px}.cta p{margin:0;color:#D8CEC1}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;list-style:none;margin:0;padding:0}
+.steps li{background:var(--p1);border:1px solid #332D27;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:8px}
+.steps b{width:42px;height:42px;border-radius:50%;background:var(--acc);color:#1C1916;display:flex;align-items:center;justify-content:center}
+.steps span{color:var(--mut);font-size:15px}
+.b2b{background:var(--p1);border-top:1px solid #332D27}
+.b2b .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.b2b form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600}
+label.f input,label.f textarea{min-height:48px;padding:12px;border:1px solid #4A4036;background:var(--bg);border-radius:4px;font-size:16px;font-weight:400}
+footer{border-top:1px solid #332D27;font-size:14px;color:var(--mut)}
+footer .wrap{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;padding-block:44px 24px}
+footer h4{margin:0 0 10px;color:var(--ink);font-size:15px}footer a{display:block;text-decoration:none;padding:4px 0}footer a:hover{color:var(--acc)}
+.legal{grid-column:1/-1;border-top:1px solid #332D27;padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* drawers & modal */
+.scrim{position:fixed;inset:0;background:#000a;z-index:40;display:none}.scrim.on{display:block}
+.drawer{position:fixed;top:0;bottom:0;right:0;width:min(440px,100%);background:var(--p1);z-index:41;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.drawer.on{transform:none}.drawer.left{left:0;right:auto;transform:translateX(-100%);border-left:0;border-right:1px solid var(--line)}.drawer.left.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.dh h2{margin:0;font-size:20px}
+.x{width:44px;height:44px;border:0;background:none;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:center}
+.db{flex:1;overflow:auto;padding:8px 18px}
+.ci{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.ci img,.ci .ph{width:72px;height:72px;border-radius:6px;object-fit:cover;background:#2E2924}
+.ci .ph{display:flex;align-items:center;justify-content:center;color:var(--acc)}
+.ci h3{margin:0;font-size:15px}.ci small{display:block;color:var(--mut);font-size:13px}
+.ci .r{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:4px}
+.qty button{width:40px;height:40px;border:0;background:none;cursor:pointer;font-size:18px}.qty span{min-width:28px;text-align:center;font-weight:600}
+.rm{border:0;background:none;color:var(--mut);cursor:pointer;text-decoration:underline;font-size:13px;min-height:40px}
+.df{padding:16px 18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px;background:var(--p2)}
+.tot{display:flex;justify-content:space-between;font-size:18px;font-weight:700}
+.note{font-size:13px;color:var(--mut);margin:0}
+.mob{padding:10px}
+.mob details{border-bottom:1px solid var(--line)}
+.mob summary{min-height:52px;display:flex;align-items:center;justify-content:space-between;font-weight:600;cursor:pointer;padding:0 8px;list-style:none}
+.mob summary::-webkit-details-marker{display:none}
+.mob .tiles{padding:6px 4px 18px;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mob .tile img,.mob .tile span.ph{width:72px;height:72px}
+.modal{position:fixed;inset:0;z-index:42;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.on{display:flex}
+.mbox{position:relative;background:var(--p1);border:1px solid var(--line);border-radius:10px;width:min(920px,100%);max-height:92vh;overflow:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.mbox .mi{background:#2E2924;min-height:320px}.mbox .mi img{width:100%;height:100%;object-fit:cover}.mbox .mi img.cut{object-fit:contain;padding:8%}
+.mbox .mc{padding:28px;display:flex;flex-direction:column;gap:14px}
+.mbox h2{margin:0;font-size:28px;line-height:1.15}.mbox .x{position:absolute;right:8px;top:8px;background:#1C1916cc;border-radius:50%}
+.opt{display:flex;flex-wrap:wrap;gap:8px}
+.sw{width:40px;height:40px;border-radius:50%;border:2px solid transparent;box-shadow:0 0 0 1px var(--line);cursor:pointer}
+.sw[aria-pressed=true]{border-color:var(--bg);box-shadow:0 0 0 2px var(--acc)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--acc);color:#1C1916;padding:12px 18px;border-radius:4px;font-weight:600;display:none;z-index:60;max-width:90vw}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.cats{grid-template-columns:repeat(3,minmax(0,1fr))}.hact .lbl{display:none}}
+@media(max-width:860px){
+ .catbtn,.mega{display:none!important}#menuBtn{display:flex}
+ .hrow{flex-wrap:wrap;gap:8px}.search{order:5;flex:1 1 100%}.logo b{font-size:22px}.logo svg{width:34px;height:34px}.hact{margin-left:auto}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card .bd{padding:10px 12px 12px}.card h3{font-size:15px}.price{font-size:16px}.card .ds{font-size:13px}.addc{width:44px;height:44px}
+ .cats{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:6px}.cat{flex:0 0 46%;scroll-snap-align:start;height:150px}
+ .hero>img{position:static;width:100%;height:230px}.hero::after{display:none}.hero .wrap{padding-block:26px 40px}
+ .steps{grid-template-columns:repeat(2,minmax(0,1fr))}.b2b .wrap{grid-template-columns:minmax(0,1fr)}
+ .cta>img{display:none}.cta .wrap{padding-left:clamp(14px,3vw,40px)}
+ footer .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}footer .wrap>div:first-child{grid-column:1/-1}
+ .mbox{grid-template-columns:minmax(0,1fr)}.mbox .mi{min-height:0;aspect-ratio:4/3}
+ .filters select{margin-left:0;flex:1 1 100%}
+ html{scroll-padding-top:130px}
+}
+@media(max-width:480px){.top .wrap span:nth-child(n+2){display:none}.steps{grid-template-columns:minmax(0,1fr)}.b2b form{grid-template-columns:minmax(0,1fr)}.mob .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
-</head><body>
+</head>
+<body>
+<div class="top"><div class="wrap"><span><b>Gyártás rendelésre</b> · 2–3 hét</span><span>Méretre szabva, saját műhelyben</span><span>Céges számla, ajánlat 1 munkanapon belül</span></div></div>
 
-<div style="background: #1C1916; color: #F2ECE4; font-family: Figtree, sans-serif; min-width: 320px">
-
-<header style="border-bottom: 1px solid #332D27">
-<div style="max-width: 1440px; margin: 0 auto; padding: 18px 48px; display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center">
-<a href="#top" style="display: flex; align-items: center; gap: 16px; text-decoration: none; padding-right: 32px; border-right: 1px solid #4A4036">
-<svg width="52" height="52" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="6" width="10" height="36" fill="#A88462"></rect><rect x="32" y="6" width="10" height="36" fill="#A88462"></rect><polygon points="6,6 16,6 42,42 32,42" fill="#7E6045"></polygon></svg>
-<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: Montserrat, sans-serif; font-weight: 500; font-size: 34px; letter-spacing: 0.08em; line-height: 1">NAKOM</span><span style="font-family: Montserrat, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.24em">FURNITURE &amp; DESIGN</span></span>
-</a>
-<nav style="flex: 1 1 480px; display: flex; flex-wrap: wrap; gap: 8px 40px; font-size: 16px; font-weight: 500">
-<a href="#top" style="text-decoration: none; padding: 8px 0; border-bottom: 2px solid #D9B48A">Kezdőlap</a>
-<a href="#kategoriak" style="text-decoration: none; padding: 8px 0">Bútorok ▾</a>
-<a href="tervezo/" style="text-decoration: none; padding: 8px 0; display: flex; gap: 8px; align-items: center"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"></path></svg>Tervező</a>
-<a href="#anyagok" style="text-decoration: none; padding: 8px 0">Anyagok</a>
-<a href="#rolunk" style="text-decoration: none; padding: 8px 0">Rólunk</a>
-<a href="#kapcsolat" style="text-decoration: none; padding: 8px 0">Kapcsolat</a>
-</nav>
-<div style="display: flex; gap: 4px; align-items: center">
-<button type="button" aria-label="Keresés" style="background: none; border: 0; color: inherit; width: 48px; height: 48px; cursor: pointer"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></button>
-<button type="button" aria-label="Fiókom" style="background: none; border: 0; color: inherit; width: 48px; height: 48px; cursor: pointer"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></button>
-<button type="button" aria-label="Kosár, 0 tétel" style="position: relative; background: none; border: 0; color: inherit; width: 48px; height: 48px; cursor: pointer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"></path><circle cx="9" cy="19" r="1.4"></circle><circle cx="17" cy="19" r="1.4"></circle></svg><span style="position: absolute; top: 4px; right: 4px; min-width: 18px; height: 18px; border-radius: 9px; background: #D9B48A; color: #1C1916; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">0</span></button>
+<header id="hdr">
+<div class="wrap hrow">
+<button class="hact menu-only x" id="menuBtn" type="button" aria-label="Menü megnyitása"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<a class="logo" href="#top" aria-label="NAKOM főoldal">
+<svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="6" width="10" height="36" fill="#A88462"/><rect x="32" y="6" width="10" height="36" fill="#A88462"/><polygon points="6,6 16,6 42,42 32,42" fill="#7E6045"/></svg>
+<span><b>NAKOM</b><small>FURNITURE &amp; DESIGN</small></span></a>
+<button class="catbtn" id="catBtn" type="button" aria-expanded="false" aria-controls="mega"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h7v5H4zM13 6h7v5h-7zM4 13h7v5H4zM13 13h7v5h-7z"/></svg>Kategóriák</button>
+<form class="search" id="searchF" role="search" autocomplete="off">
+<input id="q" type="search" placeholder="Keresés: íróasztal, komód, dió…" aria-label="Keresés a termékek között" aria-controls="sugg">
+<button type="submit" aria-label="Keresés"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+<div class="sugg" id="sugg" role="listbox"></div>
+</form>
+<div class="hact">
+<a href="tervezo/"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg><span class="lbl">Tervező</span></a>
+<button type="button" id="cartBtn" aria-label="Kosár"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg><span class="badge" id="cartN">0</span><span class="lbl">Kosár</span></button>
 </div>
 </div>
+<div class="mega" id="mega"><div class="wrap"><div class="mcats" id="mcats"></div><div class="msub" id="msub"></div></div></div>
 </header>
 
-<section id="top" style="position: relative; min-height: 600px; overflow: hidden; background: #24201C">
-<img src="assets/img/hero.jpg" alt="Falra szerelt szekrénysor diófa lapokkal, rejtett LED-világítással" style="position: absolute; right: 0; top: 0; width: 72%; height: 100%; object-fit: cover">
-<div style="position: absolute; inset: 0; background: linear-gradient(90deg, #1C1916 0%, #1C1916 30%, rgba(28,25,22,0.7) 46%, rgba(28,25,22,0) 70%)"></div>
-<div style="position: relative; max-width: 1440px; margin: 0 auto; padding: 72px 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 26px">
-<h1 style="margin: 0; font-size: clamp(42px, 4.4vw, 64px); font-weight: 600; line-height: 1.12; letter-spacing: -0.01em; max-width: 620px">Egyedi bútorok<br>az Ön igényeire szabva</h1>
-<p style="margin: 0; font-size: 21px; line-height: 1.5; color: #E2D9CD; max-width: 520px">Tervezze meg, rendelje meg, mi pedig legyártjuk precízen, minőségi anyagokból.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px">
-<a href="tervezo/" style="display: flex; align-items: center; gap: 12px; background: #D9B48A; color: #1C1916; text-decoration: none; padding: 17px 26px; border-radius: 4px; font-size: 16px; font-weight: 600"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"></path></svg>Bútor tervező indítása →</a>
-<a href="#kategoriak" style="text-decoration: none; padding: 16px 32px; border: 1px solid #D9B48A; border-radius: 4px; font-size: 16px; font-weight: 500; background: rgba(28,25,22,0.6)">Bútoraink megtekintése</a>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 28px 40px; margin-top: 28px">
-
-<div style="display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; font-weight: 500"><svg class="ic" viewBox="0 0 24 24" style="width: 28px; height: 28px" aria-hidden="true"><path d="M4 17L17 4l3 3L7 20zM8 13l2 2M11 10l2 2M14 7l2 2"></path></svg>Egyedi méretek</div>
-
-<div style="display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; font-weight: 500"><svg class="ic" viewBox="0 0 24 24" style="width: 28px; height: 28px" aria-hidden="true"><path d="M12 3l9 4.5-9 4.5-9-4.5zM3 12l9 4.5 9-4.5M3 16.5L12 21l9-4.5"></path></svg>Prémium anyagok</div>
-
-<div style="display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; font-weight: 500"><svg class="ic" viewBox="0 0 24 24" style="width: 28px; height: 28px" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"></path></svg>Saját gyártás</div>
-
-<div style="display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; font-weight: 500"><svg class="ic" viewBox="0 0 24 24" style="width: 28px; height: 28px" aria-hidden="true"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7M6 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path></svg>Országos szállítás</div>
-
-</div>
+<main id="top">
+<section class="hero">
+<img src="assets/img/hero.jpg" alt="Falra szerelt szekrénysor diófa lapokkal és rejtett LED-világítással">
+<div class="wrap">
+<h1>Egyedi bútorok az Ön igényeire szabva</h1>
+<p>Tervezze meg, rendelje meg, mi pedig legyártjuk precízen, minőségi anyagokból.</p>
+<div class="ctas"><a class="btn pri" href="tervezo/"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg>Bútortervező indítása</a><a class="btn" href="#termekek" style="background:#1C1916aa">Bútoraink</a></div>
+<div class="usps"><span><svg class="ic" viewBox="0 0 24 24"><path d="M4 17L17 4l3 3L7 20zM8 13l2 2M11 10l2 2M14 7l2 2"/></svg>Egyedi méretek</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l9 4.5-9 4.5-9-4.5zM3 12l9 4.5 9-4.5M3 16.5L12 21l9-4.5"/></svg>Prémium anyagok</span><span><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7M6 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>Országos szállítás</span></div>
 </div>
 </section>
 
-<section id="kategoriak" style="max-width: 1440px; margin: 0 auto; padding: 48px 48px 56px; display: flex; flex-direction: column; gap: 26px">
-<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px">
-<h2 style="margin: 0; font-size: 34px; font-weight: 600">Bútorkategóriák</h2>
-<a href="#kategoriak" style="color: #D9B48A; font-size: 16px; text-decoration: none">Összes kategória →</a>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 18px">
+<section class="band" id="kategoriak"><div class="wrap">
+<div class="sh"><h2>Bútorkategóriák</h2><button class="lnk" type="button" id="allCats">Összes kategória →</button></div>
+<div class="cats" id="cats"></div>
+</div></section>
 
-<a href="#termekek" style="flex: 1 1 190px; position: relative; height: 180px; border-radius: 6px; overflow: hidden; border: 1px solid #3A332C; text-decoration: none; display: block">
-<img src="assets/img/szekreny.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover">
-<span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; background: linear-gradient(0deg, rgba(20,17,14,0.92), rgba(20,17,14,0)); font-size: 20px; font-weight: 600">Szekrények</span>
-</a>
+<section class="band" id="termekek" style="padding-top:0"><div class="wrap">
+<div class="sh"><h2 id="gridT">Bútoraink</h2></div>
+<div class="filters" id="filters"></div>
+<p class="count" id="count" aria-live="polite"></p>
+<div class="grid" id="grid"></div>
+<p class="note" style="margin-top:16px">Az árak és a képek példaértékek, a gyártás előtt egyeztetünk.</p>
+</div></section>
 
-<a href="#termekek" style="flex: 1 1 190px; position: relative; height: 180px; border-radius: 6px; overflow: hidden; border: 1px solid #3A332C; text-decoration: none; display: block">
-<img src="assets/img/komod.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover">
-<span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; background: linear-gradient(0deg, rgba(20,17,14,0.92), rgba(20,17,14,0)); font-size: 20px; font-weight: 600">Komódok</span>
-</a>
+<section class="cta"><img src="assets/img/fa.jpg" alt=""><div class="wrap"><div style="flex:1 1 360px"><h2>Valósítsa meg saját elképzelését!</h2><p>Online tervezőnkben pár lépésben megalkothatja bútorát – pontos méretekkel, a saját szobájában, élő árral.</p></div><a class="btn pri" href="tervezo/">Tervező indítása →</a></div></section>
 
-<a href="#termekek" style="flex: 1 1 190px; position: relative; height: 180px; border-radius: 6px; overflow: hidden; border: 1px solid #3A332C; text-decoration: none; display: block">
-<img src="assets/img/iroasztal.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover">
-<span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; background: linear-gradient(0deg, rgba(20,17,14,0.92), rgba(20,17,14,0)); font-size: 20px; font-weight: 600">Íróasztalok</span>
-</a>
+<section class="band"><div class="wrap"><div class="sh"><h2>Így készül az Ön bútora</h2></div>
+<ol class="steps"><li><b>1</b><strong>Megtervezi</strong><span>A tervezőben vagy velünk együtt, pontos méretekkel.</span></li><li><b>2</b><strong>Megrendeli</strong><span>Előleggel rögzítjük a gyártást, céges számlával is.</span></li><li><b>3</b><strong>Legyártjuk</strong><span>Friss anyagból, saját műhelyünkben, 2–3 hét alatt.</span></li><li><b>4</b><strong>Leszállítjuk</strong><span>Országosan, kérésre helyszíni összeszereléssel.</span></li></ol>
+</div></section>
 
-<a href="#termekek" style="flex: 1 1 190px; position: relative; height: 180px; border-radius: 6px; overflow: hidden; border: 1px solid #3A332C; text-decoration: none; display: block">
-<img src="assets/img/polc.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover">
-<span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; background: linear-gradient(0deg, rgba(20,17,14,0.92), rgba(20,17,14,0)); font-size: 20px; font-weight: 600">Polcrendszerek</span>
-</a>
+<section class="band b2b" id="cegeknek"><div class="wrap">
+<div><h2 style="margin:0 0 12px;font-size:clamp(26px,3vw,36px)">Irodák és cégek részére</h2><p style="margin:0;color:#D8CEC1">Vezetői irodák, tárgyalók, munkaállomások és irodai konyhák egységes kivitelben. Felmérjük a teret, 3D látványtervet készítünk, majd legyártjuk és beépítjük.</p></div>
+<form id="b2bF"><label class="f">Név / cégnév<input name="nev" required autocomplete="organization"></label><label class="f">E-mail<input name="email" type="email" required autocomplete="email"></label><label class="f" style="grid-column:1/-1">Mit rendezne be?<textarea name="msg" rows="2"></textarea></label><button class="btn pri" type="submit" style="grid-column:1/-1">Ajánlatot kérek</button></form>
+</div></section>
+</main>
 
-<a href="#termekek" style="flex: 1 1 190px; position: relative; height: 180px; border-radius: 6px; overflow: hidden; border: 1px solid #3A332C; text-decoration: none; display: block">
-<img src="assets/img/konyha.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover">
-<span style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; background: linear-gradient(0deg, rgba(20,17,14,0.92), rgba(20,17,14,0)); font-size: 20px; font-weight: 600">Konyhabútorok</span>
-</a>
+<footer><div class="wrap">
+<div><b style="font:500 24px Montserrat,sans-serif;letter-spacing:.08em;color:var(--ink)">NAKOM</b><p>Egyedi bútorok rendelésre, saját gyártásból.</p><p id="mailL"></p></div>
+<div><h4>Bútorok</h4><div id="fcats"></div></div>
+<div><h4>Vásárlás</h4><a href="#termekek">Szállítás és szerelés</a><a href="#termekek">Elállás</a><a href="#termekek">ÁSZF</a><a href="#termekek">Adatkezelés</a></div>
+<div><h4>NAKOM</h4><a href="tervezo/">Bútortervező</a><a href="#cegeknek">Cégeknek</a><a href="#cegeknek">Kapcsolat</a></div>
+<div class="legal"><span>© 2026 NAKOM Furniture &amp; Design</span><span>Prototípus – példaárakkal</span></div>
+</div></footer>
 
-<a href="tervezo/" style="flex: 1 1 190px; height: 180px; border-radius: 6px; border: 1px solid #3A332C; background: #2A2520; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; box-sizing: border-box">
-<svg viewBox="0 0 24 24" style="width: 48px; height: 48px; fill: none; stroke: #D9B48A; stroke-width: 1; stroke-linejoin: round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"></path></svg>
-<span style="font-size: 20px; font-weight: 600">Egyedi bútorok</span>
-</a>
-</div>
-</section>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="cartD" aria-label="Kosár" aria-hidden="true">
+<div class="dh"><h2>Kosár</h2><button class="x" type="button" data-close aria-label="Bezárás"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="db" id="cartL"></div>
+<div class="df"><div class="tot"><span>Összesen</span><span id="cartT">0 Ft</span></div><button class="btn pri" type="button" id="orderBtn">Megrendelés kérése</button><p class="note">A megrendelést e-mailben rögzítjük, és 1 munkanapon belül visszaigazoljuk a pontos árral és a szállítási idővel.</p></div>
+</aside>
+<aside class="drawer left" id="menuD" aria-label="Menü" aria-hidden="true">
+<div class="dh"><h2>Kategóriák</h2><button class="x" type="button" data-close aria-label="Bezárás"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="db mob" id="mobCats"></div>
+<div class="df"><a class="btn pri" href="tervezo/">Bútortervező</a><a class="btn ghost" href="#cegeknek" data-close>Cégeknek</a></div>
+</aside>
+<div class="modal" id="pm" role="dialog" aria-modal="true" aria-labelledby="pmT"><div class="mbox" id="pmBox"></div></div>
+<div class="toast" id="toast" role="status"></div>
 
-<section id="tervezo" style="position: relative; overflow: hidden; background: #2A2520; border-top: 1px solid #3A332C; border-bottom: 1px solid #3A332C">
-<img src="assets/img/fa.jpg" alt="" style="position: absolute; left: 0; bottom: 0; height: 100%; width: 28%; object-fit: cover; object-position: left bottom; opacity: 0.9">
-<div style="position: relative; max-width: 1440px; margin: 0 auto; padding: 40px 48px 40px 30%; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
-<div style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 12px">
-<h2 style="margin: 0; font-size: 30px; font-weight: 600">Valósítsa meg saját elképzelését!</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.55; color: #D8CEC1">Online tervezőnkkel pár lépésben megalkothatja egyedi bútorát, pontos méretekkel, valósághű megjelenítéssel.</p>
-</div>
-<div style="flex: 0 1 300px; display: flex; flex-direction: column; align-items: center">
-<div style="width: 280px; height: 176px; border: 8px solid #0F0D0B; border-radius: 10px 10px 0 0; background: #2E2924; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><img src="assets/img/sideboard.png" alt="Tervező képernyő egy sideboard 3D modelljével" style="width: 70%"></div>
-<div style="width: 320px; height: 10px; background: #8E877F; border-radius: 0 0 8px 8px"></div>
-</div>
-<a href="tervezo/" style="background: #D9B48A; color: #1C1916; text-decoration: none; padding: 18px 32px; border-radius: 4px; font-size: 17px; font-weight: 600">Tervező indítása →</a>
-</div>
-</section>
-
-<section id="termekek" style="max-width: 1440px; margin: 0 auto; padding: 80px 48px 40px; display: flex; flex-direction: column; gap: 26px">
-<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px">
-<h2 style="margin: 0; font-size: 34px; font-weight: 600">Népszerű bútoraink</h2>
-<a href="#termekek" style="color: #D9B48A; font-size: 16px; text-decoration: none">Összes termék →</a>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 18px">
-
-<div style="flex: 1 1 280px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column">
-<div style="position: relative; height: 240px; background: #2E2924; display: flex; align-items: center; justify-content: center">
-<img src="assets/img/asztal.png" alt="Vezetői íróasztal" style="width: 82%; max-height: 82%; object-fit: contain">
-<span style="position: absolute; top: 12px; left: 12px; background: #1C1916; color: #D9B48A; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 3px">Méretre szabható</span>
-</div>
-<div style="padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 4px">
-<div style="font-size: 19px; font-weight: 600">Vezetői íróasztal</div>
-<div style="font-size: 14px; color: #BDB3A6">Dió, steppelt oldalak, 3 méret</div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px">
-<span style="font-size: 19px; font-weight: 700">[ÁR] Ft-tól</span>
-<button type="button" aria-label="Kosárba: Vezetői íróasztal"  style="width: 48px; height: 48px; border-radius: 4px; border: 0; background: #D9B48A; color: #1C1916; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"></path><path d="M13 9v4M11 11h4"></path></svg></button>
-</div>
-</div>
-</div>
-
-<div style="flex: 1 1 280px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column">
-<div style="position: relative; height: 240px; background: #2E2924; display: flex; align-items: center; justify-content: center">
-<img src="assets/img/sideboard.png" alt="Tárgyaló sideboard" style="width: 82%; max-height: 82%; object-fit: contain">
-<span style="position: absolute; top: 12px; left: 12px; background: #1C1916; color: #D9B48A; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 3px">Új</span>
-</div>
-<div style="padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 4px">
-<div style="font-size: 19px; font-weight: 600">Tárgyaló sideboard</div>
-<div style="font-size: 14px; color: #BDB3A6">Kárpitozott ajtók, nyitott polc</div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px">
-<span style="font-size: 19px; font-weight: 700">[ÁR] Ft-tól</span>
-<button type="button" aria-label="Kosárba: Tárgyaló sideboard"  style="width: 48px; height: 48px; border-radius: 4px; border: 0; background: #D9B48A; color: #1C1916; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"></path><path d="M13 9v4M11 11h4"></path></svg></button>
-</div>
-</div>
-</div>
-
-<div style="flex: 1 1 280px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column">
-<div style="position: relative; height: 240px; background: #2E2924; display: flex; align-items: center; justify-content: center">
-<img src="assets/img/iroasztal.jpg" alt="Home office asztal" style="width: 100%; height: 100%; object-fit: cover">
-<span style="position: absolute; top: 12px; left: 12px; background: #1C1916; color: #D9B48A; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 3px">Népszerű</span>
-</div>
-<div style="padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 4px">
-<div style="font-size: 19px; font-weight: 600">Home office asztal</div>
-<div style="font-size: 14px; color: #BDB3A6">Dió lap, fiókos, kábelkezelés</div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px">
-<span style="font-size: 19px; font-weight: 700">[ÁR] Ft-tól</span>
-<button type="button" aria-label="Kosárba: Home office asztal"  style="width: 48px; height: 48px; border-radius: 4px; border: 0; background: #D9B48A; color: #1C1916; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"></path><path d="M13 9v4M11 11h4"></path></svg></button>
-</div>
-</div>
-</div>
-
-<div style="flex: 1 1 280px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column">
-<div style="position: relative; height: 240px; background: #2E2924; display: flex; align-items: center; justify-content: center">
-<img src="assets/img/dohanyzo.png" alt="Lounge dohányzóasztal" style="width: 82%; max-height: 82%; object-fit: contain">
-<span style="position: absolute; top: 12px; left: 12px; background: #1C1916; color: #D9B48A; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 3px">Kollekció</span>
-</div>
-<div style="padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 4px">
-<div style="font-size: 19px; font-weight: 600">Lounge dohányzóasztal</div>
-<div style="font-size: 14px; color: #BDB3A6">Dió lap, nyitott polc</div>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px">
-<span style="font-size: 19px; font-weight: 700">[ÁR] Ft-tól</span>
-<button type="button" aria-label="Kosárba: Lounge dohányzóasztal"  style="width: 48px; height: 48px; border-radius: 4px; border: 0; background: #D9B48A; color: #1C1916; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"></path><path d="M13 9v4M11 11h4"></path></svg></button>
-</div>
-</div>
-</div>
-
-</div>
-</section>
-
-<section style="max-width: 1440px; margin: 0 auto; padding: 64px 48px; display: flex; flex-direction: column; gap: 30px">
-<h2 style="margin: 0; font-size: 34px; font-weight: 600">Így készül az Ön bútora</h2>
-<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 18px">
-
-<li style="flex: 1 1 240px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="width: 44px; height: 44px; border-radius: 50%; background: #D9B48A; color: #1C1916; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span><span style="font-size: 19px; font-weight: 600">Megtervezi</span><span style="font-size: 15px; line-height: 1.55; color: #BDB3A6">A tervezőben vagy velünk együtt, pontos méretekkel.</span></li>
-
-<li style="flex: 1 1 240px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="width: 44px; height: 44px; border-radius: 50%; background: #D9B48A; color: #1C1916; font-weight: 700; display: flex; align-items: center; justify-content: center">2</span><span style="font-size: 19px; font-weight: 600">Megrendeli</span><span style="font-size: 15px; line-height: 1.55; color: #BDB3A6">Előleggel rögzítjük a gyártást, céges számlával is.</span></li>
-
-<li style="flex: 1 1 240px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="width: 44px; height: 44px; border-radius: 50%; background: #D9B48A; color: #1C1916; font-weight: 700; display: flex; align-items: center; justify-content: center">3</span><span style="font-size: 19px; font-weight: 600">Legyártjuk</span><span style="font-size: 15px; line-height: 1.55; color: #BDB3A6">Friss anyagból, a saját műhelyünkben, 2–3 hét alatt.</span></li>
-
-<li style="flex: 1 1 240px; background: #24201C; border: 1px solid #332D27; border-radius: 6px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="width: 44px; height: 44px; border-radius: 50%; background: #D9B48A; color: #1C1916; font-weight: 700; display: flex; align-items: center; justify-content: center">4</span><span style="font-size: 19px; font-weight: 600">Leszállítjuk</span><span style="font-size: 15px; line-height: 1.55; color: #BDB3A6">Országosan, kérésre helyszíni összeszereléssel.</span></li>
-
-</ol>
-</section>
-
-<section id="anyagok" style="max-width: 1440px; margin: 0 auto; padding: 40px 48px 80px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
-<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px">
-<h2 style="margin: 0; font-size: 34px; font-weight: 600">Prémium anyagok</h2>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #BDB3A6">Válasszon lapszínt és fogantyút – kérésre anyagmintát küldünk.</p>
-<a href="#anyagok" style="color: #D9B48A; font-size: 16px; text-decoration: none">Anyagminta kérése →</a>
-</div>
-<div style="flex: 3 1 700px; display: flex; flex-wrap: wrap; gap: 14px">
-
-<div style="flex: 1 1 120px; display: flex; flex-direction: column; gap: 10px"><div style="height: 150px; border-radius: 6px; background-color: #6B4A31; background-image: repeating-linear-gradient(100deg, #6B4A31 0 7px, #5A3D27 7px 10px, #6B4A31 10px 19px); border: 1px solid #3A332C"></div><span style="font-size: 15px; font-weight: 600">Amerikai dió</span></div>
-
-<div style="flex: 1 1 120px; display: flex; flex-direction: column; gap: 10px"><div style="height: 150px; border-radius: 6px; background-color: #B08A62; background-image: repeating-linear-gradient(100deg, #B08A62 0 7px, #9E7A54 7px 10px, #B08A62 10px 19px); border: 1px solid #3A332C"></div><span style="font-size: 15px; font-weight: 600">Natúr tölgy</span></div>
-
-<div style="flex: 1 1 120px; display: flex; flex-direction: column; gap: 10px"><div style="height: 150px; border-radius: 6px; background-color: #33302D; background-image: none; border: 1px solid #3A332C"></div><span style="font-size: 15px; font-weight: 600">Antracit matt</span></div>
-
-<div style="flex: 1 1 120px; display: flex; flex-direction: column; gap: 10px"><div style="height: 150px; border-radius: 6px; background-color: #CFC3B3; background-image: none; border: 1px solid #3A332C"></div><span style="font-size: 15px; font-weight: 600">Kasmír</span></div>
-
-<div style="flex: 1 1 120px; display: flex; flex-direction: column; gap: 10px"><div style="height: 150px; border-radius: 6px; background-color: #A88462; background-image: none; border: 1px solid #3A332C"></div><span style="font-size: 15px; font-weight: 600">Bronz fogantyú</span></div>
-
-</div>
-</section>
-
-<section id="rolunk" style="background: #24201C; border-top: 1px solid #332D27">
-<div style="max-width: 1440px; margin: 0 auto; padding: 72px 48px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
-<div style="flex: 1 1 440px; display: flex; flex-direction: column; gap: 16px">
-<h2 style="margin: 0; font-size: 34px; font-weight: 600">Irodák és cégek részére</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #D8CEC1">Vezetői irodák, tárgyalók, munkaállomások és irodai konyhák egységes kivitelben. Felmérjük a teret, 3D látványtervet készítünk, majd legyártjuk és beépítjük.</p>
-</div>
-<form id="kapcsolat" onsubmit="return false" style="flex: 1 1 420px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end">
-<label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Név / cégnév<input type="text" style="font: inherit; font-weight: 400; padding: 14px; border: 1px solid #4A4036; background: #1C1916; color: #F2ECE4; border-radius: 4px"></label>
-<label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">E-mail<input type="email" style="font: inherit; font-weight: 400; padding: 14px; border: 1px solid #4A4036; background: #1C1916; color: #F2ECE4; border-radius: 4px"></label>
-<button type="button" id="ajanlatBtn" style="flex: 1 1 100%; font: inherit; font-size: 16px; font-weight: 600; background: #D9B48A; color: #1C1916; border: 0; padding: 17px; border-radius: 4px; cursor: pointer">Ajánlatot kérek</button>
-</form>
-</div>
-</section>
-
-<footer style="border-top: 1px solid #332D27">
-<div style="max-width: 1440px; margin: 0 auto; padding: 48px 48px 28px; display: flex; flex-wrap: wrap; gap: 40px; font-size: 14px; color: #BDB3A6">
-<div style="flex: 2 1 260px; display: flex; flex-direction: column; gap: 12px"><span style="font-family: Montserrat, sans-serif; font-size: 24px; font-weight: 500; letter-spacing: 0.08em; color: #F2ECE4">NAKOM</span><span>Egyedi bútorok rendelésre, saját gyártásból.</span></div>
-<div style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 9px"><span style="color: #F2ECE4; font-weight: 600">Bútorok</span><a href="#kategoriak" style="text-decoration: none">Szekrények</a><a href="#kategoriak" style="text-decoration: none">Íróasztalok</a><a href="#kategoriak" style="text-decoration: none">Konyhabútorok</a></div>
-<div style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 9px"><span style="color: #F2ECE4; font-weight: 600">Vásárlás</span><a href="#top" style="text-decoration: none">Szállítás</a><a href="#top" style="text-decoration: none">Elállás</a><a href="#top" style="text-decoration: none">ÁSZF</a><a href="#top" style="text-decoration: none">Adatkezelés</a></div>
-<div style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 9px"><span style="color: #F2ECE4; font-weight: 600">NAKOM</span><a href="#rolunk" style="text-decoration: none">Rólunk</a><a href="tervezo/" style="text-decoration: none">Tervező</a><a href="#kapcsolat" style="text-decoration: none">Kapcsolat</a></div>
-<div style="flex: 1 1 100%; border-top: 1px solid #332D27; padding-top: 18px">© 2026 NAKOM Furniture &amp; Design</div>
-</div>
-</footer>
-
-</div>
 <script>
-/* Ajánlatkérés: amíg nincs saját szerver, e-mail-programot nyit. Az e-mail címet itt állítsd át. */
-var NAKOM_EMAIL = 'info@nakom.hu';
-document.getElementById('ajanlatBtn').addEventListener('click', function () {
-  var f = document.getElementById('kapcsolat'), i = f.querySelectorAll('input');
-  var body = 'Név / cégnév: ' + i[0].value + '\nE-mail: ' + i[1].value + '\n\nAjánlatot kérek irodabútorra.';
-  location.href = 'mailto:' + NAKOM_EMAIL + '?subject=' + encodeURIComponent('Ajánlatkérés – NAKOM') + '&body=' + encodeURIComponent(body);
+{
+/* BEÁLLÍTÁS: ide érkeznek a megrendelések és ajánlatkérések. */
+const NAKOM_EMAIL = 'info@nakom.hu';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const fmt = n => new Intl.NumberFormat('hu-HU').format(Math.round(n)) + ' Ft';
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const IMG = 'assets/img/';
+const CATS = [
+ {id:'iroda', n:'Irodabútor', subs:[['iroasztal','Íróasztalok','iroasztal.jpg'],['vezetoi','Vezetői asztalok','asztal.png'],['targyalo','Tárgyalók','sideboard.png'],['irodaitarolo','Irodai tárolók','sideboard.png'],['irat','Iratszekrények','szekreny.jpg']]},
+ {id:'nappali', n:'Nappali', subs:[['tv','TV-falak','hero.jpg'],['sideboard','Sideboardok','komod.jpg'],['polc','Polcrendszerek','polc.jpg'],['dohanyzo','Dohányzóasztalok','dohanyzo.png']]},
+ {id:'haloszoba', n:'Hálószoba', subs:[['ruhas','Ruhásszekrények','szekreny.jpg'],['komod','Komódok','komod.jpg'],['ejjeli','Éjjeliszekrények','komod.jpg']]},
+ {id:'konyha', n:'Konyha', subs:[['also','Alsó elemek','konyha.jpg'],['felso','Felső elemek','konyha.jpg'],['kamra','Kamraszekrények','szekreny.jpg']]},
+ {id:'tarolas', n:'Tárolás', subs:[['polc','Polcrendszerek','polc.jpg'],['komod','Komódok','komod.jpg'],['irodaitarolo','Irodai tárolók','sideboard.png']]}];
+const SUBN = {}; CATS.forEach(c => c.subs.forEach(s => SUBN[s[0]] = s[1]));
+const P = [
+ {id:'elnok', n:'Elnök vezetői íróasztal', c:'iroda', s:['vezetoi'], p:389000, img:'asztal.png', cut:1, tag:'Méretre szabható', d:'Dió lap, steppelt bőr oldalak, kábelátvezetés, kiegészítő oldalelem.', sizes:[['180 cm',0],['200 cm',30000],['220 cm',60000]], preset:0},
+ {id:'lap140', n:'Lap home office íróasztal', c:'iroda', s:['iroasztal'], p:129000, img:'iroasztal.jpg', tag:'Népszerű', d:'Fiókos íróasztal rejtett kábelcsatornával, otthoni irodába.', sizes:[['120 cm',-15000],['140 cm',0],['160 cm',18000]]},
+ {id:'kabinet', n:'Kabinet tárgyaló sideboard', c:'iroda', s:['targyalo', 'irodaitarolo'], p:249000, img:'sideboard.png', cut:1, tag:'Új', d:'Kárpitozott ajtók, középen nyitott polc – tárgyalóba, vezetői irodába.', sizes:[['160 cm',0],['200 cm',35000]], preset:0},
+ {id:'irat', n:'Rend iratszekrény', c:'iroda', s:['irat', 'irodaitarolo'], p:179000, img:'szekreny.jpg', tag:'Irodába', d:'Kétajtós, 4 állítható polc, zárható kivitelben is.', sizes:[['80 cm',0],['100 cm',22000]], preset:3},
+ {id:'irodai', n:'Modul irodai tároló', c:'iroda', s:['irodaitarolo'], p:149000, img:'polc.jpg', tag:'Konfigurálható', d:'Nyitott polcos és ajtós rekeszek, lábazattal.', sizes:[['120 cm',0],['160 cm',28000]], preset:2},
+ {id:'panorama', n:'Panoráma TV-fal', c:'nappali', s:['tv'], p:690000, img:'hero.jpg', tag:'Kiemelt', d:'Falra szerelt elemek, lamellás panel, rejtett LED-világítás.', sizes:[['300 cm',0],['360 cm',90000],['420 cm',170000]]},
+ {id:'sideboard', n:'Dió sideboard', c:'nappali', s:['sideboard'], p:219000, img:'komod.jpg', tag:'Népszerű', d:'Fiókos középrész, két ajtós oldalrekesz, fém lábakon.', sizes:[['160 cm',0],['180 cm',20000]], preset:0},
+ {id:'feny', n:'Fény polcrendszer', c:'nappali', s:['polc'], p:219000, img:'polc.jpg', tag:'LED-del', d:'Falra szerelt polcrendszer beépített világítással.', sizes:[['120 cm',0],['180 cm',45000]], preset:5},
+ {id:'lounge', n:'Lounge dohányzóasztal', c:'nappali', s:['dohanyzo'], p:89000, img:'dohanyzo.png', cut:1, tag:'Kollekció', d:'Dió lap, alsó nyitott polc, lekerekített élek.', sizes:[['80 cm',0],['100 cm',12000]]},
+ {id:'kasmir', n:'Kasmír ruhásszekrény', c:'haloszoba', s:['ruhas'], p:349000, img:'szekreny.jpg', tag:'Méretre szabható', d:'Ajtós és fiókos rekeszek, belső világítás opcióval.', sizes:[['150 cm',0],['200 cm',70000],['250 cm',140000]], preset:4},
+ {id:'komod4', n:'Dió 4 komód', c:'haloszoba', s:['komod', 'ejjeli'], p:159000, img:'komod.jpg', tag:'Népszerű', d:'Nyolc fiók, fékes csúszóval, fém lábakon.', sizes:[['100 cm',0],['120 cm',18000]], preset:1},
+ {id:'also60', n:'Konyhai alsó elem 60', c:'konyha', s:['also'], p:69000, img:'konyha.jpg', tag:'Modul', d:'Fiókos alsó elem lábazattal, fogantyúval vagy anélkül.', sizes:[['40 cm',-9000],['60 cm',0],['80 cm',11000]], preset:7},
+ {id:'felso', n:'Konyhai felső elem', c:'konyha', s:['felso'], p:52000, img:'konyha.jpg', tag:'Modul', d:'Kétajtós felső elem, falra akasztó vasalattal.', sizes:[['60 cm',0],['80 cm',8000]], preset:6},
+ {id:'kamra', n:'Kamraszekrény', c:'konyha', s:['kamra'], p:189000, img:'szekreny.jpg', tag:'Konyhába', d:'Magas kamraszekrény állítható polcokkal.', sizes:[['60 cm',0],['80 cm',22000]], preset:3}];
+P.forEach(p => { if (!CATS.find(c => c.id === 'tarolas').subs.some(s => p.s.includes(s[0]))) return; p.c2 = 'tarolas'; });
+const COLORS = [['Amerikai dió','#6B4A31'],['Natúr tölgy','#B58C60'],['Antracit','#3A3734'],['Kasmír','#CFC3B3'],['Fehér','#ECEAE6']];
+
+// ---------- state ----------
+let filt = {cat:'', sub:'', q:''}, sort = 'pop';
+let cart = []; try { cart = JSON.parse(localStorage.getItem('nakom-kosar') || '[]'); if (!Array.isArray(cart)) cart = []; } catch (e) {}
+const saveCart = () => { try { localStorage.setItem('nakom-kosar', JSON.stringify(cart)); } catch (e) {} drawCart(); };
+function toast(t) { const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(() => el.style.display = 'none', 2200); }
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+// ---------- render: categories ----------
+const tileHTML = (c, s) => '<button type="button" class="tile" data-cat="' + c.id + '" data-sub="' + s[0] + '"><img src="' + IMG + s[2] + '" alt="" loading="lazy">' + esc(s[1]) + '</button>';
+function megaSub(i) {
+  const c = CATS[i];
+  $$('#mcats button').forEach((b, j) => b.setAttribute('aria-current', j === i));
+  $('#msub').innerHTML = '<h3>' + esc(c.n) + '<a href="#termekek" data-cat="' + c.id + '" data-sub="">Összes ' + esc(c.n.toLowerCase()) + ' →</a></h3><div class="tiles">' + c.subs.map(s => tileHTML(c, s)).join('') + '<a class="tile" href="tervezo/"><span class="ph"><svg class="ic" viewBox="0 0 24 24" style="width:36px;height:36px"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span>Egyedi tervezés</a></div>';
+}
+$('#mcats').innerHTML = CATS.map((c, i) => '<button type="button" data-i="' + i + '">' + esc(c.n) + '<svg class="ic" viewBox="0 0 24 24" style="width:16px"><path d="M9 6l6 6-6 6"/></svg></button>').join('');
+$('#mcats').addEventListener('mouseover', e => { const b = e.target.closest('button'); if (b) megaSub(+b.dataset.i); });
+$('#mcats').addEventListener('click', e => { const b = e.target.closest('button'); if (b) megaSub(+b.dataset.i); });
+megaSub(0);
+$('#mobCats').innerHTML = CATS.map(c => '<details><summary>' + esc(c.n) + '<svg class="ic" viewBox="0 0 24 24" style="width:18px"><path d="M6 9l6 6 6-6"/></svg></summary><div class="tiles">' + c.subs.map(s => tileHTML(c, s)).join('') + '</div><button type="button" class="btn ghost" style="width:100%;margin-bottom:14px" data-cat="' + c.id + '" data-sub="">Összes ' + esc(c.n.toLowerCase()) + '</button></details>').join('');
+const catTiles = [['iroda','iroasztal','Íróasztalok','iroasztal.jpg'],['haloszoba','ruhas','Szekrények','szekreny.jpg'],['haloszoba','komod','Komódok','komod.jpg'],['nappali','polc','Polcrendszerek','polc.jpg'],['konyha','','Konyhabútorok','konyha.jpg']];
+$('#cats').innerHTML = catTiles.map(t => '<button type="button" class="cat" data-cat="' + t[0] + '" data-sub="' + t[1] + '"><img src="' + IMG + t[3] + '" alt="" loading="lazy"><span>' + t[2] + '</span></button>').join('') + '<a class="cat tool" href="tervezo/"><svg class="ic" viewBox="0 0 24 24" style="width:48px;height:48px;color:var(--acc)"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg><span>Egyedi bútorok</span></a>';
+$('#fcats').innerHTML = CATS.map(c => '<a href="#termekek" data-cat="' + c.id + '" data-sub="">' + esc(c.n) + '</a>').join('');
+
+// ---------- products ----------
+function matches(p) {
+  if (filt.cat && p.c !== filt.cat && p.c2 !== filt.cat) return false;
+  if (filt.sub && !p.s.includes(filt.sub)) return false;
+  if (filt.q) { const hay = norm(p.n + ' ' + p.d + ' ' + p.s.map(x => SUBN[x]).join(' ') + ' ' + (CATS.find(c => c.id === p.c) || {}).n); return norm(filt.q).split(/\s+/).every(w => hay.includes(w)); }
+  return true;
+}
+function drawGrid() {
+  let list = P.filter(matches);
+  if (sort === 'asc') list.sort((a, b) => a.p - b.p); if (sort === 'desc') list.sort((a, b) => b.p - a.p); if (sort === 'name') list.sort((a, b) => a.n.localeCompare(b.n, 'hu'));
+  const cat = CATS.find(c => c.id === filt.cat);
+  $('#gridT').textContent = filt.q ? 'Találatok: „' + filt.q + '”' : filt.sub ? SUBN[filt.sub] : cat ? cat.n : 'Bútoraink';
+  $('#filters').innerHTML = '<button type="button" class="chip" aria-pressed="' + (!filt.cat) + '" data-cat="" data-sub="">Mind</button>' + CATS.map(c => '<button type="button" class="chip" aria-pressed="' + (filt.cat === c.id && !filt.sub) + '" data-cat="' + c.id + '" data-sub="">' + esc(c.n) + '</button>').join('') +
+    (filt.sub ? '<button type="button" class="chip" aria-pressed="true" data-cat="' + filt.cat + '" data-sub="">' + esc(SUBN[filt.sub]) + ' ✕</button>' : '') + (filt.q ? '<button type="button" class="chip" aria-pressed="true" id="clrQ">„' + esc(filt.q) + '” ✕</button>' : '') +
+    '<select id="sort" aria-label="Rendezés"><option value="pop">Népszerűség</option><option value="asc">Ár szerint növekvő</option><option value="desc">Ár szerint csökkenő</option><option value="name">Név szerint</option></select>';
+  $('#sort').value = sort;
+  $('#count').textContent = list.length + ' termék';
+  $('#grid').innerHTML = list.length ? list.map(p => '<article class="card"><button type="button" class="im" data-open="' + p.id + '" aria-label="' + esc(p.n) + ' részletei"><img src="' + IMG + p.img + '" alt="" loading="lazy"' + (p.cut ? ' class="cut"' : '') + '><span class="tag">' + esc(p.tag) + '</span></button><div class="bd"><h3>' + esc(p.n) + '</h3><span class="ds">' + esc(p.d.split(',')[0]) + '</span><div class="ft"><span class="price">' + fmt(p.p) + '-tól</span><button type="button" class="addc" data-add="' + p.id + '" aria-label="Kosárba: ' + esc(p.n) + '"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"/><path d="M13 9v4M11 11h4"/></svg></button></div></div></article>').join('')
+    : '<div class="empty" style="grid-column:1/-1">Nincs ilyen termék. Tervezze meg a tervezőben – bármilyen méretben legyártjuk.<br><br><a class="btn pri" href="tervezo/">Tervező indítása</a></div>';
+}
+$('#filters').addEventListener('change', e => { if (e.target.id === 'sort') { sort = e.target.value; drawGrid(); } });
+function setFilter(cat, sub, q, scroll) { filt = {cat:cat || '', sub:sub || '', q:q || ''}; drawGrid(); closeAll(); if (scroll) $('#termekek').scrollIntoView(); }
+document.addEventListener('click', e => {
+  const f = e.target.closest('[data-cat]'); if (f) { e.preventDefault(); setFilter(f.dataset.cat, f.dataset.sub, '', true); $('#q').value = ''; return; }
+  if (e.target.closest('#clrQ')) { $('#q').value = ''; setFilter(filt.cat, filt.sub, '', false); return; }
+  const a = e.target.closest('[data-add]'); if (a) { const p = P.find(x => x.id === a.dataset.add); addCart(p, p.sizes[0], COLORS[0], 1); return; }
+  const o = e.target.closest('[data-open]'); if (o) { openProduct(o.dataset.open); return; }
+  if (e.target.closest('[data-close]') || e.target.id === 'scrim' || e.target.id === 'pm') closeAll();
+  if (!e.target.closest('#catBtn,#mega')) { $('#mega').classList.remove('on'); $('#catBtn').setAttribute('aria-expanded', 'false'); }
+  if (!e.target.closest('.search')) $('#sugg').classList.remove('on');
 });
-</script></body></html>
+
+// ---------- search ----------
+const q = $('#q'); let sIdx = -1;
+function suggest() {
+  const v = q.value.trim(); if (!v) { $('#sugg').classList.remove('on'); return; }
+  const nv = norm(v), prods = P.filter(p => norm(p.n + ' ' + p.d + ' ' + p.s.map(x => SUBN[x]).join(' ')).includes(nv)).slice(0, 6);
+  const subs = []; CATS.forEach(c => c.subs.forEach(s => { if (norm(s[1]).includes(nv) && !subs.some(x => x[1][0] === s[0])) subs.push([c, s]); }));
+  let h = '';
+  if (subs.length) h += '<h4>KATEGÓRIÁK</h4>' + subs.slice(0, 4).map(([c, s]) => '<button type="button" data-cat="' + c.id + '" data-sub="' + s[0] + '"><img src="' + IMG + s[2] + '" alt="">' + esc(s[1]) + '<small>' + esc(c.n) + '</small></button>').join('');
+  if (prods.length) h += '<h4>TERMÉKEK</h4>' + prods.map(p => '<button type="button" data-open="' + p.id + '"><img src="' + IMG + p.img + '" alt=""><span>' + esc(p.n) + '<small>' + fmt(p.p) + '-tól</small></span></button>').join('');
+  h += '<button type="submit" form="searchF" style="color:var(--acc);font-weight:600">Összes találat: „' + esc(v) + '” →</button>';
+  $('#sugg').innerHTML = h; $('#sugg').classList.add('on'); sIdx = -1;
+}
+q.addEventListener('input', suggest); q.addEventListener('focus', suggest);
+q.addEventListener('keydown', e => { const it = $$('#sugg button'); if (!it.length) return;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sIdx = (sIdx + (e.key === 'ArrowDown' ? 1 : -1) + it.length) % it.length; it.forEach((b, i) => b.classList.toggle('act', i === sIdx)); }
+  if (e.key === 'Enter' && sIdx >= 0) { e.preventDefault(); it[sIdx].click(); } if (e.key === 'Escape') $('#sugg').classList.remove('on'); });
+$('#searchF').addEventListener('submit', e => { e.preventDefault(); q.blur(); setFilter('', '', q.value.trim(), true); });
+
+// ---------- product modal ----------
+function openProduct(id) {
+  const p = P.find(x => x.id === id); if (!p) return; let si = 0, ci = 0, qty = 1;
+  const draw = () => { $('#pmBox').innerHTML = '<button class="x" type="button" data-close aria-label="Bezárás"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="mi"><img src="' + IMG + p.img + '" alt="' + esc(p.n) + '"' + (p.cut ? ' class="cut"' : '') + '></div><div class="mc"><span class="tag" style="position:static;align-self:flex-start">' + esc(p.tag) + '</span><h2 id="pmT">' + esc(p.n) + '</h2><p style="margin:0;color:#D8CEC1">' + esc(p.d) + '</p>' +
+    '<div><strong style="font-size:14px">Szélesség</strong><div class="opt" style="margin-top:8px">' + p.sizes.map((s, i) => '<button type="button" class="chip" aria-pressed="' + (i === si) + '" data-si="' + i + '">' + s[0] + '</button>').join('') + '</div></div>' +
+    '<div><strong style="font-size:14px">Szín: ' + COLORS[ci][0] + '</strong><div class="opt" style="margin-top:8px">' + COLORS.map((c, i) => '<button type="button" class="sw" style="background:' + c[1] + '" aria-pressed="' + (i === ci) + '" aria-label="' + c[0] + '" data-ci="' + i + '"></button>').join('') + '</div></div>' +
+    '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span class="price" style="font-size:28px">' + fmt((p.p + p.sizes[si][1]) * qty) + '</span><div class="qty"><button type="button" data-q="-1" aria-label="Kevesebb">−</button><span>' + qty + '</span><button type="button" data-q="1" aria-label="Több">+</button></div></div>' +
+    '<button type="button" class="btn pri" id="pmAdd">Kosárba</button>' + (p.preset != null ? '<a class="btn" href="tervezo/#minta-' + p.preset + '">Testreszabom a tervezőben</a>' : '') + '<p class="note">Gyártás 2–3 hét. Egyedi méret? A tervezőben centire megadhatja.</p></div>'; };
+  draw(); $('#pm').classList.add('on'); $('#scrim').classList.add('on'); document.body.style.overflow = 'hidden';
+  $('#pmBox').onclick = e => { const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.si) { si = +b.dataset.si; draw(); } else if (b.dataset.ci) { ci = +b.dataset.ci; draw(); } else if (b.dataset.q) { qty = Math.max(1, qty + +b.dataset.q); draw(); }
+    else if (b.id === 'pmAdd') { addCart(p, p.sizes[si], COLORS[ci], qty); closeAll(); } };
+  setTimeout(() => $('#pmBox .x').focus(), 30);
+}
+
+// ---------- cart (közös a tervezővel: localStorage 'nakom-kosar') ----------
+function addCart(p, size, col, qty) {
+  const key = p.id + '|' + size[0] + '|' + col[0], ex = cart.find(c => c.key === key);
+  if (ex) ex.qty += qty; else cart.push({key, name:p.n, opts:size[0] + ' · ' + col[0], price:p.p + size[1], qty, img:IMG + p.img});
+  saveCart(); toast(p.n + ' a kosárban'); bump();
+}
+function bump() { const b = $('#cartN'); b.animate && b.animate([{transform:'scale(1.5)'}, {transform:'scale(1)'}], {duration:300}); }
+function drawCart() {
+  const n = cart.reduce((a, c) => a + (c.qty || 1), 0); $('#cartN').textContent = n;
+  $('#cartT').textContent = fmt(cart.reduce((a, c) => a + c.price * (c.qty || 1), 0));
+  $('#cartL').innerHTML = cart.length ? cart.map((c, i) => '<div class="ci">' + (c.img ? '<img src="' + esc(c.img) + '" alt="">' : '<span class="ph"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span>') +
+    '<div><h3>' + esc(c.name) + '</h3><small>' + esc(c.opts || '') + '</small>' + (c.link ? '<small><a href="' + esc(c.link) + '" style="color:var(--acc)">Terv megnyitása</a></small>' : '') +
+    '<div class="r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Kevesebb">−</button><span>' + (c.qty || 1) + '</span><button type="button" data-cq="' + i + '" data-d="1" aria-label="Több">+</button></div><b>' + fmt(c.price * (c.qty || 1)) + '</b></div><button type="button" class="rm" data-crm="' + i + '">Eltávolítás</button></div></div>').join('')
+    : '<div class="empty" style="margin-top:20px">A kosár üres.<br><br><button type="button" class="btn" data-close data-cat="" data-sub="">Vásárlás folytatása</button></div>';
+  $('#orderBtn').disabled = !cart.length; $('#orderBtn').style.opacity = cart.length ? 1 : .5;
+}
+$('#cartL').addEventListener('click', e => { const q2 = e.target.closest('[data-cq]'), rm = e.target.closest('[data-crm]');
+  if (q2) { const c = cart[+q2.dataset.cq]; c.qty = Math.max(1, (c.qty || 1) + +q2.dataset.d); saveCart(); }
+  if (rm) { cart.splice(+rm.dataset.crm, 1); saveCart(); } });
+addEventListener('storage', e => { if (e.key === 'nakom-kosar') { try { cart = JSON.parse(e.newValue || '[]'); } catch (er) {} drawCart(); } });
+const mail = (subj, body) => { location.href = 'mailto:' + NAKOM_EMAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body); };
+$('#orderBtn').onclick = () => { if (!cart.length) return; const base = location.href.split('#')[0].replace(/index\.html$/, '');
+  mail('Megrendelés – NAKOM', 'Szeretném megrendelni:\n\n' + cart.map(c => '• ' + c.name + ' (' + (c.opts || '') + ') × ' + (c.qty || 1) + ' = ' + fmt(c.price * (c.qty || 1)) + (c.link ? '\n  Terv: ' + new URL(c.link, base).href : '')).join('\n') + '\n\nÖsszesen: ' + $('#cartT').textContent + '\n\nNév:\nTelefon:\nSzállítási cím:\n');
+  toast('Megnyitottuk az e-mail-programot – ha nem nyílt meg: ' + NAKOM_EMAIL); };
+$('#b2bF').addEventListener('submit', e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)); mail('Céges ajánlatkérés – NAKOM', 'Név / cég: ' + f.nev + '\nE-mail: ' + f.email + '\n\n' + (f.msg || '')); toast('Megnyitottuk az e-mail-programot'); });
+$('#mailL').textContent = NAKOM_EMAIL;
+
+// ---------- drawers ----------
+function openD(id) { closeAll(); $(id).classList.add('on'); $(id).setAttribute('aria-hidden', 'false'); $('#scrim').classList.add('on'); document.body.style.overflow = 'hidden'; setTimeout(() => $(id + ' .x').focus(), 50); }
+function closeAll() { $$('.drawer').forEach(d => { d.classList.remove('on'); d.setAttribute('aria-hidden', 'true'); }); $('#pm').classList.remove('on'); $('#scrim').classList.remove('on'); $('#sugg').classList.remove('on'); document.body.style.overflow = ''; }
+$('#cartBtn').onclick = () => { drawCart(); openD('#cartD'); };
+$('#menuBtn').onclick = () => openD('#menuD');
+$('#catBtn').onclick = e => { e.stopPropagation(); const on = !$('#mega').classList.contains('on'); $('#mega').classList.toggle('on', on); $('#catBtn').setAttribute('aria-expanded', on); };
+$('#allCats').onclick = e => { e.stopPropagation(); if (matchMedia('(max-width:860px)').matches) openD('#menuD'); else { scrollTo({top:0}); $('#mega').classList.add('on'); $('#catBtn').setAttribute('aria-expanded', 'true'); } };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAll(); $('#mega').classList.remove('on'); } });
+
+drawGrid(); drawCart();
+if (location.hash === '#kosar') { history.replaceState(null, '', location.pathname); openD('#cartD'); }
+}
+</script>
+</body>
+</html>

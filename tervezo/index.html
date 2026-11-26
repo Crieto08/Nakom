@@ -41,6 +41,7 @@ aside{background:var(--panel);border-left:1px solid var(--line);display:flex;fle
 .tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--line);flex:none}
 .tabs button{background:none;border:0;border-bottom:2px solid transparent;min-height:50px;cursor:pointer;font-size:15px;font-weight:600;color:var(--mut)}
 .tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--acc)}
+.pane.empty>*:not(#noSel){display:none}#noSel{display:none}.pane.empty>#noSel{display:block}
 .pane{padding:18px 20px;display:none;flex-direction:column;gap:18px;overflow:auto;flex:1;min-height:0}.pane.on{display:flex}
 h3{margin:0;font-size:13px;font-weight:700;color:var(--acc);letter-spacing:.04em}
 .field label,.lbl{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px}
@@ -60,9 +61,10 @@ input[type=number]{width:96px;text-align:right}
 .secs button[aria-pressed=true]{background:var(--acc);color:#1C1916;border-color:var(--acc)}
 .note{font-size:13px;color:var(--mut);margin:0}
 .items{display:flex;flex-direction:column;gap:8px}
-.it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--bg);cursor:pointer}
+.it{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 10px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--bg);cursor:pointer}
 .it[aria-current=true]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
-.it b{font-size:15px}.it small{color:var(--mut);font-size:13px;grid-column:1}.it .p{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.it b{font-size:15px}.it small{color:var(--mut);font-size:13px;grid-column:1/-1}
+.x1{width:36px;height:36px;margin:-6px -6px -6px 0;border:1px solid transparent;border-radius:50%;background:none;cursor:pointer;color:var(--mut);display:flex;align-items:center;justify-content:center}.x1:hover{color:#F4C3B5;border-color:#E58C73;background:#E58C7322}.it .p{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
 .it .acts{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
 .ib{min-height:36px;padding:4px 10px;border:1px solid var(--line);border-radius:4px;background:none;cursor:pointer;font-size:13px}
 .buy{border-top:1px solid var(--line);padding:14px 20px;display:flex;flex-direction:column;gap:10px;background:var(--panel2);flex:none}
@@ -95,6 +97,16 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:8px;width:min(520px,100%);max-height:90vh;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:14px}
 .box h3{font-size:22px;color:var(--ink);letter-spacing:0}.box label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600}
 .box input,.box textarea{min-height:44px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:4px;font-size:16px;font-weight:400}
+.lk[aria-pressed=true]{border-color:var(--acc);color:var(--acc)}
+.selbar{position:absolute;left:50%;top:14px;transform:translateX(-50%);display:none;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;background:#1C1916ee;border:1px solid var(--line);border-radius:6px;padding:6px 8px;max-width:calc(100% - 28px)}
+.selbar.on{display:flex}.selbar b{padding:0 6px;font-size:14px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.selbar button{min-height:40px;padding:4px 12px;border:1px solid var(--line);border-radius:4px;background:none;cursor:pointer;font-size:14px;font-weight:600}
+.selbar button[aria-pressed=true]{background:var(--acc);color:#1C1916;border-color:var(--acc)}.selbar .del{border-color:#E58C73;color:#F4C3B5}
+.zoom{position:absolute;right:14px;top:14px;display:flex;flex-direction:column;gap:6px}.zoom button{width:44px;height:44px;border:1px solid var(--line);border-radius:4px;background:#1C1916e6;cursor:pointer;font-size:22px}
+.mats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.mats button{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:5px;cursor:pointer;font-size:12px;text-align:left;display:flex;flex-direction:column;gap:5px}
+.mats button canvas{width:100%;height:40px;border-radius:4px;display:block}.mats button[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.colrow{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}.colrow input{width:56px;height:44px;border:1px solid var(--line);border-radius:4px;background:none;padding:2px;cursor:pointer}
+@media(max-width:600px){.vt{top:auto;bottom:62px;left:8px}.selbar{top:8px;flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:4px}.selbar b{display:none}.selbar button{padding:4px 9px;font-size:13px;white-space:nowrap}.zoom{top:auto;bottom:62px;right:8px}.tools{left:8px;right:8px;bottom:8px;flex-wrap:nowrap}.tools .btn{flex:1;font-size:12px;padding:4px 6px;white-space:normal;line-height:1.15}header{gap:8px;padding:10px 12px}.hbtn{margin-left:0;width:100%}.hbtn .btn{flex:1;font-size:13px;padding:6px 8px}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--acc);color:#1C1916;padding:12px 18px;border-radius:4px;font-weight:600;display:none;z-index:20}
 @media(max-width:1000px){.app{grid-template-columns:minmax(0,1fr);height:auto}.stage{height:58vh;min-height:380px}aside{border-left:0;border-top:1px solid var(--line)}.pane{max-height:none}.cols{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){#pname{width:100%;margin-left:0;border-left-color:transparent}.hint{display:none}}
@@ -123,23 +135,25 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <button class="btn sm" id="dimBtn" type="button" aria-pressed="true">Méretek</button>
 <button class="btn sm" id="resetBtn" type="button">Nézet alaphelyzet</button>
 </div>
-<div class="hint" id="hint">Kattints egy elemre a kijelöléshez · húzással forgat</div>
+<div class="selbar" id="selbar" role="toolbar" aria-label="Kijelölt elem"><b id="selN"></b><button type="button" id="gRot" title="Forgatás 90°-kal (R)">↻ 90°</button><button type="button" id="sDup">Másolat</button><button type="button" class="del" id="sDel">Törlés</button></div>
+<div class="zoom"><button type="button" id="zIn" aria-label="Nagyítás">+</button><button type="button" id="zOut" aria-label="Kicsinyítés">−</button></div>
+<div class="hint" id="hint">Bal gomb: nézet forgatása · középső gomb: eltolás · görgő: nagyítás</div>
 </section>
 
 <aside>
 <div class="tabs" role="tablist">
-<button role="tab" aria-selected="true" data-t="items">Elemek</button>
-<button role="tab" aria-selected="false" data-t="edit">Szerkesztés</button>
-<button role="tab" aria-selected="false" data-t="room">Szoba</button>
+<button role="tab" aria-selected="false" data-t="items">2. Bútorok</button>
+<button role="tab" aria-selected="false" data-t="edit">3. Szerkesztés</button>
+<button role="tab" aria-selected="true" data-t="room" style="order:-1">1. Szoba</button>
 </div>
 
-<div class="pane on" data-p="items">
+<div class="pane" data-p="items">
 <div><h3>ÚJ ELEM HOZZÁADÁSA</h3><div class="chips" id="addChips" style="margin-top:10px"></div></div>
 <div><h3>A PROJEKT ELEMEI</h3><div class="items" id="items" style="margin-top:10px"></div></div>
-<p class="note">Alaprajz nézetben az elemek húzhatók. Falhoz közel engedve hozzátapadnak és a fal felé fordulnak, a szomszédos elemhez igazodnak.</p>
+<p class="note">A kijelölt bútor a 3D nézetben a nyilakkal, alaprajzon egérrel húzható. 15 cm-en belül a falhoz, 8 cm-en belül a szomszédos bútorhoz tapad, és mindig a padlón marad; a falra szerelt elemek fel-le is mozgathatók. Törlés: × gomb, Delete billentyű.</p>
 </div>
 
-<div class="pane" data-p="edit">
+<div class="pane" data-p="edit"><p class="note" id="noSel">Még nincs bútor a szobában. A „2. Bútorok” fülön adj hozzá egyet, utána itt szerkesztheted.</p>
 <div class="field"><label for="iname">Elem neve</label><input id="iname" class="txt" style="width:100%"></div>
 <h3>MÉRET</h3>
 <div class="field"><label for="w">Szélesség <output id="wO"></output></label><div class="row"><input type="range" id="wR" min="300" max="3000" step="10" aria-label="Szélesség csúszka"><input type="number" id="w" min="300" max="3000" step="10"></div></div>
@@ -151,6 +165,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <div><div class="lbl">Szerkesztett rekesz</div><div class="secs" id="selSec"></div></div>
 <div class="chips" id="secType"></div>
 <div class="field"><label for="cnt" id="cntL">Polcok <output id="cntO"></output></label><input type="range" id="cnt" min="0" max="6" step="1" style="width:100%"></div>
+<div id="hBox"><div class="lbl"><span id="hTitle">Magasságok</span><button type="button" class="ib" id="hEq">Egyenlő elosztás</button></div><div id="hList" style="display:flex;flex-direction:column-reverse;gap:8px"></div><p class="note" style="margin-top:8px">Alulról felfelé. Amit beállítasz, rögzül (lakat) – a többi állítása már nem mozdítja el; a különbséget a nem rögzített terek veszik fel. A lakattal fel is oldható.</p></div>
 <button class="btn sm ghost" type="button" id="applyAll">Minden rekeszre alkalmaz</button>
 <h3>ANYAG</h3>
 <div><div class="lbl">Korpusz</div><div class="sw" id="swC"></div></div>
@@ -160,16 +175,17 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <div><div class="lbl">Alátámasztás</div><div class="chips" id="bas"></div></div>
 </div>
 
-<div class="pane" data-p="room">
+<div class="pane on" data-p="room">
+<div><h3>PADLÓ</h3><div class="mats" id="floorM" style="margin-top:10px"></div><div class="colrow" style="margin-top:10px"><input type="color" id="floorC" aria-label="Padló színe"><label for="floorC">Padló színárnyalata</label></div></div>
+<div><h3>FAL</h3><div class="mats" id="wallM" style="margin-top:10px"></div><div class="colrow" style="margin-top:10px"><input type="color" id="wallC" aria-label="Fal színe"><label for="wallC">Fal színe</label></div></div>
 <div><h3>SABLONOK</h3><div class="chips" id="roomT" style="margin-top:10px"></div></div>
 <div class="field"><label for="rw">Szoba szélessége <output id="rwO"></output></label><input type="range" id="rw" min="1500" max="10000" step="50" style="width:100%"></div>
 <div class="field"><label for="rd">Szoba hossza <output id="rdO"></output></label><input type="range" id="rd" min="1500" max="10000" step="50" style="width:100%"></div>
 <div class="field"><label for="rh">Belmagasság <output id="rhO"></output></label><input type="range" id="rh" min="2200" max="3600" step="10" style="width:100%"></div>
-<h3>AJTÓ</h3>
-<div class="row"><select id="dw" aria-label="Ajtó fala"></select><input type="number" id="doff" aria-label="Ajtó távolsága a fal sarkától (mm)" step="10"><input type="number" id="dwid" aria-label="Ajtó szélessége (mm)" step="10"></div>
-<p class="note">Fal · távolság a saroktól · szélesség (mm)</p>
-<h3>ABLAK</h3>
-<div class="row"><select id="ww" aria-label="Ablak fala"></select><input type="number" id="woff" aria-label="Ablak távolsága a saroktól (mm)" step="10"><input type="number" id="wwid" aria-label="Ablak szélessége (mm)" step="10"></div>
+<div><div class="lbl"><h3 style="margin:0">AJTÓK</h3><button type="button" class="ib" id="addDoor">+ Ajtó</button></div><div id="doorL" style="display:flex;flex-direction:column;gap:8px"></div></div>
+<div><div class="lbl"><h3 style="margin:0">ABLAKOK</h3><button type="button" class="ib" id="addWin">+ Ablak</button></div><div id="winL" style="display:flex;flex-direction:column;gap:8px"></div></div>
+<p class="note">Fal · távolság a fal bal/felső sarkától · szélesség (mm). A zsanér oldala a szobából nézve értendő.</p>
+<button type="button" class="btn pri" id="toItems">Tovább: bútorok hozzáadása →</button>
 </div>
 
 <div class="buy">
@@ -199,7 +215,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <div><h2>Egységárak</h2><p class="note">Példaértékek – írd át a lapszabász és a beszállítók valós áraira. Ez a gép megjegyzi őket.</p><div id="pg"></div></div></div></div>
 </section>
 
-<div class="dlg" id="cartDlg" role="dialog" aria-modal="true" aria-labelledby="cartT"><div class="box"><h3 id="cartT">Kosár</h3><div id="cartList"></div><div class="row"><button class="btn" type="button" data-close>Vissza</button><button class="btn pri" type="button" id="cartQuote">Megrendelés kérése</button></div></div></div>
+<div class="dlg" id="cartDlg" role="dialog" aria-modal="true" aria-labelledby="cartT"><div class="box"><h3 id="cartT">Kosár</h3><div id="cartList"></div><div class="row"><button class="btn" type="button" data-close>Vissza</button><a class="btn" href="../#kosar" style="text-decoration:none;display:inline-flex;align-items:center">Tovább a boltba</a><button class="btn pri" type="button" id="cartQuote">Megrendelés kérése</button></div></div></div>
 <div class="dlg" id="qDlg" role="dialog" aria-modal="true" aria-labelledby="qT"><form class="box" id="qForm"><h3 id="qT">Ajánlatkérés</h3><p class="note" id="qSum"></p>
 <label>Név vagy cégnév<input name="nev" required autocomplete="name"></label><label>E-mail<input name="email" type="email" required autocomplete="email"></label>
 <label>Telefon<input name="tel" type="tel" autocomplete="tel"></label><label>Település<input name="hely"></label><label>Megjegyzés<textarea name="msg" rows="3"></textarea></label>
@@ -208,6 +224,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <div class="toast" id="toast" role="status"></div>
 
 <script src="../assets/vendor/three.min.js"></script>
+<script src="../assets/vendor/TransformControls.js"></script>
 <script>
 {
 /* BEÁLLÍTÁS: ide érkeznek az ajánlatkérések, amíg nincs saját szerver. */
@@ -240,14 +257,37 @@ try { const p = JSON.parse(localStorage.getItem('nakom-ar2') || 'null'); if (p) 
 let uid = 1;
 const newItem = (p, x, z, rot) => ({id:uid++, name:p.n, cfg:{w:p.w, h:p.h, d:p.d, s:[...p.s], b:p.b, c:p.c, f:p.f, hd:p.hd, el:p.el || 0}, x, z, rot:rot || 0});
 function defaultProj() {
-  const P = {name:'Új projekt', room:{w:5000, d:5000, h:2700, door:{wall:'S', off:500, w:900}, win:{wall:'N', off:1800, w:1600}}, items:[]};
+  const P = {name:'Új projekt', room:{w:5000, d:5000, h:2700, doors:[{wall:'S', off:500, w:900, hinge:'L', swing:'in'}], wins:[{wall:'N', off:1800, w:1600}], floor:{t:0, c:'#8a6c50'}, wall:{t:0, c:'#8c8077'}}, items:[]};
+  return P;
+}
+function defaultProjWithItems() { const P = defaultProj();
   P.items.push(newItem(PRESETS[0], 2500, 225, 0));
   P.items.push(newItem(PRESETS[3], 210, 1500, 90));
   return P;
 }
-let P = defaultProj(), selId = P.items[0].id, sec = 0, open = false, showDims = true, view = '3d';
+let P = defaultProj(), selId = 0, sec = 0, open = false, showDims = true, view = '3d';
 const cur = () => P.items.find(i => i.id === selId) || P.items[0];
 
+// ---------- egyedi rekesz-magasságok ----------
+// cfg.hs[i] = a rekesz tereinek (polcos: polcközök, fiókos: fiókfrontok) magassága mm-ben, alulról felfelé
+const MINH = {f:90, o:80};
+let hDrag = false;
+function secParts(cfg, i, total) { const code = cfg.s[i], t = code[0], k = +code[1], n = t === 'f' ? Math.max(1, k) : k + 1;
+  const a = cfg.hs && cfg.hs[i]; if (a && a.length === n) { const sum = a.reduce((x, y) => x + y, 0); return a.map(v => v * total / sum); }
+  return Array(n).fill(total / n); }
+function secTotal(cfg, i) { const B = BASES[cfg.b].h, HC = cfg.h - B, t = cfg.s[i][0], k = +cfg.s[i][1]; return t === 'f' ? HC - GAP * (Math.max(1, k) + 1) : HC - 2 * T - k * T; }
+function setSecH(cfg, i, j, val) { const tot = secTotal(cfg, i), arr = secParts(cfg, i, tot), n = arr.length, mn = MINH[cfg.s[i][0] === 'f' ? 'f' : 'o'];
+  cfg.hl = cfg.hl || []; const lock = (cfg.hl[i] && cfg.hl[i].length === n) ? cfg.hl[i].slice() : Array(n).fill(false); lock[j] = true;
+  // a változást csak a nem rögzített terek veszik fel; ha mind rögzített, a felette (legfelsőnél az alatta) lévő
+  let U = arr.map((_, q) => q).filter(q => q !== j && !lock[q]); if (!U.length) U = [j + 1 < n ? j + 1 : j - 1];
+  const fixed = arr.reduce((a, v, q) => q === j || U.includes(q) ? a : a + v, 0);
+  val = Math.max(mn, Math.min(tot - fixed - mn * U.length, val)); const each = (tot - fixed - val) / U.length;
+  const out = arr.map((v, q) => q === j ? val : U.includes(q) ? each : v);
+  cfg.hs = cfg.hs || []; cfg.hs[i] = out.map(v => Math.round(v)); const diff = Math.round(tot) - cfg.hs[i].reduce((a, v) => a + v, 0); cfg.hs[i][U[U.length - 1]] += diff;
+  cfg.hl[i] = lock; }
+function toggleLock(cfg, i, j) { const n = secParts(cfg, i, secTotal(cfg, i)).length; cfg.hl = cfg.hl || []; const l = (cfg.hl[i] && cfg.hl[i].length === n) ? cfg.hl[i] : Array(n).fill(false); l[j] = !l[j]; cfg.hl[i] = l;
+  if (!cfg.hs || !cfg.hs[i]) { cfg.hs = cfg.hs || []; cfg.hs[i] = secParts(cfg, i, secTotal(cfg, i)).map(v => Math.round(v)); } }
+const resetH = (cfg, i) => { if (cfg.hs) cfg.hs[i] = null; if (cfg.hl) cfg.hl[i] = null; };
 // ---------- one cabinet: parts + meshes ----------
 function build(cfg) {
   const W = cfg.w, D = cfg.d, B = BASES[cfg.b].h, HC = cfg.h - B, n = cfg.s.length;
@@ -255,29 +295,36 @@ function build(cfg) {
   const parts = [], meshes = [], hw = {zsan:0, csuszo:0, front:0, polc:0, lab:0};
   const add = (name, L, Wd, q, mat, edge, el2) => q > 0 && parts.push({name, L:Math.round(L), W:Math.round(Wd), q, mat, edge, el2:!!el2});
   const box = (x, y, z, sx, sy, sz, role, ex) => meshes.push({x, y, z, sx, sy, sz, role, ...ex});
-  add('Oldallap', HC, D, 2, 'K', 'H1'); add('Tető / fenék', W - 2 * T, D, 2, 'K', 'H1');
-  box(-W / 2 + T / 2, B + HC / 2, 0, T, HC, D, 'K'); box(W / 2 - T / 2, B + HC / 2, 0, T, HC, D, 'K');
-  box(0, B + HC - T / 2, 0, W - 2 * T, T, D, 'K'); box(0, B + T / 2, 0, W - 2 * T, T, D, 'K');
+  // Szerkezet: felső (falra szerelt) elemnél az oldalak adják a teljes magasságot, a tető és a fenék az oldalak közé kerül;
+  // alsó (álló) elemnél – a konyhai alsókat is beleértve – fordítva: a tető és a fenék teljes szélességű, az oldalak közéjük kerülnek.
+  const upper = cfg.b === 2;
+  if (upper) { add('Oldallap (teljes magasságú)', HC, D, 2, 'K', 'H1 Sz2'); add('Tető- és fenéklap (oldalak közé)', W - 2 * T, D, 2, 'K', 'H1'); }
+  else { add('Oldallap (tető és fenék közé)', HC - 2 * T, D, 2, 'K', 'H1'); add('Tető- és fenéklap (teljes szélességű)', W, D, 2, 'K', 'H1 Sz2'); }
+  const sideH = upper ? HC : HC - 2 * T, hw2 = upper ? W - 2 * T : W;
+  box(-W / 2 + T / 2, B + HC / 2, 0, T, sideH, D, 'K'); box(W / 2 - T / 2, B + HC / 2, 0, T, sideH, D, 'K');
+  box(0, B + HC - T / 2, 0, hw2, T, D, 'K'); box(0, B + T / 2, 0, hw2, T, D, 'K');
   add('Válaszfal', ih, D - HDF, n - 1, 'K', 'H1'); add('Hátfal', W - 4, HC - 4, 1, 'H', '–');
   box(0, B + HC / 2, -D / 2 + HDF / 2, W - 4, HC - 4, HDF, 'H');
   let x0 = -W / 2 + T;
   cfg.s.forEach((code, i) => {
     const t = code[0], k = +code[1], cx = x0 + iw / 2, fx = -W / 2 + GAP + i * (fw + GAP) + fw / 2, lab = n > 1 ? ' (' + (i + 1) + '. rekesz)' : '';
     if (i < n - 1) box(x0 + iw + T / 2, B + HC / 2, HDF / 2, T, ih, D - HDF, 'K');
-    if (t !== 'f') { for (let j = 1; j <= k; j++) box(cx, B + T + j * (ih / (k + 1)), 0, iw - 2, T, D - 20, 'K'); hw.polc += k; add('Polc' + lab, iw - 2, D - 20, k, 'K', 'H1'); }
+    if (t !== 'f') { const gaps = secParts(cfg, i, ih - k * T); let yy = B + T; for (let j = 1; j <= k; j++) { yy += gaps[j - 1]; box(cx, yy + T / 2, 0, iw - 2, T, D - 20, 'K'); yy += T; } hw.polc += k; add('Polc' + lab, iw - 2, D - 20, k, 'K', 'H1'); }
     if (t === 'd') { const fh = HC - GAP; hw.front++; hw.zsan += fh <= 900 ? 2 : fh <= 1600 ? 3 : 4; add('Ajtó' + lab, fh, fw, 1, 'F', 'H2 Sz2', 1); box(fx, B + HC / 2, D / 2 + T / 2 + 1, fw, fh, T, 'F', {door:1, hinge:i % 2 ? 1 : -1}); }
     if (t === 'f') {
-      const m = Math.max(1, k), fh = (HC - GAP * (m + 1)) / m, L = Math.max(250, Math.min(550, Math.floor((D - 40) / 50) * 50)), bw = iw - 26, bh = Math.max(60, Math.min(160, fh - 50));
-      hw.front += m; hw.csuszo += m;
-      add('Fiókfront' + lab, fw, fh, m, 'F', 'H2 Sz2', 1); add('Fiókoldal' + lab, L, bh, 2 * m, 'K', 'H1'); add('Fiók eleje/hátulja' + lab, bw - 2 * T, bh, 2 * m, 'K', 'H1'); add('Fiókfenék' + lab, bw, L, m, 'H', '–');
-      for (let j = 0; j < m; j++) { const y = B + GAP + j * (fh + GAP) + fh / 2; box(fx, y, D / 2 + T / 2 + 1, fw, fh, T, 'F', {drawer:1, L}); box(cx, y - fh / 2 + bh / 2 + 20, D / 2 - L / 2 - 5, bw, bh, L, 'K', {drawer:1, L, inner:1}); }
+      const m = Math.max(1, k), fhs = secParts(cfg, i, HC - GAP * (m + 1)), L = Math.max(250, Math.min(550, Math.floor((D - 40) / 50) * 50)), bw = iw - 26;
+      hw.front += m; hw.csuszo += m; let y0 = B + GAP;
+      for (let j = 0; j < m; j++) { const fh = fhs[j], bh = Math.max(60, Math.min(250, Math.round((fh - 50) / 10) * 10)), y = y0 + fh / 2;
+        add('Fiókfront' + lab, fw, fh, 1, 'F', 'H2 Sz2', 1); add('Fiókoldal' + lab, L, bh, 2, 'K', 'H1'); add('Fiók eleje/hátulja' + lab, bw - 2 * T, bh, 2, 'K', 'H1'); add('Fiókfenék' + lab, bw, L, 1, 'H', '–');
+        box(fx, y, D / 2 + T / 2 + 1, fw, fh, T, 'F', {drawer:1, L}); box(cx, y - fh / 2 + bh / 2 + 20, D / 2 - L / 2 - 5, bw, bh, L, 'K', {drawer:1, L, inner:1}); y0 += fh + GAP; }
     }
     x0 += iw + T;
   });
   if (cfg.b === 1) { add('Lábazat takaró', W - 80, B - 5, 1, 'F', 'H1 Sz2', 1); box(0, (B - 5) / 2, D / 2 - 40, W - 80, B - 5, T, 'F'); }
   if (cfg.b === 0) { const cols = 2 + Math.max(0, Math.floor((W - 1) / 1200)); hw.lab = cols * 2; for (let j = 0; j < cols; j++) { const lx = -W / 2 + 60 + j * (W - 120) / (cols - 1); [D / 2 - 60, -D / 2 + 60].forEach(z => box(lx, B / 2, z, 22, B, 22, 'L')); } }
   if (cfg.b === 2) hw.fali = 1;
-  return {parts, meshes, hw};
+  const merged = []; parts.forEach(p => { const m2 = merged.find(q => q.name === p.name && q.L === p.L && q.W === p.W && q.mat === p.mat && q.edge === p.edge); if (m2) m2.q += p.q; else merged.push({...p}); });
+  return {parts:merged, meshes, hw};
 }
 
 // ---------- project-level calculations ----------
@@ -342,10 +389,12 @@ function snap(it) {
     if (xo > 50) { if (Math.abs(b.z1 - c.z2) < 120) it.z += c.z2 - b.z1; else if (Math.abs(b.z2 - c.z1) < 120) it.z -= b.z2 - c.z1; } });
   const f = foot(it); it.x = Math.min(R.w - f.wx / 2, Math.max(f.wx / 2, it.x)); it.z = Math.min(R.d - f.wz / 2, Math.max(f.wz / 2, it.z));
 }
-function freeSpot(it) { // first free place along walls
-  const R = P.room, f = foot({...it, rot:0});
-  for (let x = f.wx / 2; x <= R.w - f.wx / 2; x += 50) { it.x = x; it.z = f.wz / 2; it.rot = 0; if (!P.items.some(o => o !== it && overlap(bbox(o), bbox(it)))) return; }
-  it.x = R.w / 2; it.z = R.d / 2;
+function freeSpot(it) { // első szabad hely a falak mentén: nem ütközik, nincs ajtó nyitási ívében
+  const R = P.room, ok = () => !P.items.some(o => o !== it && overlap(bbox(o), bbox(it))) && !(R.doors || []).some(d => overlap(doorZone(d), bbox(it)));
+  for (const rot of [0, 180, 90, 270]) { it.rot = rot; const f = foot(it);
+    if (rot === 0 || rot === 180) { it.z = rot === 0 ? f.wz / 2 : R.d - f.wz / 2; for (let x = f.wx / 2; x <= R.w - f.wx / 2; x += 50) { it.x = x; if (ok()) return; } }
+    else { it.x = rot === 90 ? f.wx / 2 : R.w - f.wx / 2; for (let z = f.wz / 2; z <= R.d - f.wz / 2; z += 50) { it.z = z; if (ok()) return; } } }
+  it.rot = 0; it.x = R.w / 2; it.z = R.d / 2;
 }
 const overlap = (a, b) => Math.min(a.x2, b.x2) - Math.max(a.x1, b.x1) > 5 && Math.min(a.z2, b.z2) - Math.max(a.z1, b.z1) > 5;
 function checks() {
@@ -355,11 +404,18 @@ function checks() {
     if (b.x1 < -1 || b.z1 < -1 || b.x2 > R.w + 1 || b.z2 > R.d + 1) out.push(it.name + ': kilóg a szobából.');
     if (top > R.h) out.push(it.name + ': magasabb, mint a belmagasság (' + cm(top) + ' > ' + cm(R.h) + ').');
     P.items.slice(i + 1).forEach(o => { if (overlap(b, bbox(o)) && !((it.cfg.b === 2) !== (o.cfg.b === 2))) out.push(it.name + ' és ' + o.name + ' ütközik.'); });
-    const dz = doorZone(); if (dz && overlap(b, dz) && it.cfg.b !== 2) out.push(it.name + ': az ajtó nyitási ívébe esik.');
+    (P.room.doors || []).forEach((d, q) => { if (it.cfg.b !== 2 && overlap(b, doorZone(d))) out.push(it.name + ': a(z) ' + (q + 1) + '. ajtó nyitási ívébe esik.'); });
+    (P.room.wins || []).forEach((wn, q) => { const z = doorZone({...wn, w:wn.w}); z && (wn.wall === 'N' ? z.z2 = 1 : wn.wall === 'S' ? z.z1 = R.d - 1 : wn.wall === 'W' ? z.x2 = 1 : z.x1 = R.w - 1); if (top > 900 && it.cfg.b !== 2 && overlap({...b, x1:b.x1 - 1, x2:b.x2 + 1, z1:b.z1 - 1, z2:b.z2 + 1}, z) && (wn.wall === 'N' ? b.z1 < 5 : wn.wall === 'S' ? b.z2 > R.d - 5 : wn.wall === 'W' ? b.x1 < 5 : b.x2 > R.w - 5)) out.push(it.name + ': eltakarja a(z) ' + (q + 1) + '. ablakot (90 cm-es mellvéd felett).'); });
   });
   return out;
 }
-function doorZone() { const d = P.room.door, R = P.room, w = d.w; if (!d) return null;
+// ajtó nyílása: zsanér bal/jobb (a szobából nézve), nyílás befelé/kifelé
+function doorGeo(d) { const R = P.room, a = d.off, b = d.off + d.w, hingeL = (d.hinge || 'L') === 'L';
+  const along = {N:[1, 0], S:[1, 0], W:[0, 1], E:[0, 1]}[d.wall], inn = {N:[0, 1], S:[0, -1], W:[1, 0], E:[-1, 0]}[d.wall], base = {N:[0, 0], S:[0, R.d], W:[0, 0], E:[R.w, 0]}[d.wall];
+  const atLow = {N:hingeL, S:!hingeL, W:!hingeL, E:hingeL}[d.wall], hp = atLow ? a : b, jp = atLow ? b : a, n = (d.swing || 'in') === 'in' ? inn : [-inn[0], -inn[1]];
+  const P2 = t => [base[0] + along[0] * t, base[1] + along[1] * t];
+  const H = P2(hp), J = P2(jp), Tp = [H[0] + n[0] * d.w, H[1] + n[1] * d.w]; return {H, J, T:Tp, n}; }
+function doorZone(d) { if ((d.swing || 'in') === 'out') return {x1:-1e9, x2:-1e9, z1:-1e9, z2:-1e9}; const R = P.room, w = d.w;
   return d.wall === 'N' ? {x1:d.off, x2:d.off + w, z1:0, z2:w} : d.wall === 'S' ? {x1:d.off, x2:d.off + w, z1:R.d - w, z2:R.d} : d.wall === 'W' ? {x1:0, x2:w, z1:d.off, z2:d.off + w} : {x1:R.w - w, x2:R.w, z1:d.off, z2:d.off + w}; }
 
 // ---------- three.js ----------
@@ -372,6 +428,44 @@ scene.add(new THREE.HemisphereLight('#fff4e6', '#3a2f26', 0.55));
 const sun = new THREE.DirectionalLight('#ffe9cf', 1.3); sun.position.set(3, 6, 4); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, {left:-7, right:7, top:7, bottom:-7, far:30}); sun.shadow.bias = -0.0004; scene.add(sun);
 const fillL = new THREE.PointLight('#ffd8a8', 0.25, 20); fillL.position.set(0, 2.4, 0); scene.add(fillL);
 const roomG = new THREE.Group(), itemsG = new THREE.Group(); scene.add(roomG, itemsG);
+const k = .001;
+const tc = new THREE.TransformControls(cam, R3.domElement); tc.showY = false; tc.setTranslationSnap(.01); tc.setRotationSnap(Math.PI / 2); tc.setSize(.9); scene.add(tc);
+let tcDrag = false, tcMode = 'translate';
+tc.addEventListener('dragging-changed', e => { tcDrag = e.value; if (!e.value) { const it = cur(); if (it) { snap(it); refresh(); } } });
+tc.addEventListener('objectChange', () => { const it = cur(), g = tc.object; if (!it || !g) return; const R = P.room, r = g.rotation.y;
+  if (tcMode === 'rotate') { it.rot = ((Math.round(r / (Math.PI / 2)) * 90) % 360 + 360) % 360; return; }
+  it.x = Math.round((g.position.x + Math.sin(r) * T / 2 * k + R.w * k / 2) / k / 10) * 10; it.z = Math.round((g.position.z + Math.cos(r) * T / 2 * k + R.d * k / 2) / k / 10) * 10;
+  magnet(it);
+  let y = 0; if (it.cfg.b === 2) { y = Math.round(g.position.y / k / 10) * 10; if (y < 80) y = 0; if (y + it.cfg.h > R.h - 80) y = R.h - it.cfg.h; y = Math.max(0, y); it.cfg.el = y; }
+  g.position.set(it.x * k - R.w * k / 2 - Math.sin(r) * T / 2 * k, y * k, it.z * k - R.d * k / 2 - Math.cos(r) * T / 2 * k); });
+// mágnes húzás közben: falhoz 15 cm-en, szomszédhoz 8 cm-en belül tapad (forgatás nélkül)
+function magnet(it) { const R = P.room, f = foot(it), M = 150;
+  if (it.x - f.wx / 2 < M) it.x = f.wx / 2; if (R.w - (it.x + f.wx / 2) < M) it.x = R.w - f.wx / 2;
+  if (it.z - f.wz / 2 < M) it.z = f.wz / 2; if (R.d - (it.z + f.wz / 2) < M) it.z = R.d - f.wz / 2;
+  const b = bbox(it); P.items.forEach(o => { if (o === it || (o.cfg.b === 2) !== (it.cfg.b === 2)) return; const c = bbox(o);
+    const zo = Math.min(b.z2, c.z2) - Math.max(b.z1, c.z1), xo = Math.min(b.x2, c.x2) - Math.max(b.x1, c.x1);
+    if (zo > 50) { if (Math.abs(b.x1 - c.x2) < 80) it.x += c.x2 - b.x1; else if (Math.abs(b.x2 - c.x1) < 80) it.x -= b.x2 - c.x1; }
+    if (xo > 50) { if (Math.abs(b.z1 - c.z2) < 80) it.z += c.z2 - b.z1; else if (Math.abs(b.z2 - c.z1) < 80) it.z -= b.z2 - c.z1; } });
+  it.x = Math.min(R.w - f.wx / 2, Math.max(f.wx / 2, it.x)); it.z = Math.min(R.d - f.wz / 2, Math.max(f.wz / 2, it.z)); }
+// forgató gyűrű a kijelölt bútor körül (húzással 90°-onként forgat)
+const ring = new THREE.Group(); ring.renderOrder = 999;
+const ringMat = new THREE.MeshBasicMaterial({color:'#D9B48A', depthTest:false, transparent:true, opacity:.9});
+const ringM = new THREE.Mesh(new THREE.TorusGeometry(1, .018, 8, 96), ringMat); ringM.rotation.x = -Math.PI / 2; ringM.renderOrder = 999; ring.add(ringM);
+const ringHit = new THREE.Mesh(new THREE.TorusGeometry(1, .07, 6, 64), new THREE.MeshBasicMaterial({visible:false})); ringHit.rotation.x = -Math.PI / 2; ring.add(ringHit);
+[0, 1, 2, 3].forEach(q => { const a = new THREE.Mesh(new THREE.ConeGeometry(.05, .12, 12), ringMat); a.renderOrder = 999; const ang = q * Math.PI / 2 + Math.PI / 4; a.position.set(Math.sin(ang), 0, Math.cos(ang)); a.rotation.set(Math.PI / 2, 0, -ang - Math.PI / 2); a.userData.cone = 1; ring.add(a); });
+ring.visible = false; scene.add(ring);
+let rotDrag = null;
+function placeRing() { const it = cur(); if (!it || view !== '3d') { ring.visible = false; return; } const R = P.room, r = Math.hypot(it.cfg.w, it.cfg.d + T) / 2 * k + .12;
+  ring.visible = true; ring.position.set(it.x * k - R.w * k / 2, ((it.cfg.b === 2 ? it.cfg.el : 0) + 8) * k, it.z * k - R.d * k / 2);
+  ringM.scale.set(r, r, 1); ringHit.scale.set(r, r, 1); ring.children.forEach(c => { if (c.userData.cone) { const ang = Math.atan2(c.position.x, c.position.z); c.position.set(Math.sin(ang) * r, 0, Math.cos(ang) * r); } }); }
+function floorAng(e) { const rc = cv.getBoundingClientRect(); ray.setFromCamera({x:(e.clientX - rc.left) / rc.width * 2 - 1, y:-(e.clientY - rc.top) / rc.height * 2 + 1}, cam);
+  const pl = new THREE.Plane(new THREE.Vector3(0, 1, 0), -ring.position.y), p = new THREE.Vector3(); if (!ray.ray.intersectPlane(pl, p)) return null; return Math.atan2(p.x - ring.position.x, p.z - ring.position.z); }
+function ringDown(e) { if (!ring.visible) return false; const rc = cv.getBoundingClientRect(); ray.setFromCamera({x:(e.clientX - rc.left) / rc.width * 2 - 1, y:-(e.clientY - rc.top) / rc.height * 2 + 1}, cam);
+  if (!ray.intersectObjects([ringHit], false).length) return false; const a = floorAng(e), it = cur(); if (a == null || !it) return false; rotDrag = {a0:a, r0:it.rot, it}; tc.detach(); return true; }
+function ringMove(e) { if (!rotDrag) return; const a = floorAng(e); if (a == null) return; const it = rotDrag.it, d = (a - rotDrag.a0) * 180 / Math.PI;
+  const nr = (((rotDrag.r0 + Math.round(d / 90) * 90) % 360) + 360) % 360; if (nr !== it.rot) { it.rot = nr; magnet(it); refresh(); } }
+function ringUp() { if (!rotDrag) return false; rotDrag = null; refresh(); return true; }
+function attachGizmo() { const g = itemsG.children.find(c => c.userData.id === selId); placeRing(); if (g && view === '3d' && !rotDrag) { tc.attach(g); tc.setMode('translate'); const it2 = P.items.find(i => i.id === selId); tc.showX = true; tc.showZ = true; tc.showY = !!it2 && it2.cfg.b === 2; } else tc.detach(); }
 const texCache = {};
 function woodTex(d) { if (texCache[d.n]) return texCache[d.n]; const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'); x.fillStyle = d.c; x.fillRect(0, 0, 512, 512);
   for (let i = 0; i < 140; i++) { const y0 = Math.random() * 512, a = 2 + Math.random() * 6, f = .004 + Math.random() * .01; x.strokeStyle = d.g; x.globalAlpha = .12 + Math.random() * .3; x.lineWidth = .5 + Math.random() * 2.2; x.beginPath(); for (let px = 0; px <= 512; px += 8) x.lineTo(px, y0 + Math.sin(px * f + i) * a); x.stroke(); }
@@ -380,21 +474,46 @@ function mat(idx, a, b) { const d = DECORS[idx]; if (!d.wood) return new THREE.M
 const mHDF = new THREE.MeshStandardMaterial({color:'#d9d2c7', roughness:.8}), mLeg = new THREE.MeshStandardMaterial({color:'#2a2826', roughness:.35, metalness:.7});
 const mSel = new THREE.MeshBasicMaterial({color:'#D9B48A', transparent:true, opacity:.35});
 let animated = [], walls = [];
-const k = .001;
+const FLOORS = ['Parketta', 'Halszálka', 'Hajópadló', 'Beton', 'Járólap', 'Szőnyegpadló'], FLOORC = ['#8a6c50', '#9a7a58', '#6b4a31', '#8e8a84', '#d8d4cc', '#5d5550'];
+const WALLSM = ['Festett', 'Tégla', 'Beton', 'Fa lambéria', 'Csíkos tapéta', 'Csempe'], WALLC = ['#8c8077', '#9a5a44', '#8e8a84', '#6b4a31', '#b9ad9c', '#e4e1da'];
+const shade = (hex, f) => { const n = parseInt(hex.slice(1), 16), c = [n >> 16, n >> 8 & 255, n & 255].map(v => Math.max(0, Math.min(255, Math.round(v * f)))); return 'rgb(' + c.join(',') + ')'; };
+function paint(kind, t, col, x, S) { const rnd = (a, b) => a + Math.random() * (b - a); x.fillStyle = col; x.fillRect(0, 0, S, S);
+  if (kind === 'f') {
+    if (t === 0 || t === 2) { const h = t === 0 ? S / 8 : S / 5; for (let i = 0; i < S / h; i++) { x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(0, i * h, S, h - 1.5); x.fillStyle = shade(col, .6); x.fillRect((i * 97 * (t + 1)) % S, i * h, 2, h); for (let g = 0; g < 6; g++) { x.strokeStyle = shade(col, .78); x.globalAlpha = .35; x.beginPath(); const y = i * h + rnd(2, h - 3); x.moveTo(0, y); x.bezierCurveTo(S / 3, y + rnd(-3, 3), S * 2 / 3, y + rnd(-3, 3), S, y); x.stroke(); x.globalAlpha = 1; } } }
+    if (t === 1) { const w = S / 8, l = w * 4; x.fillStyle = shade(col, .6); x.fillRect(0, 0, S, S); for (let i = -4; i < 16; i++) for (let j = -4; j < 16; j++) { const ox = i * w + j * w, oy = j * w - i * w; x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(ox + 1, oy + 1, l - 2, w - 2); x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(ox + l - w + 1, oy + w + 1, w - 2, l - 2); } }
+    if (t === 3) { for (let i = 0; i < 2500; i++) { x.fillStyle = shade(col, rnd(.8, 1.15)); x.globalAlpha = .25; x.fillRect(rnd(0, S), rnd(0, S), rnd(1, 4), rnd(1, 4)); } x.globalAlpha = 1; }
+    if (t === 4) { const g = S / 4; x.fillStyle = shade(col, .82); x.fillRect(0, 0, S, S); for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { x.fillStyle = shade(col, rnd(.96, 1.04)); x.fillRect(i * g + 2, j * g + 2, g - 4, g - 4); } }
+    if (t === 5) { for (let i = 0; i < 6000; i++) { x.fillStyle = shade(col, rnd(.75, 1.25)); x.globalAlpha = .3; x.fillRect(rnd(0, S), rnd(0, S), 1.5, 1.5); } x.globalAlpha = 1; }
+  } else {
+    if (t === 1) { const bh = S / 10, bw = S / 4; x.fillStyle = shade(col, 1.5); x.fillRect(0, 0, S, S); for (let r = 0; r < 10; r++) for (let c2 = -1; c2 < 5; c2++) { x.fillStyle = shade(col, rnd(.8, 1.15)); x.fillRect(c2 * bw + (r % 2) * bw / 2 + 2, r * bh + 2, bw - 4, bh - 4); } }
+    if (t === 2) { for (let i = 0; i < 2500; i++) { x.fillStyle = shade(col, rnd(.82, 1.15)); x.globalAlpha = .25; x.fillRect(rnd(0, S), rnd(0, S), rnd(1, 4), rnd(1, 4)); } x.globalAlpha = 1; x.strokeStyle = shade(col, .7); x.strokeRect(0, 0, S, S); }
+    if (t === 3) { const w = S / 6; for (let i = 0; i < 6; i++) { x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(i * w, 0, w - 3, S); x.fillStyle = shade(col, .45); x.fillRect(i * w + w - 3, 0, 3, S); } }
+    if (t === 4) { for (let i = 0; i < 8; i++) { x.fillStyle = shade(col, i % 2 ? .9 : 1.06); x.fillRect(i * S / 8, 0, S / 8, S); } }
+    if (t === 5) { const g = S / 6; x.fillStyle = shade(col, .8); x.fillRect(0, 0, S, S); for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) { x.fillStyle = shade(col, rnd(.97, 1.04)); x.fillRect(i * g + 1.5, j * g + 1.5, g - 3, g - 3); } }
+  } }
+const matTex = {};
+function roomTex(kind, t, col) { const key = kind + t + col; if (matTex[key]) return matTex[key]; const c = document.createElement('canvas'); c.width = c.height = 512; paint(kind, t, col, c.getContext('2d'), 512);
+  const tx = new THREE.CanvasTexture(c); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 8; return matTex[key] = tx; }
+const TILE = {f:[1.4, 1.6, 1.4, 2, 1.2, 1], w:[1, 1.4, 2, 1.2, 1, .9]};
 function buildRoom() {
   while (roomG.children.length) roomG.remove(roomG.children[0]);
   const R = P.room, W = R.w * k, D = R.d * k, H = R.h * k, t = .12;
-  const floorT = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); x.fillStyle = '#8a6c50'; x.fillRect(0, 0, 256, 256);
-    for (let i = 0; i < 8; i++) { x.fillStyle = i % 2 ? '#7f6249' : '#937357'; x.fillRect(0, i * 32, 256, 31); x.fillStyle = '#6d5440'; x.fillRect((i * 97) % 256, i * 32, 2, 32); } const tx = new THREE.CanvasTexture(c); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.repeat.set(W / 1.2, D / 1.2); tx.encoding = THREE.sRGBEncoding; return tx; })();
-  const fl = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({map:floorT, roughness:.85})); fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; roomG.add(fl);
-  const wm = new THREE.MeshStandardMaterial({color:'#6b6058', roughness:1});
+  R.floor = R.floor || {t:0, c:FLOORC[0]}; R.wall = R.wall || {t:0, c:WALLC[0]};
+  const floorT = roomTex('f', R.floor.t, R.floor.c).clone(); floorT.needsUpdate = true; floorT.repeat.set(W / TILE.f[R.floor.t], D / TILE.f[R.floor.t]);
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({map:floorT, roughness:R.floor.t === 4 ? .35 : .85})); fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; roomG.add(fl);
+  const wallMat = len => { if (R.wall.t === 0) return new THREE.MeshStandardMaterial({color:R.wall.c, roughness:1}); const tx = roomTex('w', R.wall.t, R.wall.c).clone(); tx.needsUpdate = true; tx.repeat.set(len / TILE.w[R.wall.t], H / TILE.w[R.wall.t]); return new THREE.MeshStandardMaterial({map:tx, roughness:.9}); };
   walls = [['N', 0, -D / 2 - t / 2, W + 2 * t, t, 0, 0, -1], ['S', 0, D / 2 + t / 2, W + 2 * t, t, 0, 0, 1], ['W', -W / 2 - t / 2, 0, t, D, 0, -1, 0], ['E', W / 2 + t / 2, 0, t, D, 0, 1, 0]].map(([id, x, z, sx, sz, , nx, nz]) => {
-    const g = new THREE.Group(), m = new THREE.Mesh(new THREE.BoxGeometry(sx, H, sz), wm); m.position.y = H / 2; m.receiveShadow = true; g.add(m); g.position.set(x, 0, z);
-    [[R.door, '#3b2c22', 0, 2.05], [R.win, '#a9c2d6', .9, 1.5]].forEach(([o, col, y0, oh]) => { if (!o || o.wall !== id) return; const len = o.w * k, pos = (o.off + o.w / 2) * k;
+    const g = new THREE.Group(), m = new THREE.Mesh(new THREE.BoxGeometry(sx, H, sz), wallMat(Math.max(sx, sz))); m.position.y = H / 2; m.receiveShadow = true; g.add(m); g.position.set(x, 0, z);
+    [...(R.doors || []).map(o => [o, '#3b2c22', 0, 2.05]), ...(R.wins || []).map(o => [o, '#a9c2d6', .9, 1.5])].forEach(([o, col, y0, oh]) => { if (!o || o.wall !== id) return; const len = o.w * k, pos = (o.off + o.w / 2) * k;
       const p = new THREE.Mesh(new THREE.BoxGeometry(sx > sz ? len : t + .01, oh, sx > sz ? t + .01 : len), new THREE.MeshStandardMaterial({color:col, roughness:.4, emissive:col === '#a9c2d6' ? '#3a4a58' : '#000'}));
       p.position.set(sx > sz ? pos - W / 2 - x : 0, y0 + oh / 2, sx > sz ? 0 : pos - D / 2 - z); g.add(p); });
     roomG.add(g); return {g, id, nx:nx || 0, nz:nz || 0, x, z};
   });
+  (R.doors || []).forEach(d => { const g = doorGeo(d), toW = p => new THREE.Vector3(p[0] * k - W / 2, .004, p[1] * k - D / 2), h0 = toW(g.H), v1 = toW(g.T).sub(h0), v2 = toW(g.J).sub(h0), pts = [h0.clone()];
+    for (let q = 0; q <= 24; q++) { const t = q / 24 * Math.PI / 2; pts.push(h0.clone().add(v1.clone().multiplyScalar(Math.cos(t))).add(v2.clone().multiplyScalar(Math.sin(t)))); } pts.push(h0.clone());
+    const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({color:'#D9B48A', dashSize:.06, gapSize:.04})); ln.computeLineDistances(); roomG.add(ln);
+    const leaf = new THREE.Mesh(new THREE.BoxGeometry(d.w * k, 2.0, .04), new THREE.MeshStandardMaterial({color:'#4a3527', roughness:.6})), ang = Math.PI / 6, dir = v2.clone().normalize().multiplyScalar(Math.cos(ang)).add(v1.clone().normalize().multiplyScalar(Math.sin(ang)));
+    leaf.position.copy(h0.clone().add(dir.clone().multiplyScalar(d.w * k / 2))).setY(1.0); leaf.rotation.y = Math.atan2(-dir.z, dir.x); leaf.castShadow = true; const wg = walls.find(w2 => w2.id === d.wall); if (wg) { leaf.position.sub(wg.g.position); wg.g.add(leaf); } else roomG.add(leaf); });
   fillL.position.set(0, H - .2, 0);
 }
 function buildItems() {
@@ -415,7 +534,7 @@ function buildItems() {
     });
     if (it.id === selId) { const s = new THREE.Mesh(new THREE.BoxGeometry(cfg.w * k + .04, .006, (cfg.d + T) * k + .04), mSel); s.position.set(0, .004, T / 2 * k); g.add(s); }
     const f = foot(it);
-    g.position.set(it.x * k - R.w * k / 2, (cfg.b === 2 ? cfg.el : 0) * k, it.z * k - R.d * k / 2);
+    g.position.set(it.x * k - R.w * k / 2, (cfg.b === 2 ? cfg.el : 0) * k, it.z * k - R.d * k / 2); // talajon: y = 0
     g.rotation.y = it.rot * Math.PI / 180;
     // carcass centre offset: footprint includes front (T) -> shift back by T/2 along facing
     const r = it.rot * Math.PI / 180; g.position.x -= Math.sin(r) * T / 2 * k; g.position.z -= Math.cos(r) * T / 2 * k;
@@ -429,9 +548,20 @@ function fitView() { const R = P.room; tgt.set(0, .9, 0); rad = Math.max(R.w, R.
 function focusSel() { const it = cur(); if (!it) return; const R = P.room; tgt.set(it.x * k - R.w * k / 2, it.cfg.h * k / 2 + (it.cfg.b === 2 ? it.cfg.el * k : 0), it.z * k - R.d * k / 2); rad = Math.max(it.cfg.w, it.cfg.h) * k * 2.4 + 1.8; th = it.rot * Math.PI / 180 + .35; ph = 1.2; }
 function placeCam() { cam.position.set(tgt.x + rad * Math.sin(ph) * Math.sin(th), tgt.y + rad * Math.cos(ph), tgt.z + rad * Math.sin(ph) * Math.cos(th)); cam.lookAt(tgt); }
 let drag = null; const cv = R3.domElement;
-cv.addEventListener('pointerdown', e => { drag = {x:e.clientX, y:e.clientY, sx:e.clientX, sy:e.clientY}; cv.setPointerCapture(e.pointerId); });
-cv.addEventListener('pointermove', e => { if (!drag) return; th -= (e.clientX - drag.x) * .006; ph = Math.min(1.5, Math.max(.2, ph - (e.clientY - drag.y) * .006)); drag.x = e.clientX; drag.y = e.clientY; });
-cv.addEventListener('pointerup', e => { if (drag && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 5) pick(e); drag = null; });
+const pts = new Map();
+cv.addEventListener('pointerdown', e => { pts.set(e.pointerId, {x:e.clientX, y:e.clientY}); const pan = e.pointerType === 'mouse' && (e.button === 1 || e.button === 2); if (pan) { e.preventDefault(); cv.setPointerCapture(e.pointerId); drag = {x:e.clientX, y:e.clientY, sx:e.clientX, sy:e.clientY, pan:true}; return; }
+  const onRing = !tc.axis && e.button === 0 && ringDown(e); if (onRing) cv.setPointerCapture(e.pointerId); drag = {x:e.clientX, y:e.clientY, sx:e.clientX, sy:e.clientY, gz:!!tc.axis || onRing}; });
+cv.addEventListener('pointermove', e => { if (pts.has(e.pointerId) && pts.size === 2) { const o = [...pts.values()], d0 = Math.hypot(o[0].x - o[1].x, o[0].y - o[1].y); pts.set(e.pointerId, {x:e.clientX, y:e.clientY}); const n = [...pts.values()], d1 = Math.hypot(n[0].x - n[1].x, n[0].y - n[1].y); if (d0 > 0 && d1 > 0) rad = Math.min(25, Math.max(.8, rad * d0 / d1)); drag = null; return; } if (pts.has(e.pointerId)) pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (rotDrag) { ringMove(e); return; }
+  if (drag && drag.pan) { // középső (vagy jobb) gombbal a nézet eltolása
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y, sp = 2 * rad * Math.tan(cam.fov * Math.PI / 360) / Math.max(1, stage.clientHeight), right = new THREE.Vector3(Math.cos(th), 0, -Math.sin(th)), fwd = new THREE.Vector3(-Math.sin(th), 0, -Math.cos(th));
+    tgt.addScaledVector(right, -dx * sp); tgt.addScaledVector(fwd, dy * sp); const R = P.room; tgt.x = Math.max(-R.w * k, Math.min(R.w * k, tgt.x)); tgt.z = Math.max(-R.d * k, Math.min(R.d * k, tgt.z));
+    drag.x = e.clientX; drag.y = e.clientY; return; }
+  if (!drag || tcDrag || drag.gz) return; th -= (e.clientX - drag.x) * .006; ph = Math.min(1.5, Math.max(.2, ph - (e.clientY - drag.y) * .006)); drag.x = e.clientX; drag.y = e.clientY; });
+cv.addEventListener('contextmenu', e => e.preventDefault());
+cv.addEventListener('mousedown', e => { if (e.button === 1) e.preventDefault(); });
+cv.addEventListener('pointerup', e => { pts.delete(e.pointerId); if (drag && drag.pan) { drag = null; return; } if (ringUp()) { drag = null; return; } if (drag && !drag.gz && !tcDrag && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 5) pick(e); drag = null; });
+cv.addEventListener('pointercancel', e => { pts.delete(e.pointerId); drag = null; });
 cv.addEventListener('wheel', e => { e.preventDefault(); rad = Math.min(25, Math.max(.8, rad * (1 + Math.sign(e.deltaY) * .08))); }, {passive:false});
 const ray = new THREE.Raycaster();
 function pick(e) { const r = cv.getBoundingClientRect(); ray.setFromCamera({x:(e.clientX - r.left) / r.width * 2 - 1, y:-(e.clientY - r.top) / r.height * 2 + 1}, cam);
@@ -460,15 +590,15 @@ function drawPlan() {
   const R = P.room, m = 700, sw = stage.clientWidth, sh = stage.clientHeight, s = Math.max((R.w + 2 * m) / sw, (R.d + 2 * m) / sh);
   const vw = sw * s, vh = sh * s; vb = [-(vw - R.w) / 2, -(vh - R.d) / 2, vw, vh]; plan.setAttribute('viewBox', vb.join(' '));
   const fs = 14 * s, wt = 120;
-  let o = '<rect x="' + -wt + '" y="' + -wt + '" width="' + (R.w + 2 * wt) + '" height="' + (R.d + 2 * wt) + '" fill="#5a5048"/><rect width="' + R.w + '" height="' + R.d + '" fill="#8a6c50"/>';
+  let o = '<rect x="' + -wt + '" y="' + -wt + '" width="' + (R.w + 2 * wt) + '" height="' + (R.d + 2 * wt) + '" fill="#5a5048"/><rect width="' + R.w + '" height="' + R.d + '" fill="' + ((R.floor && R.floor.c) || '#8a6c50') + '"/>';
   for (let x = 500; x < R.w; x += 500) o += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + R.d + '" stroke="#7a5f46" stroke-width="' + s + '"/>';
   for (let z = 500; z < R.d; z += 500) o += '<line x1="0" y1="' + z + '" x2="' + R.w + '" y2="' + z + '" stroke="#7a5f46" stroke-width="' + s + '"/>';
   const op = (ob, col, door) => { if (!ob) return ''; const hz = ob.wall === 'N' || ob.wall === 'S', a = ob.off, b2 = ob.off + ob.w, edge = ob.wall === 'N' ? -wt / 2 : ob.wall === 'S' ? R.d + wt / 2 : ob.wall === 'W' ? -wt / 2 : R.w + wt / 2;
     let r = hz ? '<line x1="' + a + '" y1="' + edge + '" x2="' + b2 + '" y2="' + edge + '" stroke="' + col + '" stroke-width="' + wt + '"/>' : '<line x1="' + edge + '" y1="' + a + '" x2="' + edge + '" y2="' + b2 + '" stroke="' + col + '" stroke-width="' + wt + '"/>';
-    if (door) { const z = doorZone(); const inw = ob.wall === 'N' ? 1 : ob.wall === 'S' ? -1 : ob.wall === 'W' ? 1 : -1; const base = ob.wall === 'N' ? 0 : ob.wall === 'S' ? R.d : ob.wall === 'W' ? 0 : R.w;
-      r += hz ? '<path d="M' + a + ' ' + base + ' L' + a + ' ' + (base + inw * ob.w) + ' A' + ob.w + ' ' + ob.w + ' 0 0 ' + (inw > 0 ? 0 : 1) + ' ' + b2 + ' ' + base + '" fill="#ffffff10" stroke="#F2ECE4" stroke-width="' + 1.5 * s + '" stroke-dasharray="' + 8 * s + '"/>' : '<path d="M' + base + ' ' + a + ' L' + (base + inw * ob.w) + ' ' + a + ' A' + ob.w + ' ' + ob.w + ' 0 0 ' + (inw > 0 ? 1 : 0) + ' ' + base + ' ' + b2 + '" fill="#ffffff10" stroke="#F2ECE4" stroke-width="' + 1.5 * s + '" stroke-dasharray="' + 8 * s + '"/>'; }
+    if (door) { const g = doorGeo(ob), cr = (g.T[0] - g.H[0]) * (g.J[1] - g.H[1]) - (g.T[1] - g.H[1]) * (g.J[0] - g.H[0]);
+      r += '<path d="M' + g.H[0] + ' ' + g.H[1] + ' L' + g.T[0] + ' ' + g.T[1] + ' A' + ob.w + ' ' + ob.w + ' 0 0 ' + (cr > 0 ? 1 : 0) + ' ' + g.J[0] + ' ' + g.J[1] + ' Z" fill="#ffffff10" stroke="#F2ECE4" stroke-width="' + 1.5 * s + '" stroke-dasharray="' + 8 * s + '"/><line x1="' + g.H[0] + '" y1="' + g.H[1] + '" x2="' + g.T[0] + '" y2="' + g.T[1] + '" stroke="#F2ECE4" stroke-width="' + 4 * s + '"/>'; }
     return r; };
-  o += op(R.door, '#2a211b', 1) + op(R.win, '#a9c2d6');
+  (R.doors || []).forEach(d => o += op(d, '#2a211b', 1)); (R.wins || []).forEach(wn => o += op(wn, '#a9c2d6'));
   P.items.forEach(it => { const c = it.cfg, sel = it.id === selId, hang = c.b === 2;
     o += '<g transform="translate(' + it.x + ' ' + it.z + ') rotate(' + -it.rot + ')" data-id="' + it.id + '" style="cursor:move">';
     o += '<rect x="' + -c.w / 2 + '" y="' + -(c.d + T) / 2 + '" width="' + c.w + '" height="' + (c.d + T) + '" fill="' + (DECORS[c.c].c) + '" fill-opacity="' + (hang ? .55 : .95) + '" stroke="' + (sel ? '#D9B48A' : '#1C1916') + '" stroke-width="' + (sel ? 4 : 1.5) * s + '"' + (hang ? ' stroke-dasharray="' + 10 * s + '"' : '') + '/>';
@@ -483,7 +613,7 @@ function drawPlan() {
 }
 const svgPt = e => { const p = plan.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(plan.getScreenCTM().inverse()); };
 plan.addEventListener('pointerdown', e => { const g = e.target.closest('[data-id]'); if (!g) return; const id = +g.dataset.id, it = P.items.find(i => i.id === id), p = svgPt(e); select(id, true); pdrag = {it, dx:p.x - it.x, dz:p.y - it.z}; plan.setPointerCapture(e.pointerId); });
-plan.addEventListener('pointermove', e => { if (!pdrag) return; const p = svgPt(e); pdrag.it.x = Math.round((p.x - pdrag.dx) / 10) * 10; pdrag.it.z = Math.round((p.y - pdrag.dz) / 10) * 10; drawPlan(); });
+plan.addEventListener('pointermove', e => { if (!pdrag) return; const p = svgPt(e); pdrag.it.x = Math.round((p.x - pdrag.dx) / 10) * 10; pdrag.it.z = Math.round((p.y - pdrag.dz) / 10) * 10; magnet(pdrag.it); drawPlan(); });
 plan.addEventListener('pointerup', () => { if (!pdrag) return; snap(pdrag.it); pdrag = null; refresh(); });
 
 // ---------- UI ----------
@@ -495,11 +625,12 @@ function select(id, keepView) { selId = id; sec = 0; refresh(); if (!keepView &&
 function refresh(rebuildRoom) {
   P.name = $('#pname').value || 'Projekt';
   C = calc(); const it = cur();
-  if (rebuildRoom) buildRoom(); buildItems(); if (view === '2d') drawPlan();
+  if (rebuildRoom) buildRoom(); buildItems(); if (!tcDrag) attachGizmo(); if (view === '2d') drawPlan();
+  const si = cur(); $('#selbar').classList.toggle('on', !!si && P.items.length > 0); if (si) $('#selN').textContent = si.name;
   // items list
-  $('#items').innerHTML = P.items.map(i => '<div class="it" data-sel="' + i.id + '" aria-current="' + (i.id === selId) + '" tabindex="0"><b>' + esc(i.name) + '</b><span class="p">' + fmt(itemPrice(i)) + '</span><small>' + cm(i.cfg.w) + ' × ' + cm(i.cfg.h) + ' × ' + cm(i.cfg.d) + ' · ' + esc(DECORS[i.cfg.c].n) + '</small><div class="acts"><button class="ib" type="button" data-act="edit" data-id="' + i.id + '">Szerkesztés</button><button class="ib" type="button" data-act="rot" data-id="' + i.id + '">Forgatás 90°</button><button class="ib" type="button" data-act="dup" data-id="' + i.id + '">Másolat</button><button class="ib" type="button" data-act="del" data-id="' + i.id + '">Törlés</button></div></div>').join('') || '<p class="note">Még nincs elem. Adj hozzá egyet fent.</p>';
+  $('#items').innerHTML = P.items.map(i => '<div class="it" data-sel="' + i.id + '" aria-current="' + (i.id === selId) + '" tabindex="0"><b>' + esc(i.name) + '</b><span class="p">' + fmt(itemPrice(i)) + '</span><button class="x1" type="button" data-act="del" data-id="' + i.id + '" aria-label="' + esc(i.name) + ' törlése" title="Törlés"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button><small>' + cm(i.cfg.w) + ' × ' + cm(i.cfg.h) + ' × ' + cm(i.cfg.d) + ' · ' + esc(DECORS[i.cfg.c].n) + '</small><div class="acts"><button class="ib" type="button" data-act="edit" data-id="' + i.id + '">Szerkesztés</button><button class="ib" type="button" data-act="rot" data-id="' + i.id + '">Forgatás 90°</button><button class="ib" type="button" data-act="dup" data-id="' + i.id + '">Másolat</button></div></div>').join('') || '<p class="note">Még nincs elem. Adj hozzá egyet fent.</p>';
   $('#nItems').textContent = P.items.length; $('#price').textContent = fmt(C.total);
-  if (it) editor(it);
+  $('[data-p=edit]').classList.toggle('empty', !it); if (it) editor(it);
   room();
   workshop();
   try { localStorage.setItem('nakom-projekt', JSON.stringify(P)); } catch (e) {}
@@ -512,17 +643,23 @@ function editor(it) {
   nums($('#nSec'), 6, c.s.length, n => { while (c.s.length < n) c.s.push(c.s[c.s.length - 1]); c.s.length = n; refresh(); });
   nums($('#selSec'), c.s.length, sec + 1, i => { sec = i - 1; refresh(); });
   const code = c.s[sec], ti = TYPES.findIndex(t => t.k === code[0]);
-  chips($('#secType'), TYPES.map(t => t.n), ti, i => { c.s[sec] = TYPES[i].k + (i === 2 ? 3 : i === 0 ? 3 : 1); refresh(); });
+  chips($('#secType'), TYPES.map(t => t.n), ti, i => { c.s[sec] = TYPES[i].k + (i === 2 ? 3 : i === 0 ? 3 : 1); resetH(c, sec); refresh(); });
+  { const tot = secTotal(c, sec), arr = secParts(c, sec, tot), isF = code[0] === 'f', mn = MINH[isF ? 'f' : 'o'];
+    $('#hBox').hidden = arr.length < 2; $('#hTitle').textContent = (isF ? 'Fiókok magassága' : (code[0] === 'd' ? 'Belső terek magassága' : 'Polcközök magassága')) + ' (mm)';
+    const ex = $$('#hList input[type=range]'); if (hDrag && ex.length === arr.length) { arr.forEach((v, j) => { if (document.activeElement !== ex[j]) ex[j].value = Math.round(v); $('#hs' + j).value = Math.round(v); const lb = $('[data-lock="' + j + '"]'); if (lb && c.hl && c.hl[sec]) lb.setAttribute('aria-pressed', !!c.hl[sec][j]); }); } else $('#hList').innerHTML = arr.map((v, j) => '<div class="row"><label for="hs' + j + '" style="width:92px;font-size:13px;font-weight:600">' + (j + 1) + '. ' + (isF ? 'fiók' : 'tér') + '</label><input type="range" id="hs' + j + 'r" data-j="' + j + '" min="' + mn + '" max="' + Math.round(tot - mn * (arr.length - 1)) + '" step="5" value="' + Math.round(v) + '" aria-label="' + (j + 1) + '. ' + (isF ? 'fiók' : 'tér') + ' magassága"><input type="number" id="hs' + j + '" data-j="' + j + '" step="5" value="' + Math.round(v) + '" style="width:84px"><button type="button" class="ib lk" data-lock="' + j + '" aria-pressed="' + !!(c.hl && c.hl[sec] && c.hl[sec][j]) + '" title="Rögzítés: a többi tér állítása nem változtatja" style="min-width:40px;min-height:40px;padding:0">' + ((c.hl && c.hl[sec] && c.hl[sec][j]) ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg>') + '</button></div>').join(''); }
   const cnt = $('#cnt'); cnt.min = ti === 2 ? 1 : 0; cnt.value = code[1]; $('#cntL').firstChild.textContent = TYPES[ti].c + ' '; $('#cntO').textContent = code[1];
   swatches($('#swC'), c.c, i => { c.c = i; refresh(); }); swatches($('#swF'), c.f, i => { c.f = i; refresh(); });
   chips($('#hnd'), HANDLES, c.hd, i => { c.hd = i; refresh(); });
   chips($('#bas'), BASES.map(b => b.n), c.b, i => { c.b = i; if (i === 2 && !c.el) c.el = 1400; refresh(); });
 }
 function room() {
-  const R = P.room;
+  const R = P.room; drawMats();
   [['rw', 'w'], ['rd', 'd'], ['rh', 'h']].forEach(([id, key]) => { $('#' + id).value = R[key]; $('#' + id + 'O').textContent = cm(R[key]); });
-  ['dw', 'ww'].forEach((id, j) => { const o = j ? R.win : R.door; $('#' + id).innerHTML = Object.entries(WALLS).map(([kk, v]) => '<option value="' + kk + '"' + (o.wall === kk ? ' selected' : '') + '>' + v + '</option>').join(''); });
-  $('#doff').value = R.door.off; $('#dwid').value = R.door.w; $('#woff').value = R.win.off; $('#wwid').value = R.win.w;
+  const seg = (o, i, f, opts) => '<div class="row" style="gap:4px;flex-wrap:wrap">' + opts.map(([v, t]) => '<button type="button" class="chip" style="min-height:36px;padding:2px 10px;font-size:13px" data-set="' + f + '" data-v="' + v + '" data-i="' + i + '" aria-pressed="' + ((o[f] || opts[0][0]) === v) + '">' + t + '</button>').join('') + '</div>';
+  const row = (o, i, kind) => (kind === 'doors' ? '<div style="border:1px solid var(--line);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:8px"><b style="font-size:13px">' + (i + 1) + '. ajtó</b>' : '') + '<div class="row" style="gap:6px"><select data-k="' + kind + '" data-i="' + i + '" data-f="wall" aria-label="' + (i + 1) + '. ' + (kind === 'doors' ? 'ajtó' : 'ablak') + ' fala" style="flex:1">' + Object.entries(WALLS).map(([kk, v]) => '<option value="' + kk + '"' + (o.wall === kk ? ' selected' : '') + '>' + v + '</option>').join('') + '</select><input type="number" step="10" data-k="' + kind + '" data-i="' + i + '" data-f="off" value="' + o.off + '" aria-label="Távolság a saroktól (mm)" style="width:80px"><input type="number" step="10" data-k="' + kind + '" data-i="' + i + '" data-f="w" value="' + o.w + '" aria-label="Szélesség (mm)" style="width:76px"><button type="button" class="x1" data-rmo="' + kind + '" data-i="' + i + '" aria-label="Törlés" style="margin:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' + (kind === 'doors' ? '<div class="row" style="gap:10px;flex-wrap:wrap;font-size:13px"><span>Zsanér:</span>' + seg(o, i, 'hinge', [['L', 'Bal'], ['R', 'Jobb']]) + '<span>Nyílik:</span>' + seg(o, i, 'swing', [['in', 'Befelé'], ['out', 'Kifelé']]) + '</div></div>' : '');
+  const ae = document.activeElement; if (!(ae && /INPUT|SELECT/.test(ae.tagName) && ae.closest('#doorL,#winL'))) {
+    $('#doorL').innerHTML = (R.doors || []).map((o, i) => row(o, i, 'doors')).join('') || '<p class="note">Nincs ajtó.</p>';
+    $('#winL').innerHTML = (R.wins || []).map((o, i) => row(o, i, 'wins')).join('') || '<p class="note">Nincs ablak.</p>'; }
 }
 function workshop() {
   let n = 0, last = '';
@@ -567,21 +704,30 @@ function drawing() {
 const ed = fn => e => { const it = cur(); if (!it) return; fn(it.cfg, e, it); refresh(); };
 ['w', 'h', 'd'].forEach(x => { $('#' + x + 'R').addEventListener('input', ed((c, e) => c[x] = +e.target.value)); $('#' + x).addEventListener('change', ed((c, e) => c[x] = Math.min(+e.target.max, Math.max(+e.target.min, Math.round(+e.target.value / 10) * 10 || c[x])))); });
 $('#el').addEventListener('input', ed((c, e) => c.el = +e.target.value));
-$('#cnt').addEventListener('input', ed((c, e) => c.s[sec] = c.s[sec][0] + e.target.value));
+$('#cnt').addEventListener('input', ed((c, e) => { c.s[sec] = c.s[sec][0] + e.target.value; resetH(c, sec); }));
+$('#hList').addEventListener('input', e => { if (e.target.type !== 'range') return; const it = cur(); if (!it) return; setSecH(it.cfg, sec, +e.target.dataset.j, +e.target.value); hDrag = true; refresh(); hDrag = false; });
+$('#hList').addEventListener('change', e => { if (e.target.type !== 'number') return; const it = cur(); if (!it) return; setSecH(it.cfg, sec, +e.target.dataset.j, +e.target.value || 0); refresh(); });
+$('#hEq').onclick = ed(c => resetH(c, sec));
+$('#hList').addEventListener('click', e => { const b = e.target.closest('[data-lock]'); if (!b) return; const it = cur(); if (!it) return; toggleLock(it.cfg, sec, +b.dataset.lock); refresh(); });
 $('#iname').addEventListener('change', ed((c, e, it) => it.name = e.target.value.slice(0, 40) || it.name));
-$('#applyAll').onclick = ed(c => { c.s = c.s.map(() => c.s[sec]); });
+$('#applyAll').onclick = ed(c => { const h = c.hs && c.hs[sec]; c.s = c.s.map(() => c.s[sec]); c.hs = c.s.map(() => h ? [...h] : null); const l = c.hl && c.hl[sec]; c.hl = c.s.map(() => l ? [...l] : null); });
 ['w', 'h', 'd'].forEach(x => $('#' + x + 'R').addEventListener('change', () => { const it = cur(); if (it) { snap(it); refresh(); } }));
 // room
 [['rw', 'w'], ['rd', 'd'], ['rh', 'h']].forEach(([id, key]) => $('#' + id).addEventListener('input', e => { P.room[key] = +e.target.value; refresh(true); }));
-['dw', 'doff', 'dwid'].forEach((id, j) => $('#' + id).addEventListener('change', e => { P.room.door[['wall', 'off', 'w'][j]] = j ? +e.target.value || 0 : e.target.value; refresh(true); }));
-['ww', 'woff', 'wwid'].forEach((id, j) => $('#' + id).addEventListener('change', e => { P.room.win[['wall', 'off', 'w'][j]] = j ? +e.target.value || 0 : e.target.value; refresh(true); }));
+['#doorL', '#winL'].forEach(id => { $(id).addEventListener('change', e => { const t = e.target, d = t.dataset; if (!d.k) return; const o = P.room[d.k][+d.i]; o[d.f] = d.f === 'wall' ? t.value : Math.max(0, +t.value || 0);
+  const len = (o.wall === 'N' || o.wall === 'S') ? P.room.w : P.room.d; o.w = Math.min(o.w, len); o.off = Math.min(o.off, len - o.w); t.blur(); refresh(true); });
+  $(id).addEventListener('click', e => { const sb = e.target.closest('[data-set]'); if (sb) { P.room.doors[+sb.dataset.i][sb.dataset.set] = sb.dataset.v; refresh(true); return; } const b = e.target.closest('[data-rmo]'); if (!b) return; P.room[b.dataset.rmo].splice(+b.dataset.i, 1); refresh(true); }); });
+const freeOn = (wall, w) => { const R = P.room, len = (wall === 'N' || wall === 'S') ? R.w : R.d, used = [...R.doors, ...R.wins].filter(o => o.wall === wall).map(o => [o.off - 100, o.off + o.w + 100]); for (let x = 300; x + w <= len - 300; x += 50) if (!used.some(u => x < u[1] && x + w > u[0])) return x; return Math.max(0, (len - w) / 2); };
+$('#addDoor').onclick = () => { const wall = ['S', 'W', 'E', 'N'].find(w2 => !P.room.doors.some(o => o.wall === w2)) || 'S'; P.room.doors.push({wall, off:freeOn(wall, 900), w:900, hinge:'L', swing:'in'}); refresh(true); toast('Ajtó hozzáadva'); };
+$('#addWin').onclick = () => { const wall = ['N', 'E', 'W', 'S'].find(w2 => !P.room.wins.some(o => o.wall === w2)) || 'N'; P.room.wins.push({wall, off:freeOn(wall, 1400), w:1400}); refresh(true); toast('Ablak hozzáadva'); };
+$('#toItems').onclick = () => tab('items');
 chips($('#roomT'), ROOMS.map(r => r.n), -1, i => { Object.assign(P.room, {w:ROOMS[i].w, d:ROOMS[i].d, h:ROOMS[i].h}); P.items.forEach(snap); refresh(true); fitView(); });
 // items list
 chips($('#addChips'), PRESETS.map(p => '+ ' + p.n), -1, i => { const it = newItem(PRESETS[i], 0, 0); P.items.push(it); freeSpot(it); if (PRESETS[i].b === 2) it.cfg.el = PRESETS[i].el; select(it.id); toast(it.name + ' hozzáadva'); });
 $('#items').addEventListener('click', e => { const b = e.target.closest('[data-act]');
   if (b) { const id = +b.dataset.id, i = P.items.findIndex(x => x.id === id), it = P.items[i];
-    if (b.dataset.act === 'del') { P.items.splice(i, 1); if (selId === id && P.items[0]) selId = P.items[0].id; refresh(); }
-    if (b.dataset.act === 'dup') { const n2 = {...JSON.parse(JSON.stringify(it)), id:uid++, name:it.name + ' (2)'}; delete n2._b; P.items.push(n2); n2.x += 100; snap(n2); select(n2.id); }
+    if (b.dataset.act === 'del') { delItem(id); return; }
+    if (b.dataset.act === 'dup') { dupItem(id); return; }
     if (b.dataset.act === 'rot') { it.rot = (it.rot + 90) % 360; snap(it); refresh(); }
     if (b.dataset.act === 'edit') { selId = id; tab('edit'); refresh(); if (view === '3d') focusSel(); }
     return; }
@@ -591,13 +737,35 @@ $$('.tabs button').forEach(b => b.onclick = () => tab(b.dataset.t));
 $$('.wtabs button').forEach(b => b.onclick = () => { $$('.wtabs button').forEach(x => x.setAttribute('aria-selected', x === b)); $$('.wp').forEach(p => p.classList.toggle('on', p.dataset.wp === b.dataset.w)); });
 // view
 function setView(v) { view = v; $('#v3d').setAttribute('aria-pressed', v === '3d'); $('#v2d').setAttribute('aria-pressed', v === '2d'); plan.classList.toggle('on', v === '2d'); cv.style.visibility = v === '3d' ? 'visible' : 'hidden';
-  $('#openBtn').hidden = v === '2d'; $('#hint').textContent = v === '2d' ? 'Húzd az elemeket – a falhoz és egymáshoz igazodnak' : 'Kattints egy elemre a kijelöléshez · húzással forgat'; if (v === '2d') { dimBox.innerHTML = ''; drawPlan(); } }
+  $('#openBtn').hidden = v === '2d'; attachGizmo(); $('#hint').textContent = v === '2d' ? 'Húzd az elemeket – a falhoz és egymáshoz igazodnak' : 'Bal gomb: nézet forgatása · középső gomb: eltolás · görgő: nagyítás'; if (v === '2d') { dimBox.innerHTML = ''; drawPlan(); } }
 $('#v3d').onclick = () => setView('3d'); $('#v2d').onclick = () => setView('2d');
 $('#openBtn').onclick = e => { open = !open; e.target.setAttribute('aria-pressed', open); e.target.textContent = open ? 'Ajtók zárása' : 'Ajtók nyitása'; };
 $('#dimBtn').onclick = e => { showDims = !showDims; e.target.setAttribute('aria-pressed', showDims); };
 $('#resetBtn').onclick = fitView;
 $('#pname').addEventListener('change', () => refresh());
-$('#newBtn').onclick = () => { P = defaultProj(); P.items.forEach(i => i.id = uid++); selId = P.items[0].id; $('#pname').value = P.name; P.items.forEach(snap); refresh(true); fitView(); history.replaceState(null, '', location.pathname); toast('Új projekt'); };
+$('#newBtn').onclick = () => { P = defaultProj(); P.items.forEach(i => i.id = uid++); selId = 0; $('#pname').value = P.name; refresh(true); tab('room'); fitView(); history.replaceState(null, '', location.pathname); toast('Új projekt'); };
+// selection toolbar
+function delItem(id) { const i = P.items.findIndex(x => x.id === id); if (i < 0) return; const n = P.items[i].name; tc.detach(); P.items.splice(i, 1); if (selId === id) selId = P.items[0] ? P.items[0].id : 0; refresh(); toast(n + ' törölve'); }
+function dupItem(id) { const it = P.items.find(x => x.id === id); if (!it) return; const {_b, ...rest} = it; const n2 = {...JSON.parse(JSON.stringify(rest)), id:uid++, name:it.name + ' (2)'}; P.items.push(n2); freeSpot(n2); select(n2.id, true); }
+$('#sDel').onclick = () => delItem(selId); $('#sDup').onclick = () => dupItem(selId);
+const rot90 = () => { const it = cur(); if (it) { it.rot = (it.rot + 90) % 360; magnet(it); refresh(); } };
+$('#gRot').onclick = rot90;
+document.addEventListener('keydown', e => { if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) || document.querySelector('.dlg.on')) return;
+  if ((e.key === 'Delete' || e.key === 'Backspace') && selId) { e.preventDefault(); delItem(selId); }
+  if (e.key === 'r' || e.key === 'R') rot90(); });
+$('#zIn').onclick = () => { rad = Math.max(.8, rad * .85); }; $('#zOut').onclick = () => { rad = Math.min(25, rad * 1.18); };
+// floor / wall materials
+function matButtons(el, names, kind, cur2, fn) { el.innerHTML = names.map((n, i) => '<button type="button" aria-pressed="' + (i === cur2) + '" data-i="' + i + '"><canvas width="96" height="40"></canvas>' + esc(n) + '</button>').join('');
+  [...el.querySelectorAll('canvas')].forEach((c, i) => { const t = document.createElement('canvas'); t.width = t.height = 128; paint(kind, i, (kind === 'f' ? FLOORC : WALLC)[i], t.getContext('2d'), 128); c.getContext('2d').drawImage(t, 0, 0, 128, 53, 0, 0, 96, 40); });
+  el.onclick = e => { const b = e.target.closest('button'); if (b) fn(+b.dataset.i); }; }
+let matsDrawn = '';
+function drawMats() { const R = P.room; R.floor = R.floor || {t:0, c:FLOORC[0]}; R.wall = R.wall || {t:0, c:WALLC[0]};
+  const sig = R.floor.t + '/' + R.wall.t; if (sig !== matsDrawn) { matsDrawn = sig;
+  matButtons($('#floorM'), FLOORS, 'f', R.floor.t, i => { R.floor = {t:i, c:FLOORC[i]}; refresh(true); });
+  matButtons($('#wallM'), WALLSM, 'w', R.wall.t, i => { R.wall = {t:i, c:WALLC[i]}; refresh(true); }); }
+  $('#floorC').value = R.floor.c; $('#wallC').value = R.wall.c; }
+$('#floorC').addEventListener('input', e => { P.room.floor.c = e.target.value; refresh(true); });
+$('#wallC').addEventListener('input', e => { P.room.wall.c = e.target.value; refresh(true); });
 // prices
 $('#pg').innerHTML = Object.keys(PLAB).map(kk => '<div class="pg"><label for="p-' + kk + '">' + PLAB[kk] + '</label><input type="number" id="p-' + kk + '" step="' + (kk === 'szorzo' ? .05 : 10) + '" value="' + PRICE[kk] + '"></div>').join('');
 $('#pg').addEventListener('change', e => { PRICE[e.target.id.slice(2)] = +e.target.value || 0; try { localStorage.setItem('nakom-ar2', JSON.stringify(PRICE)); } catch (er) {} refresh(); });
@@ -611,21 +779,24 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.dlg.on'
 const clean = () => JSON.stringify({...P, items:P.items.map(({_b, ...r}) => r)});
 async function packHash() { const s = new Blob([clean()]).stream().pipeThrough(new CompressionStream('deflate-raw')); const b = new Uint8Array(await new Response(s).arrayBuffer()); return 'p-' + [...b].map(x => x.toString(16).padStart(2, '0')).join(''); }
 async function unpackHash(h) { const hex = h.replace('#p-', ''); if (!/^[0-9a-f]+$/.test(hex)) return null; const b = new Uint8Array(hex.match(/../g).map(x => parseInt(x, 16))); const s = new Blob([b]).stream().pipeThrough(new DecompressionStream('deflate-raw')); return JSON.parse(await new Response(s).text()); }
-function load(obj) { if (!obj || !obj.room || !Array.isArray(obj.items)) return false; P = obj; P.items.forEach(i => { i.id = uid++; i.name = String(i.name || 'Elem').slice(0, 40); }); selId = P.items[0] ? P.items[0].id : 0; $('#pname').value = P.name || 'Projekt'; return true; }
+function migrate(R) { if (!R.doors) R.doors = R.door ? [R.door] : []; if (!R.wins) R.wins = R.win ? [R.win] : []; delete R.door; delete R.win; }
+function load(obj) { if (!obj || !obj.room || !Array.isArray(obj.items)) return false; P = obj; migrate(P.room); P.items.forEach(i => { i.id = uid++; i.name = String(i.name || 'Elem').slice(0, 40); }); selId = P.items[0] ? P.items[0].id : 0; $('#pname').value = P.name || 'Projekt'; return true; }
 $('#shareBtn').onclick = async () => { try { const h = await packHash(); history.replaceState(null, '', '#' + h); $('#sLink').value = location.href.split('#')[0] + '#' + h; dlg('#sDlg'); } catch (e) { toast('A link készítése itt nem támogatott'); } };
 $('#sCopy').onclick = async () => { try { await navigator.clipboard.writeText($('#sLink').value); toast('Link a vágólapon'); } catch (e) { $('#sLink').select(); toast('Jelöld ki és másold: Ctrl+C'); } };
 // cart & quote
-let cart = []; try { cart = JSON.parse(localStorage.getItem('nakom-kosar2') || '[]'); } catch (e) {}
-function drawCart() { $('#cartN').textContent = cart.length;
+let cart = []; const loadCart = () => { try { cart = JSON.parse(localStorage.getItem('nakom-kosar') || '[]'); if (!Array.isArray(cart)) cart = []; } catch (e) { cart = []; } }; loadCart();
+function drawCart(save) { if (save) { try { localStorage.setItem('nakom-kosar', JSON.stringify(cart)); } catch (e) {} } $('#cartN').textContent = cart.reduce((a, c) => a + (c.qty || 1), 0);
+  if (1) { $('#cartList').innerHTML = cart.length ? cart.map((c, i) => '<div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)"><span><b>' + esc(c.name) + '</b>' + (c.qty > 1 ? ' × ' + c.qty : '') + '<br><small class="note">' + esc(c.opts || '') + '</small></span><span style="text-align:right"><b>' + fmt(c.price * (c.qty || 1)) + '</b><br><button class="ib" type="button" data-rm="' + i + '">Törlés</button></span></div>').join('') + '<p style="display:flex;justify-content:space-between"><b>Összesen</b><b>' + fmt(cart.reduce((a, c) => a + c.price * (c.qty || 1), 0)) + '</b></p>' : '<p class="note">A kosár üres.</p>'; return; }
   $('#cartList').innerHTML = cart.length ? cart.map((c, i) => '<div class="ci" style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)"><span>' + esc(c.d) + '</span><span style="text-align:right"><b>' + fmt(c.p) + '</b><br><button class="ib" type="button" data-rm="' + i + '">Törlés</button></span></div>').join('') + '<p style="display:flex;justify-content:space-between"><b>Összesen</b><b>' + fmt(cart.reduce((a, c) => a + c.p, 0)) + '</b></p>' : '<p class="note">A kosár üres.</p>';
   try { localStorage.setItem('nakom-kosar2', JSON.stringify(cart)); } catch (e) {} }
-$('#cartList').onclick = e => { const b = e.target.closest('[data-rm]'); if (b) { cart.splice(+b.dataset.rm, 1); drawCart(); } };
+$('#cartList').onclick = e => { const b = e.target.closest('[data-rm]'); if (b) { cart.splice(+b.dataset.rm, 1); drawCart(true); } };
+addEventListener('storage', e => { if (e.key === 'nakom-kosar') { loadCart(); drawCart(); } });
 const desc = () => P.name + ' – ' + P.items.length + ' elem: ' + P.items.map(i => i.name + ' ' + cm(i.cfg.w)).join(', ');
-$('#addBtn').onclick = async () => { let h = ''; try { h = await packHash(); } catch (e) {} cart.push({d:desc(), p:C.total, h}); drawCart(); toast('Projekt a kosárban'); };
+$('#addBtn').onclick = async () => { if (!P.items.length) { toast('Előbb adj hozzá bútort'); return; } let h = ''; try { h = await packHash(); } catch (e) {} loadCart(); cart.push({key:'terv-' + Date.now(), name:P.name + ' (egyedi terv)', opts:P.items.length + ' elem: ' + P.items.map(i => i.name + ' ' + cm(i.cfg.w)).join(', '), price:C.total, qty:1, img:'', link:h ? 'tervezo/#' + h : 'tervezo/'}); drawCart(true); toast('Projekt a kosárban'); };
 $('#cartBtn').onclick = () => dlg('#cartDlg');
 let qItems = [];
-$('#quoteBtn').onclick = async () => { let h = ''; try { h = await packHash(); } catch (e) {} qItems = [{d:desc(), p:C.total, h}]; $('#qSum').textContent = desc() + ' · becsült ár ' + fmt(C.total); $('#qRes').textContent = ''; dlg('#qDlg'); };
-$('#cartQuote').onclick = () => { if (!cart.length) return; qItems = cart.slice(); $('#cartDlg').classList.remove('on'); $('#qSum').textContent = cart.length + ' tétel, összesen ' + fmt(cart.reduce((a, c) => a + c.p, 0)); $('#qRes').textContent = ''; dlg('#qDlg'); };
+$('#quoteBtn').onclick = async () => { if (!P.items.length) { toast('Előbb adj hozzá bútort'); return; } let h = ''; try { h = await packHash(); } catch (e) {} qItems = [{d:desc(), p:C.total, h}]; $('#qSum').textContent = desc() + ' · becsült ár ' + fmt(C.total); $('#qRes').textContent = ''; dlg('#qDlg'); };
+$('#cartQuote').onclick = () => { if (!cart.length) return; qItems = cart.map(c => ({d:c.name + ' – ' + (c.opts || '') + (c.qty > 1 ? ' × ' + c.qty : ''), p:c.price * (c.qty || 1), h:c.link && c.link.includes('#') ? c.link.split('#')[1] : ''})); $('#cartDlg').classList.remove('on'); $('#qSum').textContent = cart.length + ' tétel, összesen ' + fmt(qItems.reduce((a, c) => a + c.p, 0)); $('#qRes').textContent = ''; dlg('#qDlg'); };
 $('#qForm').addEventListener('submit', async e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)), base = location.href.split('#')[0];
   const rec = {...f, tetelek:qItems.map(q => ({leiras:q.d, becsultAr:q.p, link:q.h ? base + '#' + q.h : ''})), datum:new Date().toISOString()}; const res = $('#qRes'); res.textContent = 'Küldés…';
   try { const db = CL ? await Promise.race([CL.use('db'), new Promise(r => setTimeout(() => r(null), 6000))]) : null; if (!db) throw 0; await db.doc('ajanlatok/a' + Date.now().toString(36)).set(rec); res.textContent = 'Köszönjük! Megkaptuk, 1 munkanapon belül jelentkezünk.'; toast('Ajánlatkérés elküldve'); }
@@ -643,8 +814,10 @@ if (CL) CL.use('downloads').then(d => { if (!d) $('#csvBtn').hidden = true; });
 (async () => {
   let ok = false;
   if (location.hash.startsWith('#p-')) { try { ok = load(await unpackHash(location.hash)); } catch (e) {} }
+  const mm = location.hash.match(/^#minta-(\d+)$/); if (!ok && mm && PRESETS[+mm[1]]) { const pr = PRESETS[+mm[1]]; P = defaultProj(); P.items = [newItem(pr, 2500, 300, 0)]; if (pr.b === 2) P.items[0].cfg.el = pr.el; selId = P.items[0].id; $('#pname').value = pr.n + ' – egyedi'; P.name = pr.n + ' – egyedi'; ok = true; history.replaceState(null, '', location.pathname); }
   if (!ok) { try { ok = load(JSON.parse(localStorage.getItem('nakom-projekt') || 'null')); } catch (e) {} }
   P.items.forEach(snap); resize(); refresh(true); fitView(); drawCart(); loop();
+  tab('room'); // mindig a szoba beállításával indul
 })();
 addEventListener('hashchange', async () => { if (location.hash.startsWith('#p-')) { try { if (load(await unpackHash(location.hash))) { refresh(true); fitView(); } } catch (e) {} } });
 }
