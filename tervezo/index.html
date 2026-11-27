@@ -258,9 +258,9 @@ const PRESETS0 = [
 const PRESETS = PRESETS0.map(p => ({...p, c:OLDDEC[p.c], f:OLDDEC[p.f]}));
 const WALLS = {N:'Felső fal (É)', S:'Alsó fal (D)', W:'Bal fal (Ny)', E:'Jobb fal (K)'};
 const ROOMS = [{n:'Iroda 4×5 m', w:4000, d:5000, h:2700}, {n:'Vezetői iroda 5×5 m', w:5000, d:5000, h:2800}, {n:'Nappali 6×4,5 m', w:6000, d:4500, h:2700}, {n:'Hálószoba 4×3,5 m', w:4000, d:3500, h:2650}];
-let PRICE = {m2_0:7092, m2_1:6516, m2_2:13500, m2_3:6806, m2_4:6806, hull:1.15, hdf:6500, vagas:250, el1:350, el2:550, zsan:1800, zsanS:600, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:20000, mfront:6000, mpolc:2500, szorzo:1.4};
-const PLAB = {m2_0:'Tahoe tölgy (Ft/m²)', m2_1:'Sonoma tölgy (Ft/m²)', m2_2:'Fehér fényes (Ft/m²)', m2_3:'Fekete 0076 Swisspan (Ft/m²)', m2_4:'Antracit 0477 (Ft/m²)', hull:'Hulladék-szorzó (bútorlap)', hdf:'HDF 3 mm (Ft/tábla)', vagas:'Szabás (Ft/fm)', el1:'Élzárás 1 mm (Ft/fm)', el2:'Élzárás 2 mm (Ft/fm)', zsan:'Zsanér, fékes (Ft/db)', zsanS:'Zsanér, sima (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj / elem alap (Ft)', mfront:'Munkadíj / front (Ft)', mpolc:'Munkadíj / polc (Ft)', szorzo:'Árrés-szorzó'};
-try { const p = JSON.parse(localStorage.getItem('nakom-ar3') || 'null'); if (p) PRICE = {...PRICE, ...p}; } catch (e) {}
+let PRICE = {m2_0:7092, m2_1:6516, m2_2:13500, m2_3:6806, m2_4:6806, hull:1.15, hdf:6500, el:480, zsan:1800, zsanS:600, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:15000, szorzo:1.4};
+const PLAB = {m2_0:'Tahoe tölgy (Ft/m²)', m2_1:'Sonoma tölgy (Ft/m²)', m2_2:'Fehér fényes (Ft/m²)', m2_3:'Fekete 0076 Swisspan (Ft/m²)', m2_4:'Antracit 0477 (Ft/m²)', hull:'Hulladék-szorzó (bútorlap)', hdf:'HDF 3 mm (Ft/tábla)', el:'Élzárás (Ft/fm)', zsan:'Zsanér, fékes (Ft/db)', zsanS:'Zsanér, sima (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj (Ft/elem)', szorzo:'Árrés-szorzó'};
+try { const p = JSON.parse(localStorage.getItem('nakom-ar4') || 'null'); if (p) PRICE = {...PRICE, ...p}; } catch (e) {}
 
 let uid = 1;
 const newItem = (p, x, z, rot) => ({id:uid++, name:p.n, cfg:{w:p.w, h:p.h, d:p.d, s:[...p.s], b:p.b, c:p.c, f:p.f, hd:p.hd, el:p.el || 0, top:p.top || 'panel', back:p.back !== false, soft:true}, x, z, rot:rot || 0});
@@ -383,7 +383,7 @@ function calc() {
   const hwRows = [['Zsanér, fékes (lassított)', hw.zsan, PRICE.zsan], ['Zsanér, sima', hw.zsanS, PRICE.zsanS], ['Fiókcsúszó, golyós, pár', hw.csuszo, PRICE.csuszo], ['Fogantyú', hw.fog, PRICE.fog], ['Tip-on nyitó egység', hw.tip, PRICE.tip], ['Bútorláb, fém', hw.lab, PRICE.lab], ['Lábazat-szerelvény (fm)', +hw.lpz.toFixed(2), PRICE.lpz], ['Polctartó', hw.polc * 4, PRICE.polct], ['Falra akasztó vasalat, pár', hw.fali, PRICE.fali]].filter(r => r[1] > 0);
   const hwSum = hwRows.reduce((a, r) => a + r[1] * r[2], 0);
   const lapRows = Object.keys(m2).map(Number).sort().map(di => [DECORS[di].n + ' 18 mm: ' + m2[di].toFixed(2).replace('.', ',') + ' m² × ' + String(PRICE.hull).replace('.', ',') + ' hulladék', m2[di] * PRICE.hull * (PRICE['m2_' + di] || 0)]);
-  const rows = [...lapRows, ['HDF 3 mm: ' + nHdf + ' tábla', nHdf * PRICE.hdf], ['Szabás: ' + cutLen.toFixed(1).replace('.', ',') + ' fm', cutLen * PRICE.vagas], ['Élzárás: ' + (el1 + el2).toFixed(1).replace('.', ',') + ' fm', el1 * PRICE.el1 + el2 * PRICE.el2], ['Vasalat', hwSum], ['Munkadíj (' + P.items.length + ' elem, ' + fronts + ' front, ' + polcs + ' polc)', P.items.length * PRICE.munka + fronts * PRICE.mfront + polcs * PRICE.mpolc]];
+  const rows = [...lapRows, ['HDF 3 mm: ' + nHdf + ' tábla', nHdf * PRICE.hdf], ['Élzárás: ' + (el1 + el2).toFixed(1).replace('.', ',') + ' fm × ' + fmt(PRICE.el), (el1 + el2) * PRICE.el], ['Vasalat', hwSum], ['Munkadíj: ' + P.items.length + ' elem × ' + fmt(PRICE.munka), P.items.length * PRICE.munka]];
   const cost = rows.reduce((a, r) => a + r[1], 0);
   return {all, groups, sheets, hwRows, rows, cost, nLap, total:Math.ceil(cost * PRICE.szorzo / 1000) * 1000};
 }
@@ -693,7 +693,7 @@ function workshop() {
       '</svg><p><b style="color:var(--ink)">' + esc(m) + '</b> · ' + (i + 1) + '. tábla · ' + s.rects.length + ' alkatrész · kihasználtság ' + Math.round(s.used * 100) + '%</p></div>'; }));
   $('#sheets').innerHTML = sh; $('#sheetNote').textContent = tot + ' tábla (' + SHEET[0] + '×' + SHEET[1] + ' mm), 4 mm fűrészrés, 10 mm szélezés. Egyszerű sávos elrendezés – a lapszabász saját optimalizálója jellemzően kevesebb táblát használ.';
   $('#hwT tbody').innerHTML = C.hwRows.map(r => '<tr><td>' + r[0] + '</td><td class="n">' + String(r[1]).replace('.', ',') + '</td><td class="n">' + fmt(r[2]) + '</td><td class="n">' + fmt(r[1] * r[2]) + '</td></tr>').join('') || '<tr><td colspan="4">Nincs vasalat.</td></tr>';
-  $('#bd').innerHTML = C.rows.map(r => '<div><span>' + esc(r[0]) + '</span><b>' + fmt(r[1]) + '</b></div>').join('') + '<div><span>Önköltség</span><b>' + fmt(C.cost) + '</b></div><div class="tot"><span>Becsült eladási ár (×' + String(PRICE.szorzo).replace('.', ',') + ')</span><b>' + fmt(C.total) + '</b></div>';
+  $('#bd').innerHTML = C.rows.map(r => '<div><span>' + esc(r[0]) + '</span><b>' + fmt(r[1]) + '</b></div>').join('') + '<div><span>Önköltség (a fenti sorok összege)</span><b>' + fmt(C.cost) + '</b></div><div class="tot"><span>Becsült eladási ár (×' + String(PRICE.szorzo).replace('.', ',') + ')</span><b>' + fmt(C.total) + '</b></div>';
   const ch = checks(); $('#chkN').textContent = ch.length ? '(' + ch.length + ')' : '';
   $('#chk').innerHTML = ch.length ? ch.map(t => '<div class="w">' + esc(t) + '</div>').join('') : '<div class="ok">Minden rendben: nincs ütközés, minden elem a szobában van.</div>';
   drawing();
@@ -789,7 +789,7 @@ $('#floorC').addEventListener('input', e => { P.room.floor.c = e.target.value; r
 $('#wallC').addEventListener('input', e => { P.room.wall.c = e.target.value; refresh(true); });
 // prices
 $('#pg').innerHTML = Object.keys(PLAB).map(kk => '<div class="pg"><label for="p-' + kk + '">' + PLAB[kk] + '</label><input type="number" id="p-' + kk + '" step="' + (kk === 'szorzo' ? .05 : 10) + '" value="' + PRICE[kk] + '"></div>').join('');
-$('#pg').addEventListener('change', e => { PRICE[e.target.id.slice(2)] = +e.target.value || 0; try { localStorage.setItem('nakom-ar3', JSON.stringify(PRICE)); } catch (er) {} refresh(); });
+$('#pg').addEventListener('change', e => { PRICE[e.target.id.slice(2)] = +e.target.value || 0; try { localStorage.setItem('nakom-ar4', JSON.stringify(PRICE)); } catch (er) {} refresh(); });
 // toast/dialogs
 function toast(t) { const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(() => el.style.display = 'none', 2200); }
 const dlg = id => $(id).classList.add('on');
