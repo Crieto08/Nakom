@@ -104,7 +104,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 .selbar button[aria-pressed=true]{background:var(--acc);color:#1C1916;border-color:var(--acc)}.selbar .del{border-color:#E58C73;color:#F4C3B5}
 .zoom{position:absolute;right:14px;top:14px;display:flex;flex-direction:column;gap:6px}.zoom button{width:44px;height:44px;border:1px solid var(--line);border-radius:4px;background:#1C1916e6;cursor:pointer;font-size:22px}
 .mats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.mats button{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:5px;cursor:pointer;font-size:12px;text-align:left;display:flex;flex-direction:column;gap:5px}
-.mats button canvas{width:100%;height:40px;border-radius:4px;display:block}.mats button[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.mats button .mt{width:100%;height:40px;border-radius:4px;display:block;box-shadow:0 0 0 1px #0003 inset}.mats button[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
 .colrow{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}.colrow input{width:56px;height:44px;border:1px solid var(--line);border-radius:4px;background:none;padding:2px;cursor:pointer}
 @media(max-width:600px){.vt{top:auto;bottom:62px;left:8px}.selbar{top:8px;flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:4px}.selbar b{display:none}.selbar button{padding:4px 9px;font-size:13px;white-space:nowrap}.zoom{top:auto;bottom:62px;right:8px}.tools{left:8px;right:8px;bottom:8px;flex-wrap:nowrap}.tools .btn{flex:1;font-size:12px;padding:4px 6px;white-space:normal;line-height:1.15}header{gap:8px;padding:10px 12px}.hbtn{margin-left:0;width:100%}.hbtn .btn{flex:1;font-size:13px;padding:6px 8px}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--acc);color:#1C1916;padding:12px 18px;border-radius:4px;font-weight:600;display:none;z-index:20}
@@ -179,8 +179,8 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 </div>
 
 <div class="pane on" data-p="room">
-<div><h3>PADLÓ</h3><div class="mats" id="floorM" style="margin-top:10px"></div><div class="colrow" style="margin-top:10px"><input type="color" id="floorC" aria-label="Padló színe"><label for="floorC">Padló színárnyalata</label></div></div>
-<div><h3>FAL</h3><div class="mats" id="wallM" style="margin-top:10px"></div><div class="colrow" style="margin-top:10px"><input type="color" id="wallC" aria-label="Fal színe"><label for="wallC">Fal színe</label></div></div>
+<div><h3>PADLÓ</h3><div class="mats" id="floorM" style="margin-top:10px"></div><div class="colrow" style="margin-top:10px"><input type="color" id="floorC" aria-label="Padló színe"><label for="floorC">Padló színezése (fehér = eredeti)</label></div></div>
+<div><h3>FAL</h3><div class="mats" id="wallM" style="margin-top:10px"></div><div class="colrow" style="margin-top:10px"><input type="color" id="wallC" aria-label="Fal színe"><label for="wallC">Fal színe / színezése</label></div></div>
 <div><h3>SABLONOK</h3><div class="chips" id="roomT" style="margin-top:10px"></div></div>
 <div class="field"><label for="rw">Szoba szélessége <output id="rwO"></output></label><input type="range" id="rw" min="1500" max="10000" step="50" style="width:100%"></div>
 <div class="field"><label for="rd">Szoba hossza <output id="rdO"></output></label><input type="range" id="rd" min="1500" max="10000" step="50" style="width:100%"></div>
@@ -238,11 +238,14 @@ const fmt = n => new Intl.NumberFormat('hu-HU').format(Math.round(n)) + ' Ft';
 const cm = v => (v / 10).toLocaleString('hu-HU') + ' cm';
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const T = 18, HDF = 3, GAP = 3, SHEET = [2800, 2070], KERF = 4, TRIM = 10;
-const DECORS = [{n:'Amerikai dió',c:'#6B4A31',g:'#56391f',wood:1},{n:'Natúr tölgy',c:'#B58C60',g:'#9a7448',wood:1},{n:'Antracit matt',c:'#3A3734'},{n:'Fekete',c:'#1F1D1B'},{n:'Kasmír',c:'#CFC3B3'},{n:'Fehér',c:'#ECEAE6'},{n:'Zsálya',c:'#7D8B78'},{n:'Agyagszürke',c:'#8E857A'}];
+// Bútorlap-dekorok (18 mm). Ár: Ft/m² – a Beállítások › Árak panelen módosítható.
+const DECORS = [{n:'Tahoe tölgy',c:'#B98A55',wood:1,tex:'../assets/tex/tahoe.jpg',r:.55},{n:'Sonoma tölgy',c:'#B79D84',wood:1,tex:'../assets/tex/sonoma.jpg',r:.55},{n:'Fehér fényes',c:'#F4F4F2',gloss:1,r:.08},{n:'Fekete 0076',c:'#161513',r:.5},{n:'Antracit 0477',c:'#707070',r:.82}];
+// régi (8 dekoros) projektek átfordítása: dió→Tahoe, tölgy→Sonoma, antracit→Antracit, fekete→Fekete, kasmír/fehér→Fehér fényes, zsálya/agyag→Antracit
+const OLDDEC = [0, 1, 4, 3, 2, 2, 4, 4];
 const HANDLES = ['Tip-on (fogantyú nélkül)', 'Bronz rúd', 'Fekete rúd'];
 const BASES = [{n:'Fém lábak 10 cm', h:100}, {n:'Lábazat 8 cm', h:80}, {n:'Falra szerelt', h:0}];
 const TYPES = [{k:'o',n:'Nyitott polcos',c:'Polcok'},{k:'d',n:'Egyajtós',c:'Belső polcok'},{k:'f',n:'Fiókos',c:'Fiókok'},{k:'D',n:'Kétajtós',c:'Belső polcok'}];
-const PRESETS = [
+const PRESETS0 = [
  {n:'Sideboard', w:1800, h:800, d:450, s:['d1','f3','d1'], b:0, c:0, f:0, hd:1},
  {n:'Komód', w:1000, h:900, d:480, s:['f4','f4'], b:0, c:2, f:0, hd:1},
  {n:'Irodai tároló', w:1200, h:1200, d:420, s:['o3','d2'], b:1, c:2, f:1, hd:0},
@@ -252,16 +255,17 @@ const PRESETS = [
  {n:'Fali elem', w:1200, h:400, d:320, s:['d0','o1','d0'], b:2, c:0, f:2, hd:0, el:1500},
  {n:'Konyhai alsó', w:600, h:870, d:560, s:['f3'], b:1, c:5, f:2, hd:1, top:'railH'},
  {n:'Mosogatószekrény', w:800, h:870, d:560, s:['D0'], b:1, c:5, f:2, hd:1, top:'railV', back:false}];
+const PRESETS = PRESETS0.map(p => ({...p, c:OLDDEC[p.c], f:OLDDEC[p.f]}));
 const WALLS = {N:'Felső fal (É)', S:'Alsó fal (D)', W:'Bal fal (Ny)', E:'Jobb fal (K)'};
 const ROOMS = [{n:'Iroda 4×5 m', w:4000, d:5000, h:2700}, {n:'Vezetői iroda 5×5 m', w:5000, d:5000, h:2800}, {n:'Nappali 6×4,5 m', w:6000, d:4500, h:2700}, {n:'Hálószoba 4×3,5 m', w:4000, d:3500, h:2650}];
-let PRICE = {tabla:28000, hdf:6500, vagas:250, el1:350, el2:550, zsan:1800, zsanS:600, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:20000, mfront:6000, mpolc:2500, szorzo:1.4};
-const PLAB = {tabla:'Bútorlap 18 mm (Ft/tábla, 2800×2070)', hdf:'HDF 3 mm (Ft/tábla)', vagas:'Szabás (Ft/fm)', el1:'Élzárás 1 mm (Ft/fm)', el2:'Élzárás 2 mm (Ft/fm)', zsan:'Zsanér, fékes (Ft/db)', zsanS:'Zsanér, sima (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj / elem alap (Ft)', mfront:'Munkadíj / front (Ft)', mpolc:'Munkadíj / polc (Ft)', szorzo:'Árrés-szorzó'};
-try { const p = JSON.parse(localStorage.getItem('nakom-ar2') || 'null'); if (p) PRICE = {...PRICE, ...p}; } catch (e) {}
+let PRICE = {m2_0:7092, m2_1:6516, m2_2:13500, m2_3:6806, m2_4:6806, hull:1.15, hdf:6500, vagas:250, el1:350, el2:550, zsan:1800, zsanS:600, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:20000, mfront:6000, mpolc:2500, szorzo:1.4};
+const PLAB = {m2_0:'Tahoe tölgy (Ft/m²)', m2_1:'Sonoma tölgy (Ft/m²)', m2_2:'Fehér fényes (Ft/m²)', m2_3:'Fekete 0076 Swisspan (Ft/m²)', m2_4:'Antracit 0477 (Ft/m²)', hull:'Hulladék-szorzó (bútorlap)', hdf:'HDF 3 mm (Ft/tábla)', vagas:'Szabás (Ft/fm)', el1:'Élzárás 1 mm (Ft/fm)', el2:'Élzárás 2 mm (Ft/fm)', zsan:'Zsanér, fékes (Ft/db)', zsanS:'Zsanér, sima (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj / elem alap (Ft)', mfront:'Munkadíj / front (Ft)', mpolc:'Munkadíj / polc (Ft)', szorzo:'Árrés-szorzó'};
+try { const p = JSON.parse(localStorage.getItem('nakom-ar3') || 'null'); if (p) PRICE = {...PRICE, ...p}; } catch (e) {}
 
 let uid = 1;
 const newItem = (p, x, z, rot) => ({id:uid++, name:p.n, cfg:{w:p.w, h:p.h, d:p.d, s:[...p.s], b:p.b, c:p.c, f:p.f, hd:p.hd, el:p.el || 0, top:p.top || 'panel', back:p.back !== false, soft:true}, x, z, rot:rot || 0});
 function defaultProj() {
-  const P = {name:'Új projekt', room:{w:5000, d:5000, h:2700, doors:[{wall:'S', off:500, w:900, hinge:'L', swing:'in'}], wins:[{wall:'N', off:1800, w:1600}], floor:{t:0, c:'#8a6c50'}, wall:{t:0, c:'#8c8077'}}, items:[]};
+  const P = {name:'Új projekt', room:{w:5000, d:5000, h:2700, doors:[{wall:'S', off:500, w:900, hinge:'L', swing:'in'}], wins:[{wall:'N', off:1800, w:1600}], floor:{t:0, c:'#ffffff'}, wall:{t:0, c:'#8c8077'}, mv:2}, items:[], dv:2};
   return P;
 }
 function defaultProjWithItems() { const P = defaultProj();
@@ -358,11 +362,12 @@ function pack(parts, wood) {
 }
 function calc() {
   const all = [], groups = {}, hw = {zsan:0, zsanS:0, csuszo:0, front:0, polc:0, lab:0, fali:0, tip:0, fog:0, lpz:0};
-  let el1 = 0, el2 = 0, cutLen = 0, fronts = 0, polcs = 0;
+  let el1 = 0, el2 = 0, cutLen = 0, fronts = 0, polcs = 0; const m2 = {};
   P.items.forEach(it => {
     const B = build(it.cfg); it._b = B;
     B.parts.forEach(p => {
       const mat = p.mat === 'H' ? (/Hátfal/.test(p.name) ? 'MDF hátfal 3 mm' : 'HDF 3 mm') : DECORS[p.mat === 'F' ? it.cfg.f : it.cfg.c].n + ' 18 mm';
+      if (p.mat !== 'H') { const di = p.mat === 'F' ? it.cfg.f : it.cfg.c; m2[di] = (m2[di] || 0) + p.L * p.W * p.q / 1e6; }
       const q = {...p, item:it.name, matName:mat, tag:it.name}; all.push(q); (groups[mat] = groups[mat] || []).push(q);
       let len = 0; if (/H1/.test(p.edge)) len += p.L; if (/H2/.test(p.edge)) len += 2 * p.L; if (/Sz2/.test(p.edge)) len += 2 * p.W;
       if (p.el2) el2 += len * p.q / 1000; else el1 += len * p.q / 1000;
@@ -377,9 +382,10 @@ function calc() {
   Object.entries(groups).forEach(([m, ps]) => { const wood = DECORS.some(d => d.wood && m.startsWith(d.n)); sheets[m] = pack(ps, wood); if (m.startsWith('HDF') || m.startsWith('MDF')) nHdf += sheets[m].length; else nLap += sheets[m].length; });
   const hwRows = [['Zsanér, fékes (lassított)', hw.zsan, PRICE.zsan], ['Zsanér, sima', hw.zsanS, PRICE.zsanS], ['Fiókcsúszó, golyós, pár', hw.csuszo, PRICE.csuszo], ['Fogantyú', hw.fog, PRICE.fog], ['Tip-on nyitó egység', hw.tip, PRICE.tip], ['Bútorláb, fém', hw.lab, PRICE.lab], ['Lábazat-szerelvény (fm)', +hw.lpz.toFixed(2), PRICE.lpz], ['Polctartó', hw.polc * 4, PRICE.polct], ['Falra akasztó vasalat, pár', hw.fali, PRICE.fali]].filter(r => r[1] > 0);
   const hwSum = hwRows.reduce((a, r) => a + r[1] * r[2], 0);
-  const rows = [['Bútorlap 18 mm: ' + nLap + ' tábla', nLap * PRICE.tabla], ['HDF 3 mm: ' + nHdf + ' tábla', nHdf * PRICE.hdf], ['Szabás: ' + cutLen.toFixed(1).replace('.', ',') + ' fm', cutLen * PRICE.vagas], ['Élzárás: ' + (el1 + el2).toFixed(1).replace('.', ',') + ' fm', el1 * PRICE.el1 + el2 * PRICE.el2], ['Vasalat', hwSum], ['Munkadíj (' + P.items.length + ' elem, ' + fronts + ' front, ' + polcs + ' polc)', P.items.length * PRICE.munka + fronts * PRICE.mfront + polcs * PRICE.mpolc]];
+  const lapRows = Object.keys(m2).map(Number).sort().map(di => [DECORS[di].n + ' 18 mm: ' + m2[di].toFixed(2).replace('.', ',') + ' m² × ' + String(PRICE.hull).replace('.', ',') + ' hulladék', m2[di] * PRICE.hull * (PRICE['m2_' + di] || 0)]);
+  const rows = [...lapRows, ['HDF 3 mm: ' + nHdf + ' tábla', nHdf * PRICE.hdf], ['Szabás: ' + cutLen.toFixed(1).replace('.', ',') + ' fm', cutLen * PRICE.vagas], ['Élzárás: ' + (el1 + el2).toFixed(1).replace('.', ',') + ' fm', el1 * PRICE.el1 + el2 * PRICE.el2], ['Vasalat', hwSum], ['Munkadíj (' + P.items.length + ' elem, ' + fronts + ' front, ' + polcs + ' polc)', P.items.length * PRICE.munka + fronts * PRICE.mfront + polcs * PRICE.mpolc]];
   const cost = rows.reduce((a, r) => a + r[1], 0);
-  return {all, groups, sheets, hwRows, rows, cost, total:Math.ceil(cost * PRICE.szorzo / 1000) * 1000};
+  return {all, groups, sheets, hwRows, rows, cost, nLap, total:Math.ceil(cost * PRICE.szorzo / 1000) * 1000};
 }
 function itemPrice(it) { // share of project price by panel area, for list display
   const a = x => x._b ? x._b.parts.reduce((s, p) => s + p.L * p.W * p.q, 0) + x._b.hw.front * 2e5 : 1;
@@ -436,6 +442,10 @@ const stage = $('#stage');
 const R3 = new THREE.WebGLRenderer({antialias:true}); R3.setPixelRatio(Math.min(2, devicePixelRatio)); R3.shadowMap.enabled = true; R3.shadowMap.type = THREE.PCFSoftShadowMap;
 R3.outputEncoding = THREE.sRGBEncoding; R3.toneMapping = THREE.ACESFilmicToneMapping; R3.toneMappingExposure = 0.95; stage.prepend(R3.domElement);
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#1F1B18');
+// egyszerű stúdió-környezet a króm láb és a fényes front tükröződéséhez
+const ENV = (() => { const c = document.createElement('canvas'); c.width = 512; c.height = 256; const x = c.getContext('2d'); const g = x.createLinearGradient(0, 0, 0, 256); g.addColorStop(0, '#fffaf2'); g.addColorStop(.45, '#9c9188'); g.addColorStop(.55, '#3a332c'); g.addColorStop(1, '#1c1916'); x.fillStyle = g; x.fillRect(0, 0, 512, 256);
+  x.fillStyle = '#ffffff'; x.fillRect(60, 40, 90, 50); x.fillRect(300, 30, 140, 40); const t = new THREE.CanvasTexture(c); t.mapping = THREE.EquirectangularReflectionMapping; t.encoding = THREE.sRGBEncoding;
+  const pm = new THREE.PMREMGenerator(R3); const e = pm.fromEquirectangular(t).texture; pm.dispose(); return e; })();
 const cam = new THREE.PerspectiveCamera(40, 1, 0.05, 80);
 scene.add(new THREE.HemisphereLight('#fff4e6', '#3a2f26', 0.55));
 const sun = new THREE.DirectionalLight('#ffe9cf', 1.3); sun.position.set(3, 6, 4); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, {left:-7, right:7, top:7, bottom:-7, far:30}); sun.shadow.bias = -0.0004; scene.add(sun);
@@ -480,41 +490,30 @@ function ringMove(e) { if (!rotDrag) return; const a = floorAng(e); if (a == nul
 function ringUp() { if (!rotDrag) return false; rotDrag = null; refresh(); return true; }
 function attachGizmo() { const g = itemsG.children.find(c => c.userData.id === selId); placeRing(); if (g && view === '3d' && !rotDrag) { tc.attach(g); tc.setMode('translate'); const it2 = P.items.find(i => i.id === selId); tc.showX = true; tc.showZ = true; tc.showY = !!it2 && it2.cfg.b === 2; } else tc.detach(); }
 const texCache = {};
-function woodTex(d) { if (texCache[d.n]) return texCache[d.n]; const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'); x.fillStyle = d.c; x.fillRect(0, 0, 512, 512);
-  for (let i = 0; i < 140; i++) { const y0 = Math.random() * 512, a = 2 + Math.random() * 6, f = .004 + Math.random() * .01; x.strokeStyle = d.g; x.globalAlpha = .12 + Math.random() * .3; x.lineWidth = .5 + Math.random() * 2.2; x.beginPath(); for (let px = 0; px <= 512; px += 8) x.lineTo(px, y0 + Math.sin(px * f + i) * a); x.stroke(); }
-  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.encoding = THREE.sRGBEncoding; t.anisotropy = 8; return texCache[d.n] = t; }
-function mat(idx, a, b) { const d = DECORS[idx]; if (!d.wood) return new THREE.MeshStandardMaterial({color:d.c, roughness:.55}); const t = woodTex(d).clone(); t.needsUpdate = true; t.repeat.set(Math.max(.3, a / 900), Math.max(.3, b / 900)); return new THREE.MeshStandardMaterial({map:t, roughness:.5}); }
-const mHDF = new THREE.MeshStandardMaterial({color:'#d9d2c7', roughness:.8}), mLeg = new THREE.MeshStandardMaterial({color:'#2a2826', roughness:.35, metalness:.7});
+const texLoader = new THREE.TextureLoader();
+function decTex(d) { if (texCache[d.n]) return texCache[d.n]; const t = texLoader.load(d.tex); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.encoding = THREE.sRGBEncoding; t.anisotropy = 8; return texCache[d.n] = t; }
+function mat(idx, a, b) { const d = DECORS[idx] || DECORS[0];
+  if (d.gloss) return new THREE.MeshPhysicalMaterial({color:d.c, roughness:d.r, clearcoat:1, clearcoatRoughness:.05, envMap:ENV, envMapIntensity:.6});
+  if (!d.wood) return new THREE.MeshStandardMaterial({color:d.c, roughness:d.r});
+  const t = decTex(d).clone(); t.needsUpdate = true; t.repeat.set(Math.max(.3, a / 700), Math.max(.3, b / 700)); return new THREE.MeshStandardMaterial({map:t, roughness:d.r}); }
+const mHDF = new THREE.MeshStandardMaterial({color:'#d9d2c7', roughness:.8}), mLeg = new THREE.MeshStandardMaterial({color:'#eeeeee', roughness:.12, metalness:1, envMap:ENV, envMapIntensity:1.2}), mFoot = new THREE.MeshStandardMaterial({color:'#121212', roughness:.5});
 const mSel = new THREE.MeshBasicMaterial({color:'#D9B48A', transparent:true, opacity:.35});
 let animated = [], walls = [];
-const FLOORS = ['Parketta', 'Halszálka', 'Hajópadló', 'Beton', 'Járólap', 'Szőnyegpadló'], FLOORC = ['#8a6c50', '#9a7a58', '#6b4a31', '#8e8a84', '#d8d4cc', '#5d5550'];
-const WALLSM = ['Festett', 'Tégla', 'Beton', 'Fa lambéria', 'Csíkos tapéta', 'Csempe'], WALLC = ['#8c8077', '#9a5a44', '#8e8a84', '#6b4a31', '#b9ad9c', '#e4e1da'];
-const shade = (hex, f) => { const n = parseInt(hex.slice(1), 16), c = [n >> 16, n >> 8 & 255, n & 255].map(v => Math.max(0, Math.min(255, Math.round(v * f)))); return 'rgb(' + c.join(',') + ')'; };
-function paint(kind, t, col, x, S) { const rnd = (a, b) => a + Math.random() * (b - a); x.fillStyle = col; x.fillRect(0, 0, S, S);
-  if (kind === 'f') {
-    if (t === 0 || t === 2) { const h = t === 0 ? S / 8 : S / 5; for (let i = 0; i < S / h; i++) { x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(0, i * h, S, h - 1.5); x.fillStyle = shade(col, .6); x.fillRect((i * 97 * (t + 1)) % S, i * h, 2, h); for (let g = 0; g < 6; g++) { x.strokeStyle = shade(col, .78); x.globalAlpha = .35; x.beginPath(); const y = i * h + rnd(2, h - 3); x.moveTo(0, y); x.bezierCurveTo(S / 3, y + rnd(-3, 3), S * 2 / 3, y + rnd(-3, 3), S, y); x.stroke(); x.globalAlpha = 1; } } }
-    if (t === 1) { const w = S / 8, l = w * 4; x.fillStyle = shade(col, .6); x.fillRect(0, 0, S, S); for (let i = -4; i < 16; i++) for (let j = -4; j < 16; j++) { const ox = i * w + j * w, oy = j * w - i * w; x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(ox + 1, oy + 1, l - 2, w - 2); x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(ox + l - w + 1, oy + w + 1, w - 2, l - 2); } }
-    if (t === 3) { for (let i = 0; i < 2500; i++) { x.fillStyle = shade(col, rnd(.8, 1.15)); x.globalAlpha = .25; x.fillRect(rnd(0, S), rnd(0, S), rnd(1, 4), rnd(1, 4)); } x.globalAlpha = 1; }
-    if (t === 4) { const g = S / 4; x.fillStyle = shade(col, .82); x.fillRect(0, 0, S, S); for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { x.fillStyle = shade(col, rnd(.96, 1.04)); x.fillRect(i * g + 2, j * g + 2, g - 4, g - 4); } }
-    if (t === 5) { for (let i = 0; i < 6000; i++) { x.fillStyle = shade(col, rnd(.75, 1.25)); x.globalAlpha = .3; x.fillRect(rnd(0, S), rnd(0, S), 1.5, 1.5); } x.globalAlpha = 1; }
-  } else {
-    if (t === 1) { const bh = S / 10, bw = S / 4; x.fillStyle = shade(col, 1.5); x.fillRect(0, 0, S, S); for (let r = 0; r < 10; r++) for (let c2 = -1; c2 < 5; c2++) { x.fillStyle = shade(col, rnd(.8, 1.15)); x.fillRect(c2 * bw + (r % 2) * bw / 2 + 2, r * bh + 2, bw - 4, bh - 4); } }
-    if (t === 2) { for (let i = 0; i < 2500; i++) { x.fillStyle = shade(col, rnd(.82, 1.15)); x.globalAlpha = .25; x.fillRect(rnd(0, S), rnd(0, S), rnd(1, 4), rnd(1, 4)); } x.globalAlpha = 1; x.strokeStyle = shade(col, .7); x.strokeRect(0, 0, S, S); }
-    if (t === 3) { const w = S / 6; for (let i = 0; i < 6; i++) { x.fillStyle = shade(col, rnd(.85, 1.12)); x.fillRect(i * w, 0, w - 3, S); x.fillStyle = shade(col, .45); x.fillRect(i * w + w - 3, 0, 3, S); } }
-    if (t === 4) { for (let i = 0; i < 8; i++) { x.fillStyle = shade(col, i % 2 ? .9 : 1.06); x.fillRect(i * S / 8, 0, S / 8, S); } }
-    if (t === 5) { const g = S / 6; x.fillStyle = shade(col, .8); x.fillRect(0, 0, S, S); for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) { x.fillStyle = shade(col, rnd(.97, 1.04)); x.fillRect(i * g + 1.5, j * g + 1.5, g - 3, g - 3); } }
-  } }
-const matTex = {};
-function roomTex(kind, t, col) { const key = kind + t + col; if (matTex[key]) return matTex[key]; const c = document.createElement('canvas'); c.width = c.height = 512; paint(kind, t, col, c.getContext('2d'), 512);
-  const tx = new THREE.CanvasTexture(c); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 8; return matTex[key] = tx; }
-const TILE = {f:[1.4, 1.6, 1.4, 2, 1.2, 1], w:[1, 1.4, 2, 1.2, 1, .9]};
+// Padló / fal: valódi, ismétlődő (seamless) textúrák – assets/tex/room/. A színválasztó a textúrát színezi (fehér = eredeti).
+const FLOORS = ['Parketta', 'Halszálka', 'Hajópadló', 'Beton', 'Márvány járólap', 'Szőnyegpadló'], FTEX = ['parketta', 'halszalka', 'hajopadlo', 'beton', 'marvany', 'szonyeg'], FLOORC = FLOORS.map(() => '#ffffff'), FAVG = ['#b8874f', '#b48552', '#7a5532', '#7c7c7c', '#ecebea', '#a5a5a5'];
+const WALLSM = ['Festett', 'Tégla', 'Beton', 'Fa lambéria', 'Márvány csempe'], WTEX = [null, 'tegla', 'beton', 'lamberia', 'marvany'], WALLC = ['#8c8077', '#ffffff', '#ffffff', '#ffffff', '#ffffff'];
+const TEXDIR = '../assets/tex/room/', texL = new THREE.TextureLoader(), matTex = {};
+function roomTex(kind, t) { const name = (kind === 'f' ? FTEX : WTEX)[t]; if (matTex[name]) return matTex[name];
+  const tx = texL.load(TEXDIR + name + '.jpg'); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 8;
+  if (name === 'halszalka') { tx.center.set(.5, .5); tx.rotation = Math.PI / 4; } return matTex[name] = tx; }
+const TILE = {f:[1.0, 1.2, 1.5, 1.5, 1.2, 1.0], w:[1, 1.9, 1.5, 1.0, 1.2]};
 function buildRoom() {
   while (roomG.children.length) roomG.remove(roomG.children[0]);
   const R = P.room, W = R.w * k, D = R.d * k, H = R.h * k, t = .12;
   R.floor = R.floor || {t:0, c:FLOORC[0]}; R.wall = R.wall || {t:0, c:WALLC[0]};
-  const floorT = roomTex('f', R.floor.t, R.floor.c).clone(); floorT.needsUpdate = true; floorT.repeat.set(W / TILE.f[R.floor.t], D / TILE.f[R.floor.t]);
-  const fl = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({map:floorT, roughness:R.floor.t === 4 ? .35 : .85})); fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; roomG.add(fl);
-  const wallMat = len => { if (R.wall.t === 0) return new THREE.MeshStandardMaterial({color:R.wall.c, roughness:1}); const tx = roomTex('w', R.wall.t, R.wall.c).clone(); tx.needsUpdate = true; tx.repeat.set(len / TILE.w[R.wall.t], H / TILE.w[R.wall.t]); return new THREE.MeshStandardMaterial({map:tx, roughness:.9}); };
+  const floorT = roomTex('f', R.floor.t).clone(); floorT.needsUpdate = true; floorT.repeat.set(W / TILE.f[R.floor.t], D / TILE.f[R.floor.t]);
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({map:floorT, color:R.floor.c, roughness:R.floor.t === 4 ? .3 : R.floor.t === 5 ? 1 : .75})); fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; roomG.add(fl);
+  const wallMat = len => { if (R.wall.t === 0) return new THREE.MeshStandardMaterial({color:R.wall.c, roughness:1}); const tx = roomTex('w', R.wall.t).clone(); tx.needsUpdate = true; tx.repeat.set(len / TILE.w[R.wall.t], H / TILE.w[R.wall.t]); return new THREE.MeshStandardMaterial({map:tx, color:R.wall.c, roughness:R.wall.t === 4 ? .4 : .9}); };
   walls = [['N', 0, -D / 2 - t / 2, W + 2 * t, t, 0, 0, -1], ['S', 0, D / 2 + t / 2, W + 2 * t, t, 0, 0, 1], ['W', -W / 2 - t / 2, 0, t, D, 0, -1, 0], ['E', W / 2 + t / 2, 0, t, D, 0, 1, 0]].map(([id, x, z, sx, sz, , nx, nz]) => {
     const g = new THREE.Group(), m = new THREE.Mesh(new THREE.BoxGeometry(sx, H, sz), wallMat(Math.max(sx, sz))); m.position.y = H / 2; m.receiveShadow = true; g.add(m); g.position.set(x, 0, z);
     [...(R.doors || []).map(o => [o, '#3b2c22', 0, 2.05]), ...(R.wins || []).map(o => [o, '#a9c2d6', .9, 1.5])].forEach(([o, col, y0, oh]) => { if (!o || o.wall !== id) return; const len = o.w * k, pos = (o.off + o.w / 2) * k;
@@ -538,6 +537,11 @@ function buildItems() {
     g.userData.id = it.id;
     B.meshes.forEach(b => {
       const m = b.role === 'H' ? mHDF : b.role === 'L' ? mLeg : mat(b.role === 'F' ? cfg.f : cfg.c, Math.max(b.sx, b.sy), b.sz < b.sy ? b.sy : b.sz);
+      if (b.role === 'L') { // krómozott hengeres láb, négyzetes rögzítőlappal, fekete talppal
+        const lg = new THREE.Group(), H = b.sy * k, cyl = new THREE.Mesh(new THREE.CylinderGeometry(.015, .015, H - .012, 24), mLeg); cyl.position.y = .002; lg.add(cyl);
+        const pl = new THREE.Mesh(new THREE.BoxGeometry(.06, .004, .06), mLeg); pl.position.y = H / 2 - .002; lg.add(pl);
+        const ft = new THREE.Mesh(new THREE.CylinderGeometry(.017, .017, .008, 24), mFoot); ft.position.y = -H / 2 + .004; lg.add(ft);
+        lg.children.forEach(c => c.castShadow = true); lg.position.set(b.x * k, b.y * k, b.z * k); g.add(lg); return; }
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(b.sx * k, b.sy * k, b.sz * k), m); mesh.castShadow = mesh.receiveShadow = true;
       if (b.door) { const pv = new THREE.Group(); pv.position.set((b.x + b.hinge * b.sx / 2) * k, b.y * k, (b.z - b.sz / 2) * k); mesh.position.set(-b.hinge * b.sx / 2 * k, 0, b.sz / 2 * k); pv.add(mesh);
         if (cfg.hd) { const hl = Math.min(300, b.sy * .3), h = new THREE.Mesh(new THREE.BoxGeometry(.012, hl * k, .012), hm); h.position.set(-b.hinge * (b.sx / 2 - 45) * k, 0, (b.sz / 2 + 22) * k); mesh.add(h); }
@@ -603,7 +607,7 @@ function drawPlan() {
   const R = P.room, m = 700, sw = stage.clientWidth, sh = stage.clientHeight, s = Math.max((R.w + 2 * m) / sw, (R.d + 2 * m) / sh);
   const vw = sw * s, vh = sh * s; vb = [-(vw - R.w) / 2, -(vh - R.d) / 2, vw, vh]; plan.setAttribute('viewBox', vb.join(' '));
   const fs = 14 * s, wt = 120;
-  let o = '<rect x="' + -wt + '" y="' + -wt + '" width="' + (R.w + 2 * wt) + '" height="' + (R.d + 2 * wt) + '" fill="#5a5048"/><rect width="' + R.w + '" height="' + R.d + '" fill="' + ((R.floor && R.floor.c) || '#8a6c50') + '"/>';
+  let o = '<rect x="' + -wt + '" y="' + -wt + '" width="' + (R.w + 2 * wt) + '" height="' + (R.d + 2 * wt) + '" fill="#5a5048"/><rect width="' + R.w + '" height="' + R.d + '" fill="' + (R.floor ? (/^#f{6}$/i.test(R.floor.c) ? FAVG[R.floor.t] : R.floor.c) : FAVG[0]) + '"/>';
   for (let x = 500; x < R.w; x += 500) o += '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + R.d + '" stroke="#7a5f46" stroke-width="' + s + '"/>';
   for (let z = 500; z < R.d; z += 500) o += '<line x1="0" y1="' + z + '" x2="' + R.w + '" y2="' + z + '" stroke="#7a5f46" stroke-width="' + s + '"/>';
   const op = (ob, col, door) => { if (!ob) return ''; const hz = ob.wall === 'N' || ob.wall === 'S', a = ob.off, b2 = ob.off + ob.w, edge = ob.wall === 'N' ? -wt / 2 : ob.wall === 'S' ? R.d + wt / 2 : ob.wall === 'W' ? -wt / 2 : R.w + wt / 2;
@@ -631,7 +635,7 @@ plan.addEventListener('pointerup', () => { if (!pdrag) return; snap(pdrag.it); p
 
 // ---------- UI ----------
 function chips(el, list, cur, fn) { el.innerHTML = list.map((t, i) => '<button type="button" class="chip" aria-pressed="' + (i === cur) + '" data-i="' + i + '">' + esc(t) + '</button>').join(''); el.onclick = e => { const b = e.target.closest('button'); if (b) fn(+b.dataset.i); }; }
-function swatches(el, cur, fn) { el.innerHTML = DECORS.map((d, i) => '<button type="button" aria-pressed="' + (i === cur) + '" data-i="' + i + '"><i style="background:' + (d.wood ? 'repeating-linear-gradient(100deg,' + d.c + ' 0 6px,' + d.g + ' 6px 8px,' + d.c + ' 8px 15px)' : d.c) + '"></i>' + esc(d.n) + '</button>').join(''); el.onclick = e => { const b = e.target.closest('button'); if (b) fn(+b.dataset.i); }; }
+function swatches(el, cur, fn) { el.innerHTML = DECORS.map((d, i) => '<button type="button" aria-pressed="' + (i === cur) + '" data-i="' + i + '"><i style="background:' + (d.tex ? 'url(' + d.tex + ') center/300%' : d.gloss ? 'linear-gradient(135deg,#fff 0 35%,' + d.c + ' 60%)' : d.c) + '"></i>' + esc(d.n) + '</button>').join(''); el.onclick = e => { const b = e.target.closest('button'); if (b) fn(+b.dataset.i); }; }
 function nums(el, n, cur, fn) { el.innerHTML = Array.from({length:n}, (_, i) => '<button type="button" aria-pressed="' + (i + 1 === cur) + '" data-i="' + (i + 1) + '">' + (i + 1) + '</button>').join(''); el.onclick = e => { const b = e.target.closest('button'); if (b) fn(+b.dataset.i); }; }
 let C;
 function select(id, keepView) { selId = id; sec = 0; refresh(); if (!keepView && view === '3d') focusSel(); }
@@ -772,8 +776,8 @@ document.addEventListener('keydown', e => { if (/INPUT|TEXTAREA|SELECT/.test(doc
   if (e.key === 'r' || e.key === 'R') rot90(); });
 $('#zIn').onclick = () => { rad = Math.max(.8, rad * .85); }; $('#zOut').onclick = () => { rad = Math.min(25, rad * 1.18); };
 // floor / wall materials
-function matButtons(el, names, kind, cur2, fn) { el.innerHTML = names.map((n, i) => '<button type="button" aria-pressed="' + (i === cur2) + '" data-i="' + i + '"><canvas width="96" height="40"></canvas>' + esc(n) + '</button>').join('');
-  [...el.querySelectorAll('canvas')].forEach((c, i) => { const t = document.createElement('canvas'); t.width = t.height = 128; paint(kind, i, (kind === 'f' ? FLOORC : WALLC)[i], t.getContext('2d'), 128); c.getContext('2d').drawImage(t, 0, 0, 128, 53, 0, 0, 96, 40); });
+function matButtons(el, names, kind, cur2, fn) { el.innerHTML = names.map((n, i) => { const tn = (kind === 'f' ? FTEX : WTEX)[i];
+    return '<button type="button" aria-pressed="' + (i === cur2) + '" data-i="' + i + '"><span class="mt" style="background:' + (tn ? 'url(' + TEXDIR + tn + '.jpg) center/' + (tn === 'tegla' || tn === 'marvany' ? '160%' : '260%') : WALLC[i]) + '"></span>' + esc(n) + '</button>'; }).join('');
   el.onclick = e => { const b = e.target.closest('button'); if (b) fn(+b.dataset.i); }; }
 let matsDrawn = '';
 function drawMats() { const R = P.room; R.floor = R.floor || {t:0, c:FLOORC[0]}; R.wall = R.wall || {t:0, c:WALLC[0]};
@@ -785,7 +789,7 @@ $('#floorC').addEventListener('input', e => { P.room.floor.c = e.target.value; r
 $('#wallC').addEventListener('input', e => { P.room.wall.c = e.target.value; refresh(true); });
 // prices
 $('#pg').innerHTML = Object.keys(PLAB).map(kk => '<div class="pg"><label for="p-' + kk + '">' + PLAB[kk] + '</label><input type="number" id="p-' + kk + '" step="' + (kk === 'szorzo' ? .05 : 10) + '" value="' + PRICE[kk] + '"></div>').join('');
-$('#pg').addEventListener('change', e => { PRICE[e.target.id.slice(2)] = +e.target.value || 0; try { localStorage.setItem('nakom-ar2', JSON.stringify(PRICE)); } catch (er) {} refresh(); });
+$('#pg').addEventListener('change', e => { PRICE[e.target.id.slice(2)] = +e.target.value || 0; try { localStorage.setItem('nakom-ar3', JSON.stringify(PRICE)); } catch (er) {} refresh(); });
 // toast/dialogs
 function toast(t) { const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(() => el.style.display = 'none', 2200); }
 const dlg = id => $(id).classList.add('on');
@@ -796,8 +800,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.dlg.on'
 const clean = () => JSON.stringify({...P, items:P.items.map(({_b, ...r}) => r)});
 async function packHash() { const s = new Blob([clean()]).stream().pipeThrough(new CompressionStream('deflate-raw')); const b = new Uint8Array(await new Response(s).arrayBuffer()); return 'p-' + [...b].map(x => x.toString(16).padStart(2, '0')).join(''); }
 async function unpackHash(h) { const hex = h.replace('#p-', ''); if (!/^[0-9a-f]+$/.test(hex)) return null; const b = new Uint8Array(hex.match(/../g).map(x => parseInt(x, 16))); const s = new Blob([b]).stream().pipeThrough(new DecompressionStream('deflate-raw')); return JSON.parse(await new Response(s).text()); }
-function migrate(R) { if (!R.doors) R.doors = R.door ? [R.door] : []; if (!R.wins) R.wins = R.win ? [R.win] : []; delete R.door; delete R.win; }
-function load(obj) { if (!obj || !obj.room || !Array.isArray(obj.items)) return false; P = obj; migrate(P.room); P.items.forEach(i => { i.id = uid++; i.name = String(i.name || 'Elem').slice(0, 40); }); selId = P.items[0] ? P.items[0].id : 0; $('#pname').value = P.name || 'Projekt'; return true; }
+function migrate(R) { if (R.mv !== 2) { if (R.wall) { const ot = R.wall.t; R.wall = ot === 4 ? {t:0, c:'#8c8077'} : ot === 5 ? {t:4, c:'#ffffff'} : ot > 0 ? {t:ot, c:'#ffffff'} : R.wall; } if (R.floor) R.floor.c = '#ffffff'; R.mv = 2; } if (!R.doors) R.doors = R.door ? [R.door] : []; if (!R.wins) R.wins = R.win ? [R.win] : []; delete R.door; delete R.win; }
+function load(obj) { if (!obj || !obj.room || !Array.isArray(obj.items)) return false; P = obj; migrate(P.room); if (P.dv !== 2) { P.items.forEach(i => { i.cfg.c = OLDDEC[i.cfg.c] ?? 0; i.cfg.f = OLDDEC[i.cfg.f] ?? 0; }); P.dv = 2; } P.items.forEach(i => { i.id = uid++; i.name = String(i.name || 'Elem').slice(0, 40); }); selId = P.items[0] ? P.items[0].id : 0; $('#pname').value = P.name || 'Projekt'; return true; }
 $('#shareBtn').onclick = async () => { try { const h = await packHash(); history.replaceState(null, '', '#' + h); $('#sLink').value = location.href.split('#')[0] + '#' + h; dlg('#sDlg'); } catch (e) { toast('A link készítése itt nem támogatott'); } };
 $('#sCopy').onclick = async () => { try { await navigator.clipboard.writeText($('#sLink').value); toast('Link a vágólapon'); } catch (e) { $('#sLink').select(); toast('Jelöld ki és másold: Ctrl+C'); } };
 // cart & quote

@@ -61,9 +61,22 @@ Az `index.html` alján, a `<script>` elején:
 - `P` – termékek: név, kategória, alkategóriák, ár (Ft), kép, leírás, méretválasztó (`[felirat, felár]`), és opcionálisan `preset` – melyik tervező-sablonnal nyíljon a „Testreszabom a tervezőben” gomb.
 - `COLORS` – a gyorsnézet színválasztója.
 
+### Konyhai elemek – rétegelt renderek
+A konyhai elemek képe három, egymásra tett rétegből áll (`assets/img/konyha/r/`):
+- `<elem>_<zart|nyitva>_korpusz_<szín>.jpg` – a korpusz, a lábak, a zsanérok, háttérrel;
+- `<elem>_<zart|nyitva>_front_<szín>.webp` – ajtók / fiókfrontok, átlátszó háttérrel;
+- `<elem>_<zart|nyitva>_fogantyu.webp` – fogantyúk, átlátszó háttérrel.
+
+Színkódok: `Tahoe`, `Sonoma`, `FeherFenyes`, `Fekete0076`, `Antracit0477`. Így a korpusz és a front színe külön választható (5 × 5 = 25 változat, 22 fájl elemenként).
+Az ár a `KD` listában megadott Ft/m² árakból számol: a Tahoe/Tahoe ár a listaár, a többi kivitel felára = (m²-ár különbség × panelfelület) × 1,15 hulladék × 1,4 árrés. A panelfelületek (korpusz m², front m²) a Blender-modellből jönnek.
+
+Renderelés Blenderben: `NAKOM_konyha_modulok_v2.blend`, szövegszerkesztőben a `nakom_retegek.py` szkript (`start()` sorba állítja és háttérben lerendereli az összes réteget a `NAKOM_termekek/retegek` mappába). A háttér nélküli PNG-kből a webes JPG/WebP fájlok a bolt sötét kártyaszínére komponálva készülnek.
+
 ## Beállítandó dolgok
 
 - **E-mail cím az ajánlatkéréshez:** `info@nakom.hu` szerepel kétszer – a `tervezo/index.html` elején (`NAKOM_EMAIL`) és az `index.html` végén. Írd át a valósra. Az ajánlatkérés most az ügyfél e-mail-programját nyitja meg kitöltve, a terv linkjével együtt.
+- **Szoba-textúrák (tervező):** `assets/tex/room/` – valódi, ismétlődő fotótextúrák (parketta, halszálka, hajópadló, beton, márvány, szőnyeg, tégla, fa lambéria). Cseréhez ugyanazzal a névvel írd felül a JPG-t; a `TILE` sor adja meg, hány méterenként ismétlődik. A halszálka a parkettafotó deszkáiból van kirakva.
+- **Bútorlap-árak:** Ft/m²-ben: Tahoe tölgy 7092, Sonoma tölgy 6516, Fehér fényes 13 500, Fekete 0076 (Swisspan) 6806, Antracit 0477 – erre nem volt ár megadva, ideiglenesen 6806. A tervezőben a bútorlap ára m² × hulladék-szorzó (1,15) × dekorár.
 - **Egységárak:** a tervezőben az oldal alján, az „Ár és egységárak” fülön. Ezek **példaértékek**; amit ott átírsz, azt az adott böngésző megjegyzi. Ha mindenkinél más alapértéket akarsz, a `tervezo/index.html`-ben a `let PRICE = {...}` sort írd át.
 - **Képek:** az `assets/img/` fájljait cseréld le saját renderekre ugyanazzal a fájlnévvel.
 

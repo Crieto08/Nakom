@@ -91,6 +91,13 @@ section.band{padding-block:clamp(40px,6vw,72px)}
 .card{background:var(--p1);border:1px solid #332D27;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
 .card .im{position:relative;aspect-ratio:1/1;background:#2E2924;cursor:pointer;border:0;padding:0;display:block;width:100%}
 .card .im img{width:100%;height:100%;object-fit:cover}.card .im img.cut{object-fit:contain;padding:8%}
+.stk img.fade{opacity:0;transition:opacity .45s ease}.stk img.fade.in{opacity:1}@media(prefers-reduced-motion:reduce){.stk img.fade{transition:none}}
+.stk{position:relative;display:block;width:100%;height:100%;aspect-ratio:1/1;background:#2E2924}.stk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .im .stk.alt{position:absolute;inset:0;opacity:0;transition:opacity .25s}@media(hover:hover){.card .im:hover .stk.alt{opacity:1}}.card .im:focus-visible .stk.alt{opacity:1}
+.card .csw{gap:5px;margin-top:5px;align-items:center}.card .csw small{width:52px;font-size:11px;color:var(--mut)}.card .csw button{width:24px;height:24px}
+.kopt .csw small{width:60px;font-size:12px;color:var(--mut)}@media(max-width:560px){.card .csw{gap:3px}.card .csw small{width:auto;min-width:40px;font-size:10px}.card .csw button{width:20px;height:20px;padding:1px}}.kopt .csw{align-items:center;margin-top:8px}
+.csw{display:flex;gap:6px;margin-top:6px}.csw button{width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:none;padding:2px;cursor:pointer}.csw button i{display:block;width:100%;height:100%;border-radius:50%;box-shadow:0 0 0 1px #0004 inset}.csw button[aria-pressed=true]{border-color:var(--acc)}
+.mbox .mi{position:relative}.mbox .mi>.stk{position:absolute;inset:0;aspect-ratio:auto}.thumbs{position:absolute;left:10px;right:10px;bottom:10px;display:flex;gap:8px;justify-content:center}.thumbs button{width:76px;border:2px solid transparent;border-radius:6px;background:#1C1916d9;padding:3px;cursor:pointer;color:var(--ink);font-size:11px}.thumbs .th{display:block;height:48px;border-radius:4px;overflow:hidden;padding:0}.thumbs .th>img{width:100%;height:48px;object-fit:cover}.thumbs .th .stk{height:48px;aspect-ratio:auto}.thumbs button[aria-pressed=true]{border-color:var(--acc)}.thumbs span{display:block;padding-top:2px}
 .tag{position:absolute;top:10px;left:10px;background:var(--bg);color:var(--acc);font-size:12px;font-weight:600;padding:4px 9px;border-radius:3px}
 .card .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:3px;flex:1}
 .card h3{margin:0;font-size:17px;font-weight:600;line-height:1.3}
@@ -100,8 +107,8 @@ section.band{padding-block:clamp(40px,6vw,72px)}
 .addc{width:46px;height:46px;border-radius:4px;border:0;background:var(--acc);color:#1C1916;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
 .empty{padding:40px;text-align:center;border:1px dashed var(--line);border-radius:8px;color:var(--mut)}
 .cta{position:relative;overflow:hidden;background:var(--p2);border-block:1px solid var(--line)}
-.cta>img{position:absolute;left:0;top:0;height:100%;width:26%;object-fit:cover}
-.cta .wrap{position:relative;display:flex;gap:28px;align-items:center;flex-wrap:wrap;padding-block:36px;padding-left:max(28%,40px)}
+.cta>img{position:absolute;left:0;top:0;height:100%;width:auto;max-width:none;aspect-ratio:2620/725;object-fit:cover}
+.cta .wrap{position:relative;display:flex;gap:28px;align-items:center;flex-wrap:wrap;padding-block:52px;padding-left:max(55%,40px)}
 .cta h2{margin:0 0 6px;font-size:28px}.cta p{margin:0;color:#D8CEC1}
 .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;list-style:none;margin:0;padding:0}
 .steps li{background:var(--p1);border:1px solid #332D27;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:8px}
@@ -125,7 +132,7 @@ footer h4{margin:0 0 10px;color:var(--ink);font-size:15px}footer a{display:block
 .x{width:44px;height:44px;border:0;background:none;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:center}
 .db{flex:1;overflow:auto;padding:8px 18px}
 .ci{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
-.ci img,.ci .ph{width:72px;height:72px;border-radius:6px;object-fit:cover;background:#2E2924}
+.ci .stk{width:72px;height:72px;border-radius:6px;overflow:hidden}.ci>img,.ci .ph{width:72px;height:72px;border-radius:6px;object-fit:cover;background:#2E2924}
 .ci .ph{display:flex;align-items:center;justify-content:center;color:var(--acc)}
 .ci h3{margin:0;font-size:15px}.ci small{display:block;color:var(--mut);font-size:13px}
 .ci .r{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
@@ -159,7 +166,7 @@ footer h4{margin:0 0 10px;color:var(--ink);font-size:15px}footer a{display:block
  .cats{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:6px}.cat{flex:0 0 46%;scroll-snap-align:start;height:150px}
  .hero>img{position:static;width:100%;height:230px}.hero::after{display:none}.hero .wrap{padding-block:26px 40px}
  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}.b2b .wrap{grid-template-columns:minmax(0,1fr)}
- .cta>img{display:none}.cta .wrap{padding-left:clamp(14px,3vw,40px)}
+ .cta>img{width:100%;height:100%;aspect-ratio:auto;opacity:.28}.cta .wrap{padding-left:clamp(14px,3vw,40px)}
  footer .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}footer .wrap>div:first-child{grid-column:1/-1}
  .mbox{grid-template-columns:minmax(0,1fr)}.mbox .mi{min-height:0;aspect-ratio:4/3}
  .filters select{margin-left:0;flex:1 1 100%}
@@ -216,7 +223,7 @@ footer h4{margin:0 0 10px;color:var(--ink);font-size:15px}footer a{display:block
 <p class="note" style="margin-top:16px">Az árak és a képek példaértékek, a gyártás előtt egyeztetünk.</p>
 </div></section>
 
-<section class="cta"><img src="assets/img/fa.jpg" alt=""><div class="wrap"><div style="flex:1 1 360px"><h2>Valósítsa meg saját elképzelését!</h2><p>Online tervezőnkben pár lépésben megalkothatja bútorát – pontos méretekkel, a saját szobájában, élő árral.</p></div><a class="btn pri" href="tervezo/">Tervező indítása →</a></div></section>
+<section class="cta"><img src="assets/img/butorlapok.webp" alt="" loading="lazy"><div class="wrap"><div style="flex:1 1 360px"><h2>Valósítsa meg saját elképzelését!</h2><p>Online tervezőnkben pár lépésben megalkothatja bútorát – pontos méretekkel, a saját szobájában, élő árral.</p></div><a class="btn pri" href="tervezo/">Tervező indítása →</a></div></section>
 
 <section class="band"><div class="wrap"><div class="sh"><h2>Így készül az Ön bútora</h2></div>
 <ol class="steps"><li><b>1</b><strong>Megtervezi</strong><span>A tervezőben vagy velünk együtt, pontos méretekkel.</span></li><li><b>2</b><strong>Megrendeli</strong><span>Előleggel rögzítjük a gyártást, céges számlával is.</span></li><li><b>3</b><strong>Legyártjuk</strong><span>Friss anyagból, saját műhelyünkben, 2–3 hét alatt.</span></li><li><b>4</b><strong>Leszállítjuk</strong><span>Országosan, kérésre helyszíni összeszereléssel.</span></li></ol>
@@ -233,7 +240,7 @@ footer h4{margin:0 0 10px;color:var(--ink);font-size:15px}footer a{display:block
 <div><h4>Bútorok</h4><div id="fcats"></div></div>
 <div><h4>Vásárlás</h4><a href="#termekek">Szállítás és szerelés</a><a href="#termekek">Elállás</a><a href="#termekek">ÁSZF</a><a href="#termekek">Adatkezelés</a></div>
 <div><h4>NAKOM</h4><a href="tervezo/">Bútortervező</a><a href="#cegeknek">Cégeknek</a><a href="#cegeknek">Kapcsolat</a></div>
-<div class="legal"><span>© 2026 NAKOM Furniture &amp; Design</span><span>Prototípus – példaárakkal</span></div>
+<div class="legal"><span>© 2026 NAKOM Furniture &amp; Design</span><span>Prototípus – példaárakkal; a konyhai elemek képei saját renderek</span></div>
 </div></footer>
 
 <div class="scrim" id="scrim"></div>
@@ -262,7 +269,7 @@ const CATS = [
  {id:'iroda', n:'Irodabútor', subs:[['iroasztal','Íróasztalok','iroasztal.jpg'],['vezetoi','Vezetői asztalok','asztal.png'],['targyalo','Tárgyalók','sideboard.png'],['irodaitarolo','Irodai tárolók','sideboard.png'],['irat','Iratszekrények','szekreny.jpg']]},
  {id:'nappali', n:'Nappali', subs:[['tv','TV-falak','hero.jpg'],['sideboard','Sideboardok','komod.jpg'],['polc','Polcrendszerek','polc.jpg'],['dohanyzo','Dohányzóasztalok','dohanyzo.png']]},
  {id:'haloszoba', n:'Hálószoba', subs:[['ruhas','Ruhásszekrények','szekreny.jpg'],['komod','Komódok','komod.jpg'],['ejjeli','Éjjeliszekrények','komod.jpg']]},
- {id:'konyha', n:'Konyha', subs:[['also','Alsó elemek','konyha.jpg'],['felso','Felső elemek','konyha.jpg'],['kamra','Kamraszekrények','szekreny.jpg']]},
+ {id:'konyha', n:'Konyha', subs:[['also','Alsó elemek','konyha/kz/Also_60_3fiok_Wotan_kornyezet.jpg'],['felso','Felső elemek','konyha/kz/Felso_80_2ajto_Wotan_kornyezet.jpg']]},
  {id:'tarolas', n:'Tárolás', subs:[['polc','Polcrendszerek','polc.jpg'],['komod','Komódok','komod.jpg'],['irodaitarolo','Irodai tárolók','sideboard.png']]}];
 const SUBN = {}; CATS.forEach(c => c.subs.forEach(s => SUBN[s[0]] = s[1]));
 const P = [
@@ -276,11 +283,49 @@ const P = [
  {id:'feny', n:'Fény polcrendszer', c:'nappali', s:['polc'], p:219000, img:'polc.jpg', tag:'LED-del', d:'Falra szerelt polcrendszer beépített világítással.', sizes:[['120 cm',0],['180 cm',45000]], preset:5},
  {id:'lounge', n:'Lounge dohányzóasztal', c:'nappali', s:['dohanyzo'], p:89000, img:'dohanyzo.png', cut:1, tag:'Kollekció', d:'Dió lap, alsó nyitott polc, lekerekített élek.', sizes:[['80 cm',0],['100 cm',12000]]},
  {id:'kasmir', n:'Kasmír ruhásszekrény', c:'haloszoba', s:['ruhas'], p:349000, img:'szekreny.jpg', tag:'Méretre szabható', d:'Ajtós és fiókos rekeszek, belső világítás opcióval.', sizes:[['150 cm',0],['200 cm',70000],['250 cm',140000]], preset:4},
- {id:'komod4', n:'Dió 4 komód', c:'haloszoba', s:['komod', 'ejjeli'], p:159000, img:'komod.jpg', tag:'Népszerű', d:'Nyolc fiók, fékes csúszóval, fém lábakon.', sizes:[['100 cm',0],['120 cm',18000]], preset:1},
- {id:'also60', n:'Konyhai alsó elem 60', c:'konyha', s:['also'], p:69000, img:'konyha.jpg', tag:'Modul', d:'Fiókos alsó elem lábazattal, fogantyúval vagy anélkül.', sizes:[['40 cm',-9000],['60 cm',0],['80 cm',11000]], preset:7},
- {id:'felso', n:'Konyhai felső elem', c:'konyha', s:['felso'], p:52000, img:'konyha.jpg', tag:'Modul', d:'Kétajtós felső elem, falra akasztó vasalattal.', sizes:[['60 cm',0],['80 cm',8000]], preset:6},
- {id:'mosogato', n:'Mosogatószekrény', c:'konyha', s:['also'], p:74000, img:'konyha.jpg', tag:'Modul', d:'Kétajtós alsó elem függőleges merevítőkkel, hátfal nélkül a csövek miatt.', sizes:[['80 cm',0],['90 cm',6000],['100 cm',12000]], preset:8},
- {id:'kamra', n:'Kamraszekrény', c:'konyha', s:['kamra'], p:189000, img:'szekreny.jpg', tag:'Konyhába', d:'Magas kamraszekrény állítható polcokkal.', sizes:[['60 cm',0],['80 cm',22000]], preset:3}];
+ {id:'komod4', n:'Dió 4 komód', c:'haloszoba', s:['komod', 'ejjeli'], p:159000, img:'komod.jpg', tag:'Népszerű', d:'Nyolc fiók, fékes csúszóval, fém lábakon.', sizes:[['100 cm',0],['120 cm',18000]], preset:1}];
+// Konyhai elemek – rétegelt saját renderek (assets/img/konyha/r):
+//   korpusz_<szín>.jpg (háttérrel) + front_<szín>.webp (átlátszó) + fogantyu.webp (átlátszó), zárt és nyitott állapotban.
+//   A rétegek egymásra téve adják ki a képet, így a korpusz és a front színe külön választható (5 × 5).
+const KD = [{k:'Tahoe', n:'Tahoe tölgy', m2:7092, sw:'url(assets/tex/tahoe.jpg) center/400%'},
+  {k:'Sonoma', n:'Sonoma tölgy', m2:6516, sw:'url(assets/tex/sonoma.jpg) center/400%'},
+  {k:'FeherFenyes', n:'Fehér fényes', m2:13500, sw:'linear-gradient(135deg,#fff 0 35%,#e9e9e6 60%)'},
+  {k:'Fekete0076', n:'Fekete 0076', m2:6806, sw:'#161513'},
+  {k:'Antracit0477', n:'Antracit 0477', m2:6806, sw:'#707070'}];
+const KMUL = 1.15 * 1.4; // hulladék × árrés – a bútorlap m²-ára így kerül az eladási árba
+// [alap, név, alkategória, ár Tahoe/Tahoe kivitelben, leírás, tervező-minta, korpusz m², front m², van-e külön fogantyú-réteg]
+[['Also_40_1ajto', 'Alsó elem 40, egyajtós', 'also', 54900, 'Egyajtós alsó elem krómozott lábakon, belső polccal.', 7, 1.401, .284, 1],
+ ['Also_60_1ajto_profil', 'Alsó elem 60, profilfogantyús', 'also', 64900, 'Egyajtós alsó elem, a front tetején alumínium profilfogantyúval.', 7, 1.731, .407, 1],
+ ['Also_60_3fiok', 'Alsó elem 60, 3 fiókos', 'also', 89900, 'Három fiókos alsó elem fékes, golyós fiókcsúszóval.', 7, 2.701, .423, 1],
+ ['Also_80_2ajto', 'Alsó elem 80, kétajtós', 'also', 74900, 'Kétajtós alsó elem – mosogatószekrénynek is.', 8, 2.061, .566, 1],
+ ['Felso_40_1ajto', 'Felső elem 40, egyajtós', 'felso', 39900, 'Egyajtós fali elem, falra akasztó vasalattal.', 6, .904, .285, 1],
+ ['Felso_60_1ajto', 'Felső elem 60, egyajtós', 'felso', 46900, 'Egyajtós fali elem, belső polccal.', 6, 1.151, .427, 1],
+ ['Felso_60_1ajto_profil', 'Felső elem 60, profilfogantyús', 'felso', 49900, 'Egyajtós fali elem, a front alján fogantyúprofillal.', 6, 1.151, .408, 1],
+ ['Felso_80_2ajto', 'Felső elem 80, kétajtós', 'felso', 56900, 'Kétajtós fali elem, belső polccal.', 6, 1.398, .569, 1]].forEach(([base, n, sub, price, d, preset, ac, af, hand], i) => {
+  const vars = []; KD.forEach((c, ci) => KD.forEach((fr, fi) => vars.push({c:ci, f:fi, n:'Korpusz: ' + c.n + ' · Front: ' + fr.n,
+    add:Math.round(((c.m2 - KD[0].m2) * ac + (fr.m2 - KD[0].m2) * af) * KMUL / 100) * 100})));
+  P.push({id:'k-' + base.toLowerCase(), n, c:'konyha', s:[sub], p:price, base, vars, hand, tag:i === 2 ? 'Népszerű' : 'Saját render', d, sizes:[[base.split('_')[1] + ' cm', 0]], preset});
+});
+const KR = 'konyha/r/';
+const layersOf = (p, vi, st) => { const v = p.vars[vi] || p.vars[0], b = KR + p.base + '_' + st + '_';
+  return [b + 'korpusz_' + KD[v.c].k + '.jpg', b + 'front_' + KD[v.f].k + '.webp'].concat(p.hand ? [b + 'fogantyu.webp'] : []); };
+const stackHTML = (p, vi, st, cls, key) => '<span class="stk' + (cls ? ' ' + cls : '') + '" data-k="' + (key || p.id) + '|' + st + '">' + layersOf(p, vi, st).map((u, i) => '<img data-l="' + i + '" src="' + IMG + u + '" alt=""' + (i ? '' : ' loading="lazy"') + '>').join('') + '</span>';
+// Színváltáskor rétegenként áttűnés: a régi kép a helyén marad, az új ugyanabban a rétegben (a felette lévők alatt) úszik be,
+// így korpuszváltásnál a front és a fogantyú végig felül marad.
+const snapStacks = root => { const m = {}; root.querySelectorAll('.stk[data-k]').forEach(k => { m[k.dataset.k] = [...k.querySelectorAll('img[data-l]')].map(i => i.getAttribute('src')); }); return m; };
+function fadeStacks(root, snap) { root.querySelectorAll('.stk[data-k]').forEach(k => { const old = snap[k.dataset.k]; if (!old) return;
+  k.querySelectorAll('img[data-l]').forEach(im => { const o = old[+im.dataset.l]; if (!o || o === im.getAttribute('src')) return;
+    const ghost = document.createElement('img'); ghost.src = o; ghost.alt = ''; k.insertBefore(ghost, im); im.loading = 'eager'; im.classList.add('fade');
+    const go = () => requestAnimationFrame(() => requestAnimationFrame(() => im.classList.add('in')));
+    if (im.complete && im.naturalWidth) go(); else { im.onload = go; im.onerror = go; }
+    const done = () => { ghost.remove(); im.classList.remove('fade', 'in'); }; im.addEventListener('transitionend', done, {once:true}); setTimeout(done, 1500); }); }); }
+const envOf = (p, vi) => { const v = p.vars[vi] || p.vars[0]; return 'konyha/kz/' + p.base + '_' + (v.f === 2 ? (v.c === 2 ? 'Feher' : 'Wotan-korpusz_Feher-front') : 'Wotan') + '_kornyezet.jpg'; };
+const imgOf = (p, vi, kind) => !p.base ? p.img : kind === 'env' ? envOf(p, vi) : layersOf(p, vi, kind === 'open' ? 'nyitva' : 'zart')[0];
+const varsOf = p => p.vars || COLORS.map(c => ({n:c[0], c:c[1], add:0}));
+const cardVar = {};
+// korpusz- és frontszín-választó sor (kártyán: data-cv, termékablakban: data-mv)
+const kSw = (p, vi, at) => { const v = p.vars[vi]; return ['c', 'f'].map(w => '<div class="csw"><small>' + (w === 'c' ? 'Korpusz' : 'Front') + '</small>' + KD.map((d, i) => { const ni = w === 'c' ? i * 5 + v.f : v.c * 5 + i;
+  return '<button type="button" data-' + at + '="' + p.id + '|' + ni + '" aria-label="' + (w === 'c' ? 'Korpusz' : 'Front') + ': ' + esc(d.n) + '" title="' + esc(d.n) + '" aria-pressed="' + ((w === 'c' ? v.c : v.f) === i) + '"><i style="background:' + d.sw + '"></i></button>'; }).join('') + '</div>').join(''); };
 P.forEach(p => { if (!CATS.find(c => c.id === 'tarolas').subs.some(s => p.s.includes(s[0]))) return; p.c2 = 'tarolas'; });
 const COLORS = [['Amerikai dió','#6B4A31'],['Natúr tölgy','#B58C60'],['Antracit','#3A3734'],['Kasmír','#CFC3B3'],['Fehér','#ECEAE6']];
 
@@ -303,7 +348,7 @@ $('#mcats').addEventListener('mouseover', e => { const b = e.target.closest('but
 $('#mcats').addEventListener('click', e => { const b = e.target.closest('button'); if (b) megaSub(+b.dataset.i); });
 megaSub(0);
 $('#mobCats').innerHTML = CATS.map(c => '<details><summary>' + esc(c.n) + '<svg class="ic" viewBox="0 0 24 24" style="width:18px"><path d="M6 9l6 6 6-6"/></svg></summary><div class="tiles">' + c.subs.map(s => tileHTML(c, s)).join('') + '</div><button type="button" class="btn ghost" style="width:100%;margin-bottom:14px" data-cat="' + c.id + '" data-sub="">Összes ' + esc(c.n.toLowerCase()) + '</button></details>').join('');
-const catTiles = [['iroda','iroasztal','Íróasztalok','iroasztal.jpg'],['haloszoba','ruhas','Szekrények','szekreny.jpg'],['haloszoba','komod','Komódok','komod.jpg'],['nappali','polc','Polcrendszerek','polc.jpg'],['konyha','','Konyhabútorok','konyha.jpg']];
+const catTiles = [['iroda','iroasztal','Íróasztalok','iroasztal.jpg'],['haloszoba','ruhas','Szekrények','szekreny.jpg'],['haloszoba','komod','Komódok','komod.jpg'],['nappali','polc','Polcrendszerek','polc.jpg'],['konyha','','Konyhabútorok','konyha/kz/Also_60_3fiok_Wotan_kornyezet.jpg']];
 $('#cats').innerHTML = catTiles.map(t => '<button type="button" class="cat" data-cat="' + t[0] + '" data-sub="' + t[1] + '"><img src="' + IMG + t[3] + '" alt="" loading="lazy"><span>' + t[2] + '</span></button>').join('') + '<a class="cat tool" href="tervezo/"><svg class="ic" viewBox="0 0 24 24" style="width:48px;height:48px;color:var(--acc)"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg><span>Egyedi bútorok</span></a>';
 $('#fcats').innerHTML = CATS.map(c => '<a href="#termekek" data-cat="' + c.id + '" data-sub="">' + esc(c.n) + '</a>').join('');
 
@@ -324,7 +369,10 @@ function drawGrid() {
     '<select id="sort" aria-label="Rendezés"><option value="pop">Népszerűség</option><option value="asc">Ár szerint növekvő</option><option value="desc">Ár szerint csökkenő</option><option value="name">Név szerint</option></select>';
   $('#sort').value = sort;
   $('#count').textContent = list.length + ' termék';
-  $('#grid').innerHTML = list.length ? list.map(p => '<article class="card"><button type="button" class="im" data-open="' + p.id + '" aria-label="' + esc(p.n) + ' részletei"><img src="' + IMG + p.img + '" alt="" loading="lazy"' + (p.cut ? ' class="cut"' : '') + '><span class="tag">' + esc(p.tag) + '</span></button><div class="bd"><h3>' + esc(p.n) + '</h3><span class="ds">' + esc(p.d.split(',')[0]) + '</span><div class="ft"><span class="price">' + fmt(p.p) + '-tól</span><button type="button" class="addc" data-add="' + p.id + '" aria-label="Kosárba: ' + esc(p.n) + '"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"/><path d="M13 9v4M11 11h4"/></svg></button></div></div></article>').join('')
+  $('#grid').innerHTML = list.length ? list.map(p => { const vi = cardVar[p.id] || 0;
+    return '<article class="card"><button type="button" class="im" data-open="' + p.id + '" aria-label="' + esc(p.n) + ' részletei">' + (p.base ? stackHTML(p, vi, 'zart') + stackHTML(p, vi, 'nyitva', 'alt') : '<img src="' + IMG + p.img + '" alt="" loading="lazy"' + (p.cut ? ' class="cut"' : '') + '>') + '<span class="tag">' + esc(p.tag) + '</span></button><div class="bd"><h3>' + esc(p.n) + '</h3><span class="ds">' + esc(p.d.split(',')[0]) + '</span>' +
+      (p.base ? kSw(p, vi, 'cv') : '') +
+      '<div class="ft"><span class="price">' + fmt(p.p + (p.base ? p.vars[vi].add : 0)) + (p.base ? '' : '-tól') + '</span><button type="button" class="addc" data-add="' + p.id + '" aria-label="Kosárba: ' + esc(p.n) + '"><svg class="ic" viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"/><path d="M13 9v4M11 11h4"/></svg></button></div></div></article>'; }).join('')
     : '<div class="empty" style="grid-column:1/-1">Nincs ilyen termék. Tervezze meg a tervezőben – bármilyen méretben legyártjuk.<br><br><a class="btn pri" href="tervezo/">Tervező indítása</a></div>';
 }
 $('#filters').addEventListener('change', e => { if (e.target.id === 'sort') { sort = e.target.value; drawGrid(); } });
@@ -332,7 +380,8 @@ function setFilter(cat, sub, q, scroll) { filt = {cat:cat || '', sub:sub || '', 
 document.addEventListener('click', e => {
   const f = e.target.closest('[data-cat]'); if (f) { e.preventDefault(); setFilter(f.dataset.cat, f.dataset.sub, '', true); $('#q').value = ''; return; }
   if (e.target.closest('#clrQ')) { $('#q').value = ''; setFilter(filt.cat, filt.sub, '', false); return; }
-  const a = e.target.closest('[data-add]'); if (a) { const p = P.find(x => x.id === a.dataset.add); addCart(p, p.sizes[0], COLORS[0], 1); return; }
+  const cv = e.target.closest('[data-cv]'); if (cv) { const [id, i] = cv.dataset.cv.split('|'), sn = snapStacks($('#grid')); cardVar[id] = +i; drawGrid(); fadeStacks($('#grid'), sn); return; }
+  const a = e.target.closest('[data-add]'); if (a) { const p = P.find(x => x.id === a.dataset.add), vi = cardVar[p.id] || 0; addCart(p, p.sizes[0], vi, 1); return; }
   const o = e.target.closest('[data-open]'); if (o) { openProduct(o.dataset.open); return; }
   if (e.target.closest('[data-close]') || e.target.id === 'scrim' || e.target.id === 'pm') closeAll();
   if (!e.target.closest('#catBtn,#mega')) { $('#mega').classList.remove('on'); $('#catBtn').setAttribute('aria-expanded', 'false'); }
@@ -359,30 +408,35 @@ $('#searchF').addEventListener('submit', e => { e.preventDefault(); q.blur(); se
 
 // ---------- product modal ----------
 function openProduct(id) {
-  const p = P.find(x => x.id === id); if (!p) return; let si = 0, ci = 0, qty = 1;
-  const draw = () => { $('#pmBox').innerHTML = '<button class="x" type="button" data-close aria-label="Bezárás"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="mi"><img src="' + IMG + p.img + '" alt="' + esc(p.n) + '"' + (p.cut ? ' class="cut"' : '') + '></div><div class="mc"><span class="tag" style="position:static;align-self:flex-start">' + esc(p.tag) + '</span><h2 id="pmT">' + esc(p.n) + '</h2><p style="margin:0;color:#D8CEC1">' + esc(p.d) + '</p>' +
-    '<div><strong style="font-size:14px">Szélesség</strong><div class="opt" style="margin-top:8px">' + p.sizes.map((s, i) => '<button type="button" class="chip" aria-pressed="' + (i === si) + '" data-si="' + i + '">' + s[0] + '</button>').join('') + '</div></div>' +
-    '<div><strong style="font-size:14px">Szín: ' + COLORS[ci][0] + '</strong><div class="opt" style="margin-top:8px">' + COLORS.map((c, i) => '<button type="button" class="sw" style="background:' + c[1] + '" aria-pressed="' + (i === ci) + '" aria-label="' + c[0] + '" data-ci="' + i + '"></button>').join('') + '</div></div>' +
-    '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span class="price" style="font-size:28px">' + fmt((p.p + p.sizes[si][1]) * qty) + '</span><div class="qty"><button type="button" data-q="-1" aria-label="Kevesebb">−</button><span>' + qty + '</span><button type="button" data-q="1" aria-label="Több">+</button></div></div>' +
-    '<button type="button" class="btn pri" id="pmAdd">Kosárba</button>' + (p.preset != null ? '<a class="btn" href="tervezo/#minta-' + p.preset + '">Testreszabom a tervezőben</a>' : '') + '<p class="note">Gyártás 2–3 hét. Egyedi méret? A tervezőben centire megadhatja.</p></div>'; };
+  const p = P.find(x => x.id === id); if (!p) return; let si = 0, ci = cardVar[p.id] || 0, qty = 1, gi = 0; const V = varsOf(p);
+  const shots = () => p.base ? [['Zárva', 'zart'], ['Nyitva', 'nyitva'], ['Enteriőr (minta)', 'env']] : [['', p.img]];
+  const shot = (x, big) => !p.base ? '<img src="' + IMG + x[1] + '" alt="' + esc(p.n) + '"' + (p.cut ? ' class="cut"' : '') + '>' : x[1] === 'env' ? '<img src="' + IMG + envOf(p, ci) + '" alt="' + esc(p.n) + ' enteriőrben">' : stackHTML(p, ci, x[1], '', big ? 'mb' : 'mt');
+  const draw = () => { const sh = shots(); gi = Math.min(gi, sh.length - 1);
+    $('#pmBox').innerHTML = '<button class="x" type="button" data-close aria-label="Bezárás"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="mi">' + shot(sh[gi], 1) +
+      (sh.length > 1 ? '<div class="thumbs">' + sh.map((x, i) => '<button type="button" data-gi="' + i + '" aria-pressed="' + (i === gi) + '" aria-label="' + x[0] + '"><span class="th">' + shot(x) + '</span><span>' + x[0] + '</span></button>').join('') + '</div>' : '') + '</div>' +
+      '<div class="mc"><span class="tag" style="position:static;align-self:flex-start">' + esc(p.tag) + '</span><h2 id="pmT">' + esc(p.n) + '</h2><p style="margin:0;color:#D8CEC1">' + esc(p.d) + '</p>' +
+      (p.sizes.length > 1 ? '<div><strong style="font-size:14px">Szélesség</strong><div class="opt" style="margin-top:8px">' + p.sizes.map((s2, i) => '<button type="button" class="chip" aria-pressed="' + (i === si) + '" data-si="' + i + '">' + s2[0] + '</button>').join('') + '</div></div>' : '<div style="font-size:14px"><strong>Szélesség:</strong> ' + p.sizes[0][0] + '</div>') +
+      (p.base ? '<div class="kopt"><strong style="font-size:14px">' + esc(V[ci].n) + '</strong>' + kSw(p, ci, 'ci') + '</div>' : '<div><strong style="font-size:14px">Szín: ' + esc(V[ci].n) + '</strong><div class="opt" style="margin-top:8px">' + V.map((c, i) => '<button type="button" class="sw" style="background:' + c.c + '" aria-pressed="' + (i === ci) + '" aria-label="' + esc(c.n) + '" title="' + esc(c.n) + '" data-ci="' + i + '"></button>').join('') + '</div></div>') +
+      '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span class="price" style="font-size:28px">' + fmt((p.p + p.sizes[si][1] + V[ci].add) * qty) + '</span><div class="qty"><button type="button" data-q="-1" aria-label="Kevesebb">−</button><span>' + qty + '</span><button type="button" data-q="1" aria-label="Több">+</button></div></div>' +
+      '<button type="button" class="btn pri" id="pmAdd">Kosárba</button>' + (p.preset != null ? '<a class="btn" href="tervezo/#minta-' + p.preset + '">Testreszabom a tervezőben</a>' : '') + '<p class="note">Gyártás 2–3 hét. Egyedi méret? A tervezőben centire megadhatja.</p></div>'; };
   draw(); $('#pm').classList.add('on'); $('#scrim').classList.add('on'); document.body.style.overflow = 'hidden';
   $('#pmBox').onclick = e => { const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.si) { si = +b.dataset.si; draw(); } else if (b.dataset.ci) { ci = +b.dataset.ci; draw(); } else if (b.dataset.q) { qty = Math.max(1, qty + +b.dataset.q); draw(); }
-    else if (b.id === 'pmAdd') { addCart(p, p.sizes[si], COLORS[ci], qty); closeAll(); } };
+    if (b.dataset.si) { si = +b.dataset.si; draw(); } else if (b.dataset.ci) { const sm = snapStacks($('#pmBox')), sg = snapStacks($('#grid')); ci = +b.dataset.ci.split('|').pop(); cardVar[p.id] = ci; draw(); drawGrid(); fadeStacks($('#pmBox'), sm); fadeStacks($('#grid'), sg); } else if (b.dataset.gi) { gi = +b.dataset.gi; draw(); } else if (b.dataset.q) { qty = Math.max(1, qty + +b.dataset.q); draw(); }
+    else if (b.id === 'pmAdd') { addCart(p, p.sizes[si], ci, qty); closeAll(); } };
   setTimeout(() => $('#pmBox .x').focus(), 30);
 }
 
 // ---------- cart (közös a tervezővel: localStorage 'nakom-kosar') ----------
-function addCart(p, size, col, qty) {
-  const key = p.id + '|' + size[0] + '|' + col[0], ex = cart.find(c => c.key === key);
-  if (ex) ex.qty += qty; else cart.push({key, name:p.n, opts:size[0] + ' · ' + col[0], price:p.p + size[1], qty, img:IMG + p.img});
+function addCart(p, size, vi, qty) {
+  const v = varsOf(p)[vi] || varsOf(p)[0], key = p.id + '|' + size[0] + '|' + v.n, ex = cart.find(c => c.key === key);
+  if (ex) ex.qty += qty; else cart.push({key, name:p.n, opts:size[0] + ' · ' + v.n, price:p.p + size[1] + v.add, qty, img:IMG + imgOf(p, vi, 'closed'), imgs:p.base ? layersOf(p, vi, 'zart').map(u => IMG + u) : undefined});
   saveCart(); toast(p.n + ' a kosárban'); bump();
 }
 function bump() { const b = $('#cartN'); b.animate && b.animate([{transform:'scale(1.5)'}, {transform:'scale(1)'}], {duration:300}); }
 function drawCart() {
   const n = cart.reduce((a, c) => a + (c.qty || 1), 0); $('#cartN').textContent = n;
   $('#cartT').textContent = fmt(cart.reduce((a, c) => a + c.price * (c.qty || 1), 0));
-  $('#cartL').innerHTML = cart.length ? cart.map((c, i) => '<div class="ci">' + (c.img ? '<img src="' + esc(c.img) + '" alt="">' : '<span class="ph"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span>') +
+  $('#cartL').innerHTML = cart.length ? cart.map((c, i) => '<div class="ci">' + (Array.isArray(c.imgs) ? '<span class="stk">' + c.imgs.map(u => '<img src="' + esc(u) + '" alt="">').join('') + '</span>' : c.img ? '<img src="' + esc(c.img) + '" alt="">' : '<span class="ph"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span>') +
     '<div><h3>' + esc(c.name) + '</h3><small>' + esc(c.opts || '') + '</small>' + (c.link ? '<small><a href="' + esc(c.link) + '" style="color:var(--acc)">Terv megnyitása</a></small>' : '') +
     '<div class="r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Kevesebb">−</button><span>' + (c.qty || 1) + '</span><button type="button" data-cq="' + i + '" data-d="1" aria-label="Több">+</button></div><b>' + fmt(c.price * (c.qty || 1)) + '</b></div><button type="button" class="rm" data-crm="' + i + '">Eltávolítás</button></div></div>').join('')
     : '<div class="empty" style="margin-top:20px">A kosár üres.<br><br><button type="button" class="btn" data-close data-cat="" data-sub="">Vásárlás folytatása</button></div>';
