@@ -72,6 +72,14 @@ Az ár a `KD` listában megadott Ft/m² árakból számol: a Tahoe/Tahoe ár a l
 
 Renderelés Blenderben: `NAKOM_konyha_modulok_v2.blend`, szövegszerkesztőben a `nakom_retegek.py` szkript (`start()` sorba állítja és háttérben lerendereli az összes réteget a `NAKOM_termekek/retegek` mappába). A háttér nélküli PNG-kből a webes JPG/WebP fájlok a bolt sötét kártyaszínére komponálva készülnek.
 
+## Admin (gyártási) felület – `/admin/`
+
+- A vásárlói tervezőből (`/tervezo/`) kikerült a szabásjegyzék, a szabási terv, a vasalatlista, a műszaki rajz és az egységárak szerkesztése – a kód sincs benne.
+- Ezek a `/admin/` oldalon vannak, **jelszóval titkosítva** (AES-256, a jelszó nélkül a fájl tartalma olvashatatlan). A jelszót a böngészőfül bezárásáig megjegyzi.
+- **Megrendelés feldolgozása:** a vevő ajánlatkérő e-mailjében van egy azonosító (pl. `NK-261127-AB12`) és egy „Terv:” link. Az admin oldalon a „Megrendelés linkje” mezőbe illeszd be, majd „Megnyitás” – betöltődik a terv a vevő adataival együtt.
+- **Nyomtatás:** „Nyomtatás – lapszabászatnak” (szabásjegyzék anyagonként + szabási terv), „Nyomtatás – teljes gyártási csomag” (megrendelő adatai, tételek, szabásjegyzék, szabási terv, vasalatlista, műszaki rajz elemenként). A nyomtatási ablakban „Mentés PDF-be” is választható.
+- Az admin oldal a `nakom-forras` csomagban lévő `build.py`-jal készül – a forrást **ne** tedd fel a GitHubra.
+
 ## Beállítandó dolgok
 
 - **E-mail cím az ajánlatkéréshez:** `info@nakom.hu` szerepel kétszer – a `tervezo/index.html` elején (`NAKOM_EMAIL`) és az `index.html` végén. Írd át a valósra. Az ajánlatkérés most az ügyfél e-mail-programját nyitja meg kitöltve, a terv linkjével együtt.
@@ -86,4 +94,4 @@ Renderelés Blenderben: `NAKOM_konyha_modulok_v2.blend`, szövegszerkesztőben a
 - **Kosár és rendelés:** a kosár az adott böngészőben él; a „Megrendelés kérése” kitöltött e-mailt nyit. Online fizetés még nincs bekötve.
 - **Árak:** a bolt árai és a tervező egységárai példaértékek.
 - **Bejelentkezés:** nincs. Valódi fiókhoz, mentett projektekhez és rendeléskezeléshez háttérszolgáltatás kell (pl. Supabase vagy Firebase) – ez a következő lépés lehet.
-- **Szabásjegyzék és szabási terv:** szerkezet: felső (falra szerelt) elemnél az oldalak adják a teljes magasságot, a tető és a fenék az oldalak közé kerül; alsó (álló) elemnél – a konyhai alsókat is beleértve – fordítva: a tető és a fenék teljes szélességű, az oldalak közéjük kerülnek. Ráütődő front, 3 mm fuga, 13 mm fiókcsúszó-hézag, 18 mm lap, 3 mm HDF hátfal. A polcközök és a fiókmagasságok rekeszenként állíthatók. Bútorlap mindig 18 mm. Elemenként választható: felső lezárás (tetőlap, vagy konyhai alsónál 2 db 10 cm-es merevítő vízszintesen / mosogatószekrénynél függőlegesen), MDF hátfal van/nincs, zsanér fékes/sima. Rekesztípus: nyitott, egyajtós, kétajtós, fiókos. Gyártás előtt asztalosnak ellenőriznie kell.
+- **Szabásjegyzék és szabási terv:** szerkezet: felső (falra szerelt) elemnél az oldalak adják a teljes magasságot, a tető és a fenék az oldalak közé kerül; alsó (álló) elemnél – a konyhai alsókat is beleértve – fordítva: a tető és a fenék teljes szélességű, az oldalak közéjük kerülnek. Ráütődő front, 3 mm fuga, 13 mm fiókcsúszó-hézag, 18 mm lap, 3 mm HDF hátfal. A polcközök és a fiókmagasságok rekeszenként állíthatók. Bútorlap mindig 18 mm. Elemenként választható: felső lezárás (tetőlap, vagy konyhai alsónál 2 db 10 cm-es merevítő vízszintesen / mosogatószekrénynél függőlegesen), hátfal MDF / HDF / nincs, zsanér fékes/sima. Rekesztípus: nyitott, egyajtós, kétajtós, fiókos. Gyártás előtt asztalosnak ellenőriznie kell.

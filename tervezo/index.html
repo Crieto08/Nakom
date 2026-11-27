@@ -75,6 +75,14 @@ input[type=number]{width:96px;text-align:right}
 .wtabs{display:flex;gap:4px;padding:0 max(2vw,14px);border-bottom:1px solid var(--line);overflow-x:auto;background:var(--panel)}
 .wtabs button{flex:none;background:none;border:0;border-bottom:2px solid transparent;min-height:52px;padding:0 14px;cursor:pointer;font-weight:600;color:var(--mut)}
 .wtabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--acc)}
+.pbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px max(2vw,14px);border-bottom:1px solid var(--line);background:var(--panel2)}.pbar b{font-size:15px;margin-right:6px}.pbar .note{margin-right:auto}
+#printArea{display:none}
+@media print{@page{size:A4;margin:12mm}:root{color-scheme:light}html,body{background:#fff!important}#printArea *{color:#000!important}body>*:not(#printArea){display:none!important}#printArea{display:block;color:#000;font:10.5pt/1.35 Figtree,Arial,sans-serif;background:#fff}
+ #printArea section{break-after:page}#printArea section:last-child{break-after:auto}#printArea h1{font-size:17pt;margin:0 0 2mm}#printArea h2{font-size:13pt;margin:5mm 0 2mm}
+ #printArea .ph{display:flex;justify-content:space-between;border-bottom:1.5pt solid #000;padding-bottom:2mm;margin-bottom:4mm;font-size:9pt}
+ #printArea table{width:100%;border-collapse:collapse;margin-bottom:3mm}#printArea th,#printArea td{border:.5pt solid #555;padding:1.2mm 1.6mm;text-align:left;vertical-align:top}#printArea th{background:#e8e8e8}
+ #printArea td.n{text-align:right;font-variant-numeric:tabular-nums}#printArea .kv td:first-child{width:38%;font-weight:600}#printArea .blank{display:inline-block;min-width:60mm;border-bottom:.5pt solid #000}
+ #printArea svg{width:100%;height:auto;max-height:175mm}#printArea .sh{break-inside:avoid;margin-bottom:5mm}#printArea .leg{font-size:8.5pt;color:#333}#printArea .chk{display:inline-block;width:3.5mm;height:3.5mm;border:.6pt solid #000;vertical-align:middle}}
 .wp{display:none;padding:clamp(20px,3vw,40px) max(2vw,14px)}.wp.on{display:block}
 .wp h2{font-size:28px;line-height:1.1;margin:0 0 6px;font-weight:600}
 .bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
@@ -198,25 +206,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 </aside>
 </main>
 
-<section class="ws">
-<div class="wtabs" role="tablist" aria-label="Műhely">
-<button role="tab" aria-selected="true" data-w="cut">Szabásjegyzék</button>
-<button role="tab" aria-selected="false" data-w="sheet">Szabási terv</button>
-<button role="tab" aria-selected="false" data-w="hw">Vasalatlista</button>
-<button role="tab" aria-selected="false" data-w="draw">Műszaki rajz</button>
-<button role="tab" aria-selected="false" data-w="chk">Ellenőrzés <span id="chkN"></span></button>
-<button role="tab" aria-selected="false" data-w="cost">Ár és egységárak</button>
-</div>
-<div class="wp on" data-wp="cut"><h2>Szabásjegyzék</h2><p class="note">A teljes projekt alkatrészei elemenként. Élzárás: H = hosszanti él, Sz = szélességi él. Mértékegység: mm.</p>
-<div class="bar"><button class="btn sm" id="csvBtn" type="button">Letöltés (CSV)</button><button class="btn sm ghost" id="copyBtn" type="button">Másolás vágólapra</button></div>
-<div class="scroll"><table id="cut"><thead><tr><th>#</th><th>Alkatrész</th><th>Hossz</th><th>Szél.</th><th>Db</th><th>Anyag</th><th>Élzárás</th></tr></thead><tbody></tbody></table></div></div>
-<div class="wp" data-wp="sheet"><h2>Szabási terv</h2><p class="note" id="sheetNote"></p><div class="sheets" id="sheets" style="margin-top:16px"></div></div>
-<div class="wp" data-wp="hw"><h2>Vasalatlista</h2><p class="note">Beszerzendő vasalatok és szerelvények a teljes projekthez.</p><div class="scroll" style="margin-top:14px"><table id="hwT"><thead><tr><th>Tétel</th><th>Db</th><th>Egységár</th><th>Összesen</th></tr></thead><tbody></tbody></table></div></div>
-<div class="wp" data-wp="draw"><h2>Műszaki rajz – <span id="drawN"></span></h2><p class="note">A kijelölt elem elölnézete és oldalnézete méretekkel, méretarányosan.</p><div class="draw" style="margin-top:14px" id="drawing"></div></div>
-<div class="wp" data-wp="chk"><h2>Ellenőrzés</h2><p class="note">Ütközések, szobából kilógó elemek, ajtónyitás és belmagasság.</p><div class="chk" id="chk" style="margin-top:14px"></div></div>
-<div class="wp" data-wp="cost"><div class="cols"><div><h2>Árrészletezés</h2><p class="note">Irányár a beállított egységárakkal.</p><div class="bd" id="bd" style="margin-top:12px"></div></div>
-<div><h2>Egységárak</h2><p class="note">Példaértékek – írd át a lapszabász és a beszállítók valós áraira. Ez a gép megjegyzi őket.</p><div id="pg"></div></div></div></div>
-</section>
+
 
 <div class="dlg" id="cartDlg" role="dialog" aria-modal="true" aria-labelledby="cartT"><div class="box"><h3 id="cartT">Kosár</h3><div id="cartList"></div><div class="row"><button class="btn" type="button" data-close>Vissza</button><a class="btn" href="../#kosar" style="text-decoration:none;display:inline-flex;align-items:center">Tovább a boltba</a><button class="btn pri" type="button" id="cartQuote">Megrendelés kérése</button></div></div></div>
 <div class="dlg" id="qDlg" role="dialog" aria-modal="true" aria-labelledby="qT"><form class="box" id="qForm"><h3 id="qT">Ajánlatkérés</h3><p class="note" id="qSum"></p>
@@ -232,6 +222,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 {
 /* BEÁLLÍTÁS: ide érkeznek az ajánlatkérések, amíg nincs saját szerver. */
 const NAKOM_EMAIL = 'info@nakom.hu';
+const ADMIN = !!window.NAKOM_ADMIN; // az admin változatban true (lásd build.py)
 const CL = window.claude && window.claude.use ? window.claude : null;
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const fmt = n => new Intl.NumberFormat('hu-HU').format(Math.round(n)) + ' Ft';
@@ -258,12 +249,12 @@ const PRESETS0 = [
 const PRESETS = PRESETS0.map(p => ({...p, c:OLDDEC[p.c], f:OLDDEC[p.f]}));
 const WALLS = {N:'Felső fal (É)', S:'Alsó fal (D)', W:'Bal fal (Ny)', E:'Jobb fal (K)'};
 const ROOMS = [{n:'Iroda 4×5 m', w:4000, d:5000, h:2700}, {n:'Vezetői iroda 5×5 m', w:5000, d:5000, h:2800}, {n:'Nappali 6×4,5 m', w:6000, d:4500, h:2700}, {n:'Hálószoba 4×3,5 m', w:4000, d:3500, h:2650}];
-let PRICE = {m2_0:7092, m2_1:6516, m2_2:13500, m2_3:6806, m2_4:6806, hull:1.15, hdf:6500, el:480, zsan:1800, zsanS:600, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:15000, szorzo:1.4};
-const PLAB = {m2_0:'Tahoe tölgy (Ft/m²)', m2_1:'Sonoma tölgy (Ft/m²)', m2_2:'Fehér fényes (Ft/m²)', m2_3:'Fekete 0076 Swisspan (Ft/m²)', m2_4:'Antracit 0477 (Ft/m²)', hull:'Hulladék-szorzó (bútorlap)', hdf:'HDF 3 mm (Ft/tábla)', el:'Élzárás (Ft/fm)', zsan:'Zsanér, fékes (Ft/db)', zsanS:'Zsanér, sima (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj (Ft/elem)', szorzo:'Árrés-szorzó'};
+let PRICE = {m2_0:7092, m2_1:6516, m2_2:13500, m2_3:6806, m2_4:6806, hull:1.15, hdf:6500, mdf:6500, el:480, zsan:1800, zsanS:600, csuszo:9000, fog:3500, tip:4500, lab:2500, lpz:6000, polct:60, fali:1500, munka:15000, szorzo:1.4};
+const PLAB = {m2_0:'Tahoe tölgy (Ft/m²)', m2_1:'Sonoma tölgy (Ft/m²)', m2_2:'Fehér fényes (Ft/m²)', m2_3:'Fekete 0076 Swisspan (Ft/m²)', m2_4:'Antracit 0477 (Ft/m²)', hull:'Hulladék-szorzó (bútorlap)', hdf:'HDF 3 mm (Ft/tábla)', mdf:'MDF hátfal 3 mm (Ft/tábla)', el:'Élzárás (Ft/fm)', zsan:'Zsanér, fékes (Ft/db)', zsanS:'Zsanér, sima (Ft/db)', csuszo:'Fiókcsúszó (Ft/pár)', fog:'Fogantyú (Ft/db)', tip:'Tip-on egység (Ft/db)', lab:'Bútorláb (Ft/db)', lpz:'Lábazat-szerelvény (Ft/fm)', polct:'Polctartó (Ft/db)', fali:'Falra akasztó vasalat (Ft/pár)', munka:'Munkadíj (Ft/elem)', szorzo:'Árrés-szorzó'};
 try { const p = JSON.parse(localStorage.getItem('nakom-ar4') || 'null'); if (p) PRICE = {...PRICE, ...p}; } catch (e) {}
 
 let uid = 1;
-const newItem = (p, x, z, rot) => ({id:uid++, name:p.n, cfg:{w:p.w, h:p.h, d:p.d, s:[...p.s], b:p.b, c:p.c, f:p.f, hd:p.hd, el:p.el || 0, top:p.top || 'panel', back:p.back !== false, soft:true}, x, z, rot:rot || 0});
+const newItem = (p, x, z, rot) => ({id:uid++, name:p.n, cfg:{w:p.w, h:p.h, d:p.d, s:[...p.s], b:p.b, c:p.c, f:p.f, hd:p.hd, el:p.el || 0, top:p.top || 'panel', back:p.back === false ? false : (p.back || 'mdf'), soft:true}, x, z, rot:rot || 0});
 function defaultProj() {
   const P = {name:'Új projekt', room:{w:5000, d:5000, h:2700, doors:[{wall:'S', off:500, w:900, hinge:'L', swing:'in'}], wins:[{wall:'N', off:1800, w:1600}], floor:{t:0, c:'#ffffff'}, wall:{t:0, c:'#8c8077'}, mv:2}, items:[], dv:2};
   return P;
@@ -319,7 +310,7 @@ function build(cfg) {
   else if (top === 'railH') { [D / 2 - 50, -D / 2 + (back ? HDF : 0) + 50].forEach(z => box(0, B + HC - T / 2, z, W - 2 * T, T, 100, 'K')); }
   else { [D / 2 - T / 2, -D / 2 + (back ? HDF : 0) + T / 2].forEach(z => box(0, B + HC - 50, z, W - 2 * T, 100, T, 'K')); }
   add('Válaszfal', ih, D - (back ? HDF : 0), n - 1, 'K', 'H1');
-  if (back) { add('Hátfal', W - 4, HC - 4, 1, 'H', '–'); box(0, B + HC / 2, -D / 2 + HDF / 2, W - 4, HC - 4, HDF, 'H'); }
+  if (back) { add(cfg.back === 'hdf' ? 'Hátfal (HDF)' : 'Hátfal (MDF)', W - 4, HC - 4, 1, 'H', '–'); box(0, B + HC / 2, -D / 2 + HDF / 2, W - 4, HC - 4, HDF, 'H'); }
   let x0 = -W / 2 + T;
   cfg.s.forEach((code, i) => {
     const t = code[0], k = +code[1], cx = x0 + iw / 2, fx = -W / 2 + GAP + i * (fw + GAP) + fw / 2, lab = n > 1 ? ' (' + (i + 1) + '. rekesz)' : '';
@@ -366,7 +357,7 @@ function calc() {
   P.items.forEach(it => {
     const B = build(it.cfg); it._b = B;
     B.parts.forEach(p => {
-      const mat = p.mat === 'H' ? (/Hátfal/.test(p.name) ? 'MDF hátfal 3 mm' : 'HDF 3 mm') : DECORS[p.mat === 'F' ? it.cfg.f : it.cfg.c].n + ' 18 mm';
+      const mat = p.mat === 'H' ? (/Hátfal/.test(p.name) && it.cfg.back !== 'hdf' ? 'MDF hátfal 3 mm' : 'HDF 3 mm') : DECORS[p.mat === 'F' ? it.cfg.f : it.cfg.c].n + ' 18 mm';
       if (p.mat !== 'H') { const di = p.mat === 'F' ? it.cfg.f : it.cfg.c; m2[di] = (m2[di] || 0) + p.L * p.W * p.q / 1e6; }
       const q = {...p, item:it.name, matName:mat, tag:it.name}; all.push(q); (groups[mat] = groups[mat] || []).push(q);
       let len = 0; if (/H1/.test(p.edge)) len += p.L; if (/H2/.test(p.edge)) len += 2 * p.L; if (/Sz2/.test(p.edge)) len += 2 * p.W;
@@ -378,12 +369,12 @@ function calc() {
     if (it.cfg.b === 1) hw.lpz += it.cfg.w / 1000;
     fronts += B.hw.front; polcs += B.hw.polc;
   });
-  const sheets = {}; let nLap = 0, nHdf = 0;
-  Object.entries(groups).forEach(([m, ps]) => { const wood = DECORS.some(d => d.wood && m.startsWith(d.n)); sheets[m] = pack(ps, wood); if (m.startsWith('HDF') || m.startsWith('MDF')) nHdf += sheets[m].length; else nLap += sheets[m].length; });
+  const sheets = {}; let nLap = 0, nHdf = 0, nMdf = 0;
+  Object.entries(groups).forEach(([m, ps]) => { const wood = DECORS.some(d => d.wood && m.startsWith(d.n)); sheets[m] = pack(ps, wood); if (m.startsWith('HDF')) nHdf += sheets[m].length; else if (m.startsWith('MDF')) nMdf += sheets[m].length; else nLap += sheets[m].length; });
   const hwRows = [['Zsanér, fékes (lassított)', hw.zsan, PRICE.zsan], ['Zsanér, sima', hw.zsanS, PRICE.zsanS], ['Fiókcsúszó, golyós, pár', hw.csuszo, PRICE.csuszo], ['Fogantyú', hw.fog, PRICE.fog], ['Tip-on nyitó egység', hw.tip, PRICE.tip], ['Bútorláb, fém', hw.lab, PRICE.lab], ['Lábazat-szerelvény (fm)', +hw.lpz.toFixed(2), PRICE.lpz], ['Polctartó', hw.polc * 4, PRICE.polct], ['Falra akasztó vasalat, pár', hw.fali, PRICE.fali]].filter(r => r[1] > 0);
   const hwSum = hwRows.reduce((a, r) => a + r[1] * r[2], 0);
   const lapRows = Object.keys(m2).map(Number).sort().map(di => [DECORS[di].n + ' 18 mm: ' + m2[di].toFixed(2).replace('.', ',') + ' m² × ' + String(PRICE.hull).replace('.', ',') + ' hulladék', m2[di] * PRICE.hull * (PRICE['m2_' + di] || 0)]);
-  const rows = [...lapRows, ['HDF 3 mm: ' + nHdf + ' tábla', nHdf * PRICE.hdf], ['Élzárás: ' + (el1 + el2).toFixed(1).replace('.', ',') + ' fm × ' + fmt(PRICE.el), (el1 + el2) * PRICE.el], ['Vasalat', hwSum], ['Munkadíj: ' + P.items.length + ' elem × ' + fmt(PRICE.munka), P.items.length * PRICE.munka]];
+  const rows = [...lapRows, ...(nHdf ? [['HDF 3 mm: ' + nHdf + ' tábla', nHdf * PRICE.hdf]] : []), ...(nMdf ? [['MDF hátfal 3 mm: ' + nMdf + ' tábla', nMdf * PRICE.mdf]] : []), ['Élzárás: ' + (el1 + el2).toFixed(1).replace('.', ',') + ' fm × ' + fmt(PRICE.el), (el1 + el2) * PRICE.el], ['Vasalat', hwSum], ['Munkadíj: ' + P.items.length + ' elem × ' + fmt(PRICE.munka), P.items.length * PRICE.munka]];
   const cost = rows.reduce((a, r) => a + r[1], 0);
   return {all, groups, sheets, hwRows, rows, cost, nLap, total:Math.ceil(cost * PRICE.szorzo / 1000) * 1000};
 }
@@ -649,7 +640,7 @@ function refresh(rebuildRoom) {
   $('#nItems').textContent = P.items.length; $('#price').textContent = fmt(C.total);
   $('[data-p=edit]').classList.toggle('empty', !it); if (it) editor(it);
   room();
-  workshop();
+  if (ADMIN) workshop();
   try { localStorage.setItem('nakom-projekt', JSON.stringify(P)); } catch (e) {}
 }
 function editor(it) {
@@ -669,7 +660,7 @@ function editor(it) {
   chips($('#hnd'), HANDLES, c.hd, i => { c.hd = i; refresh(); });
   $('#topBox').hidden = c.b === 2; const TOPS = [['panel', 'Tetőlap'], ['railH', '2 merevítő, vízszintes'], ['railV', '2 merevítő, függőleges (mosogató)']];
   chips($('#topSel'), TOPS.map(x => x[1]), TOPS.findIndex(x => x[0] === (c.top || 'panel')), i => { c.top = TOPS[i][0]; refresh(); });
-  chips($('#backSel'), ['MDF hátfal (3 mm)', 'Nincs hátfal'], c.back !== false ? 0 : 1, i => { c.back = i === 0; refresh(); });
+  chips($('#backSel'), ['MDF hátfal (3 mm)', 'HDF hátfal (3 mm)', 'Nincs hátfal'], c.back === false ? 2 : c.back === 'hdf' ? 1 : 0, i => { c.back = [ 'mdf', 'hdf', false ][i]; refresh(); });
   chips($('#hingeSel'), ['Fékes (lassított)', 'Sima'], c.soft !== false ? 0 : 1, i => { c.soft = i === 0; refresh(); });
   chips($('#bas'), BASES.map(b => b.n), c.b, i => { c.b = i; if (i === 2 && !c.el) c.el = 1400; refresh(); });
 }
@@ -681,44 +672,6 @@ function room() {
   const ae = document.activeElement; if (!(ae && /INPUT|SELECT/.test(ae.tagName) && ae.closest('#doorL,#winL'))) {
     $('#doorL').innerHTML = (R.doors || []).map((o, i) => row(o, i, 'doors')).join('') || '<p class="note">Nincs ajtó.</p>';
     $('#winL').innerHTML = (R.wins || []).map((o, i) => row(o, i, 'wins')).join('') || '<p class="note">Nincs ablak.</p>'; }
-}
-function workshop() {
-  let n = 0, last = '';
-  $('#cut tbody').innerHTML = C.all.map(p => { let g = ''; if (p.item !== last) { last = p.item; g = '<tr class="g"><td colspan="7">' + esc(p.item) + '</td></tr>'; } n++;
-    return g + '<tr><td class="n">' + n + '</td><td>' + esc(p.name) + '</td><td class="n">' + p.L + '</td><td class="n">' + p.W + '</td><td class="n">' + p.q + '</td><td>' + esc(p.matName) + '</td><td>' + (p.edge === '–' ? '–' : esc(p.edge) + (p.el2 ? ' (2 mm)' : ' (1 mm)')) + '</td></tr>'; }).join('');
-  let sh = '', tot = 0;
-  Object.entries(C.sheets).forEach(([m, list]) => list.forEach((s, i) => { tot++;
-    sh += '<div class="sheet"><svg viewBox="0 0 ' + SHEET[0] + ' ' + SHEET[1] + '" role="img" aria-label="' + esc(m) + ' ' + (i + 1) + '. tábla"><rect width="' + SHEET[0] + '" height="' + SHEET[1] + '" fill="#3a332c"/>' +
-      s.rects.map(r => '<rect x="' + (r.x + TRIM) + '" y="' + (r.y + TRIM) + '" width="' + r.L + '" height="' + r.W + '" fill="#D9B48A" stroke="#1C1916" stroke-width="6"/>' + (r.L > 380 && r.W > 110 ? '<text x="' + (r.x + TRIM + r.L / 2) + '" y="' + (r.y + TRIM + r.W / 2 + 22) + '" text-anchor="middle" font-size="64" fill="#1C1916">' + r.L + '×' + r.W + '</text>' : '')).join('') +
-      '</svg><p><b style="color:var(--ink)">' + esc(m) + '</b> · ' + (i + 1) + '. tábla · ' + s.rects.length + ' alkatrész · kihasználtság ' + Math.round(s.used * 100) + '%</p></div>'; }));
-  $('#sheets').innerHTML = sh; $('#sheetNote').textContent = tot + ' tábla (' + SHEET[0] + '×' + SHEET[1] + ' mm), 4 mm fűrészrés, 10 mm szélezés. Egyszerű sávos elrendezés – a lapszabász saját optimalizálója jellemzően kevesebb táblát használ.';
-  $('#hwT tbody').innerHTML = C.hwRows.map(r => '<tr><td>' + r[0] + '</td><td class="n">' + String(r[1]).replace('.', ',') + '</td><td class="n">' + fmt(r[2]) + '</td><td class="n">' + fmt(r[1] * r[2]) + '</td></tr>').join('') || '<tr><td colspan="4">Nincs vasalat.</td></tr>';
-  $('#bd').innerHTML = C.rows.map(r => '<div><span>' + esc(r[0]) + '</span><b>' + fmt(r[1]) + '</b></div>').join('') + '<div><span>Önköltség (a fenti sorok összege)</span><b>' + fmt(C.cost) + '</b></div><div class="tot"><span>Becsült eladási ár (×' + String(PRICE.szorzo).replace('.', ',') + ')</span><b>' + fmt(C.total) + '</b></div>';
-  const ch = checks(); $('#chkN').textContent = ch.length ? '(' + ch.length + ')' : '';
-  $('#chk').innerHTML = ch.length ? ch.map(t => '<div class="w">' + esc(t) + '</div>').join('') : '<div class="ok">Minden rendben: nincs ütközés, minden elem a szobában van.</div>';
-  drawing();
-}
-function drawing() {
-  const it = cur(); if (!it) { $('#drawing').innerHTML = ''; return; } $('#drawN').textContent = it.name;
-  const c = it.cfg, B = it._b, Bh = BASES[c.b].h, HC = c.h - Bh, n = c.s.length, fw = (c.w - GAP * (n + 1)) / n, pad = 260, gap = 420, W = pad + c.w + gap + c.d + pad, H = pad + c.h + pad + 90;
-  const L = (x1, y1, x2, y2) => '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#1C1916" stroke-width="3"/>';
-  const dimH = (x1, x2, y, t) => L(x1, y, x2, y) + L(x1, y - 25, x1, y + 25) + L(x2, y - 25, x2, y + 25) + '<text x="' + (x1 + x2) / 2 + '" y="' + (y - 22) + '" text-anchor="middle" font-size="46" fill="#1C1916">' + t + '</text>';
-  const dimV = (x, y1, y2, t) => L(x, y1, x, y2) + L(x - 25, y1, x + 25, y1) + L(x - 25, y2, x + 25, y2) + '<text x="' + (x - 26) + '" y="' + (y1 + y2) / 2 + '" text-anchor="middle" font-size="46" fill="#1C1916" transform="rotate(-90 ' + (x - 26) + ' ' + (y1 + y2) / 2 + ')">' + t + '</text>';
-  const ox = pad, oy = pad, Y = v => oy + c.h - v;
-  let o = '<rect x="' + ox + '" y="' + Y(c.h) + '" width="' + c.w + '" height="' + HC + '" fill="none" stroke="#1C1916" stroke-width="5"/>';
-  B.meshes.filter(m => m.role === 'F' && !m.inner).forEach(m => { o += '<rect x="' + (ox + c.w / 2 + m.x - m.sx / 2) + '" y="' + Y(m.y + m.sy / 2) + '" width="' + m.sx + '" height="' + m.sy + '" fill="#E7DDCF" stroke="#1C1916" stroke-width="3"/>';
-    if (m.door) { const hx = m.hinge < 0 ? ox + c.w / 2 + m.x - m.sx / 2 : ox + c.w / 2 + m.x + m.sx / 2, ax = m.hinge < 0 ? ox + c.w / 2 + m.x + m.sx / 2 : ox + c.w / 2 + m.x - m.sx / 2; o += '<path d="M' + ax + ' ' + Y(m.y + m.sy / 2) + ' L' + hx + ' ' + Y(m.y) + ' L' + ax + ' ' + Y(m.y - m.sy / 2) + '" fill="none" stroke="#8a7f72" stroke-width="2" stroke-dasharray="14 10"/>'; } });
-  if (c.b === 0) B.meshes.filter(m => m.role === 'L' && m.z > 0).forEach(m => o += '<rect x="' + (ox + c.w / 2 + m.x - 11) + '" y="' + Y(Bh) + '" width="22" height="' + Bh + '" fill="#1C1916"/>');
-  if (c.s.every(s => s[0] === 'o')) B.meshes.filter(m => m.role === 'K' && Math.abs(m.sy - T) < 1).forEach(m => o += '<rect x="' + (ox + c.w / 2 + m.x - m.sx / 2) + '" y="' + Y(m.y + T / 2) + '" width="' + m.sx + '" height="' + T + '" fill="#cbbca9"/>');
-  o += dimH(ox, ox + c.w, oy - 90, c.w + ' mm') + dimV(ox - 90, Y(c.h), Y(0), c.h + ' mm');
-  let fx = ox; c.s.forEach((s, i) => { fx += i ? fw + GAP : GAP; });
-  const sx = pad + c.w + gap;
-  o += '<rect x="' + sx + '" y="' + Y(c.h) + '" width="' + c.d + '" height="' + HC + '" fill="none" stroke="#1C1916" stroke-width="5"/><rect x="' + (sx + c.d) + '" y="' + Y(c.h - GAP / 2) + '" width="' + T + '" height="' + (HC - GAP) + '" fill="#E7DDCF" stroke="#1C1916" stroke-width="3"/>';
-  if (c.b === 0) o += '<rect x="' + (sx + 50) + '" y="' + Y(Bh) + '" width="22" height="' + Bh + '" fill="#1C1916"/><rect x="' + (sx + c.d - 72) + '" y="' + Y(Bh) + '" width="22" height="' + Bh + '" fill="#1C1916"/>';
-  if (c.b === 1) o += '<rect x="' + (sx + c.d - 58) + '" y="' + Y(Bh) + '" width="' + T + '" height="' + (Bh - 5) + '" fill="#E7DDCF" stroke="#1C1916" stroke-width="3"/>';
-  o += dimH(sx, sx + c.d + T, oy - 90, (c.d + T) + ' mm') + L(0, Y(0), W, Y(0));
-  o += '<text x="' + ox + '" y="' + (H - 90) + '" font-size="44" fill="#1C1916">ELÖLNÉZET</text><text x="' + sx + '" y="' + (H - 90) + '" font-size="44" fill="#1C1916">OLDALNÉZET</text><text x="' + ox + '" y="' + (H - 6) + '" font-size="40" fill="#5a5048">NAKOM · ' + esc(it.name) + ' · ' + esc(DECORS[c.c].n) + ' / ' + esc(DECORS[c.f].n) + '</text>';
-  $('#drawing').innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Műszaki rajz" font-family="Figtree, sans-serif">' + o + '</svg>';
 }
 
 // bind editor
@@ -755,7 +708,7 @@ $('#items').addEventListener('click', e => { const b = e.target.closest('[data-a
   const r = e.target.closest('[data-sel]'); if (r) select(+r.dataset.sel); });
 function tab(t) { $$('.tabs button').forEach(x => x.setAttribute('aria-selected', x.dataset.t === t)); $$('.pane').forEach(p => p.classList.toggle('on', p.dataset.p === t)); }
 $$('.tabs button').forEach(b => b.onclick = () => tab(b.dataset.t));
-$$('.wtabs button').forEach(b => b.onclick = () => { $$('.wtabs button').forEach(x => x.setAttribute('aria-selected', x === b)); $$('.wp').forEach(p => p.classList.toggle('on', p.dataset.wp === b.dataset.w)); });
+
 // view
 function setView(v) { view = v; $('#v3d').setAttribute('aria-pressed', v === '3d'); $('#v2d').setAttribute('aria-pressed', v === '2d'); plan.classList.toggle('on', v === '2d'); cv.style.visibility = v === '3d' ? 'visible' : 'hidden';
   $('#openBtn').hidden = v === '2d'; attachGizmo(); $('#hint').textContent = v === '2d' ? 'Húzd az elemeket – a falhoz és egymáshoz igazodnak' : 'Bal gomb: nézet forgatása · középső gomb: eltolás · görgő: nagyítás'; if (v === '2d') { dimBox.innerHTML = ''; drawPlan(); } }
@@ -788,8 +741,7 @@ function drawMats() { const R = P.room; R.floor = R.floor || {t:0, c:FLOORC[0]};
 $('#floorC').addEventListener('input', e => { P.room.floor.c = e.target.value; refresh(true); });
 $('#wallC').addEventListener('input', e => { P.room.wall.c = e.target.value; refresh(true); });
 // prices
-$('#pg').innerHTML = Object.keys(PLAB).map(kk => '<div class="pg"><label for="p-' + kk + '">' + PLAB[kk] + '</label><input type="number" id="p-' + kk + '" step="' + (kk === 'szorzo' ? .05 : 10) + '" value="' + PRICE[kk] + '"></div>').join('');
-$('#pg').addEventListener('change', e => { PRICE[e.target.id.slice(2)] = +e.target.value || 0; try { localStorage.setItem('nakom-ar4', JSON.stringify(PRICE)); } catch (er) {} refresh(); });
+
 // toast/dialogs
 function toast(t) { const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(() => el.style.display = 'none', 2200); }
 const dlg = id => $(id).classList.add('on');
@@ -816,21 +768,19 @@ const desc = () => P.name + ' – ' + P.items.length + ' elem: ' + P.items.map(i
 $('#addBtn').onclick = async () => { if (!P.items.length) { toast('Előbb adj hozzá bútort'); return; } let h = ''; try { h = await packHash(); } catch (e) {} loadCart(); cart.push({key:'terv-' + Date.now(), name:P.name + ' (egyedi terv)', opts:P.items.length + ' elem: ' + P.items.map(i => i.name + ' ' + cm(i.cfg.w)).join(', '), price:C.total, qty:1, img:'', link:h ? 'tervezo/#' + h : 'tervezo/'}); drawCart(true); toast('Projekt a kosárban'); };
 $('#cartBtn').onclick = () => dlg('#cartDlg');
 let qItems = [];
-$('#quoteBtn').onclick = async () => { if (!P.items.length) { toast('Előbb adj hozzá bútort'); return; } let h = ''; try { h = await packHash(); } catch (e) {} qItems = [{d:desc(), p:C.total, h}]; $('#qSum').textContent = desc() + ' · becsült ár ' + fmt(C.total); $('#qRes').textContent = ''; dlg('#qDlg'); };
+$('#quoteBtn').onclick = async () => { if (!P.items.length) { toast('Előbb adj hozzá bútort'); return; } let h = ''; try { h = await packHash(); } catch (e) {} qItems = [{d:desc(), p:C.total, h, own:true}]; $('#qSum').textContent = desc() + ' · becsült ár ' + fmt(C.total); $('#qRes').textContent = ''; dlg('#qDlg'); };
 $('#cartQuote').onclick = () => { if (!cart.length) return; qItems = cart.map(c => ({d:c.name + ' – ' + (c.opts || '') + (c.qty > 1 ? ' × ' + c.qty : ''), p:c.price * (c.qty || 1), h:c.link && c.link.includes('#') ? c.link.split('#')[1] : ''})); $('#cartDlg').classList.remove('on'); $('#qSum').textContent = cart.length + ' tétel, összesen ' + fmt(qItems.reduce((a, c) => a + c.p, 0)); $('#qRes').textContent = ''; dlg('#qDlg'); };
 $('#qForm').addEventListener('submit', async e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)), base = location.href.split('#')[0];
-  const rec = {...f, tetelek:qItems.map(q => ({leiras:q.d, becsultAr:q.p, link:q.h ? base + '#' + q.h : ''})), datum:new Date().toISOString()}; const res = $('#qRes'); res.textContent = 'Küldés…';
+  // megrendelés-azonosító + vevőadatok a tervbe csomagolva: az admin linken minden egyben megnyílik
+  const dt = new Date(), oid = 'NK-' + String(dt.getFullYear()).slice(2) + String(dt.getMonth() + 1).padStart(2, '0') + String(dt.getDate()).padStart(2, '0') + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+  if (qItems.length === 1 && qItems[0].own) { P.order = {id:oid, nev:f.nev || '', email:f.email || '', tel:f.tel || '', hely:f.hely || '', msg:f.msg || '', datum:dt.toISOString()}; try { qItems[0].h = await packHash(); } catch (er) {} delete P.order; }
+  const adminBase = base.replace(/tervezo\/(index\.html)?$/, 'admin/');
+  const rec = {...f, azonosito:oid, tetelek:qItems.map(q => ({leiras:q.d, becsultAr:q.p, link:q.h ? base + '#' + q.h : '', admin:q.h ? adminBase + '#' + q.h : ''})), datum:dt.toISOString()}; const res = $('#qRes'); res.textContent = 'Küldés…';
   try { const db = CL ? await Promise.race([CL.use('db'), new Promise(r => setTimeout(() => r(null), 6000))]) : null; if (!db) throw 0; await db.doc('ajanlatok/a' + Date.now().toString(36)).set(rec); res.textContent = 'Köszönjük! Megkaptuk, 1 munkanapon belül jelentkezünk.'; toast('Ajánlatkérés elküldve'); }
-  catch (er) { const body = 'Név: ' + (f.nev || '') + '\nE-mail: ' + (f.email || '') + '\nTelefon: ' + (f.tel || '') + '\nTelepülés: ' + (f.hely || '') + '\n\n' + rec.tetelek.map(t => t.leiras + '\nBecsült ár: ' + fmt(t.becsultAr) + '\nTerv: ' + t.link).join('\n\n') + '\n\nMegjegyzés: ' + (f.msg || '');
-    location.href = 'mailto:' + NAKOM_EMAIL + '?subject=' + encodeURIComponent('Ajánlatkérés – ' + P.name) + '&body=' + encodeURIComponent(body);
+  catch (er) { const body = 'Azonosító: ' + oid + '\nNév: ' + (f.nev || '') + '\nE-mail: ' + (f.email || '') + '\nTelefon: ' + (f.tel || '') + '\nTelepülés: ' + (f.hely || '') + '\n\n' + rec.tetelek.map(t => t.leiras + '\nBecsült ár: ' + fmt(t.becsultAr) + '\nTerv: ' + t.link).join('\n\n') + '\n\nMegjegyzés: ' + (f.msg || '');
+    location.href = 'mailto:' + NAKOM_EMAIL + '?subject=' + encodeURIComponent('Ajánlatkérés ' + oid + ' – ' + P.name) + '&body=' + encodeURIComponent(body);
     res.textContent = 'Megnyitottuk az e-mail-programodat a kitöltött ajánlatkéréssel. Ha nem nyílt meg, írj nekünk: ' + NAKOM_EMAIL; } });
-// export
-const csv = () => '﻿' + ['Elem;Alkatrész;Hossz (mm);Szélesség (mm);Db;Anyag;Élzárás'].concat(C.all.map(p => [p.item, p.name, p.L, p.W, p.q, p.matName, p.edge === '–' ? '' : p.edge + (p.el2 ? ' 2mm' : ' 1mm')].join(';'))).join('\r\n');
-$('#copyBtn').onclick = async () => { try { await navigator.clipboard.writeText(csv().slice(1).replace(/;/g, '\t')); toast('Szabásjegyzék a vágólapon'); } catch (e) { toast('A másolás nem engedélyezett'); } };
-$('#csvBtn').onclick = async () => { const fname = 'NAKOM-' + (P.name || 'projekt').replace(/[^\w\-áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+/g, '_') + '-szabasjegyzek.csv';
-  if (!CL) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv()], {type:'text/csv;charset=utf-8'})); a.download = fname; document.body.appendChild(a); a.click(); a.remove(); toast('Letöltve'); return; }
-  try { const dl = await CL.use('downloads'); if (!dl) throw 0; await dl.save({filename:'NAKOM-' + (P.name || 'projekt').replace(/[^\w\-áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+/g, '_') + '-szabasjegyzek.csv', data:csv()}); toast('Letöltve'); } catch (e) { toast('A letöltés itt nem elérhető – használd a Másolás gombot'); } };
-if (CL) CL.use('downloads').then(d => { if (!d) $('#csvBtn').hidden = true; });
+
 // init
 (async () => {
   let ok = false;
