@@ -77,6 +77,8 @@ Renderelés Blenderben: `NAKOM_konyha_modulok_v2.blend`, szövegszerkesztőben a
 - A vásárlói tervezőből (`/tervezo/`) kikerült a szabásjegyzék, a szabási terv, a vasalatlista, a műszaki rajz és az egységárak szerkesztése – a kód sincs benne.
 - Ezek a `/admin/` oldalon vannak, **jelszóval titkosítva** (AES-256, a jelszó nélkül a fájl tartalma olvashatatlan). A jelszót a böngészőfül bezárásáig megjegyzi.
 - **Megrendelés feldolgozása:** a vevő ajánlatkérő e-mailjében van egy azonosító (pl. `NK-261127-AB12`) és egy „Terv:” link. Az admin oldalon a „Megrendelés linkje” mezőbe illeszd be, majd „Megnyitás” – betöltődik a terv a vevő adataival együtt.
+- **Rendelések:** belépés után a „Rendelések” felület nyílik: Új rendelések / Gyártásban / Kész (csomagolásra vár, futárra vár, futárnál) / Teljesítve. „+ Rendelés felvétele”: az e-mailben kapott linket beillesztve felveszi a rendelést. Rendelésen belül minden bútor külön megnyitható (alkatrészlista + műszaki rajz) és külön nyomtatható. Az állapotgombokkal léptetheted, minden váltás bekerül az előzményekbe.
+- **Közös tárolás:** Beállítások → privát GitHub-repó + token (fine-grained, csak arra a repóra, Contents: Read and write). Token nélkül csak az adott gépen tárol.
 - **Nyomtatás:** „Nyomtatás – lapszabászatnak” (szabásjegyzék anyagonként + szabási terv), „Nyomtatás – teljes gyártási csomag” (megrendelő adatai, tételek, szabásjegyzék, szabási terv, vasalatlista, műszaki rajz elemenként). A nyomtatási ablakban „Mentés PDF-be” is választható.
 - Az admin oldal a `nakom-forras` csomagban lévő `build.py`-jal készül – a forrást **ne** tedd fel a GitHubra.
 

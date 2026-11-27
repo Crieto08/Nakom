@@ -77,6 +77,17 @@ input[type=number]{width:96px;text-align:right}
 .wtabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--acc)}
 .pbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px max(2vw,14px);border-bottom:1px solid var(--line);background:var(--panel2)}.pbar b{font-size:15px;margin-right:6px}.pbar .note{margin-right:auto}
 #printArea{display:none}
+#dash{position:fixed;inset:0;z-index:8;background:var(--bg);display:none;flex-direction:column}#dash.on{display:flex}
+.dh{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px max(2vw,14px);border-bottom:1px solid var(--line);background:var(--panel)}.dh b{font-size:18px;letter-spacing:.06em;margin-right:8px}.dh .note{margin-right:auto}
+.dtabs{display:flex;gap:4px;padding:0 max(2vw,14px);border-bottom:1px solid var(--line);background:var(--panel);overflow-x:auto}.dtabs button{flex:none;background:none;border:0;border-bottom:2px solid transparent;min-height:50px;padding:0 16px;cursor:pointer;font-weight:600;color:var(--mut);font-size:15px}.dtabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--acc)}.dtabs i{font-style:normal;background:var(--line);border-radius:10px;padding:1px 8px;margin-left:6px;font-size:12px}
+.dbody{flex:1;min-height:0;display:grid;grid-template-columns:minmax(280px,400px) minmax(0,1fr)}#dList{overflow:auto;border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:8px}#dDet{overflow:auto;padding:clamp(16px,2.5vw,32px)}
+.oc{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--panel);cursor:pointer;display:grid;gap:4px;text-align:left;color:inherit;font:inherit}.oc[aria-current=true]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}.oc b{font-size:15px}.oc small{color:var(--mut)}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:12px;font-weight:700;background:#3A332C}.b-uj{background:#D9B48A;color:#1C1916}.b-gyartas{background:#6d8bb3;color:#10151c}.b-csomagolas,.b-futarra,.b-futarnal{background:#c9a24a;color:#1C1916}.b-teljesitve{background:#6f9a6b;color:#0f170e}
+.ofs{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:12px 0}.ofs label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mut)}.ofs input,.ofs textarea{min-height:40px;padding:8px 10px;background:var(--bg);border:1px solid var(--line);border-radius:4px;font-size:15px;color:var(--ink)}
+.stt{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}.stt button{min-height:38px;padding:4px 12px;border:1px solid var(--line);border-radius:4px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:600;color:var(--ink)}.stt button[aria-pressed=true]{background:var(--acc);color:#1C1916;border-color:var(--acc)}
+.bi{border:1px solid var(--line);border-radius:8px;margin-top:10px;background:var(--panel)}.bi>div:first-child{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px}.bi .x{margin-left:auto;display:flex;gap:6px}.bi .xd{padding:0 14px 14px;display:none}.bi.open .xd{display:block}.bi .xd .draw{margin-top:10px}
+.hist{font-size:13px;color:var(--mut);margin-top:6px}
+@media(max-width:900px){.dbody{grid-template-columns:minmax(0,1fr)}#dList{max-height:38vh;border-right:0;border-bottom:1px solid var(--line)}}
 @media print{@page{size:A4;margin:12mm}:root{color-scheme:light}html,body{background:#fff!important}#printArea *{color:#000!important}body>*:not(#printArea){display:none!important}#printArea{display:block;color:#000;font:10.5pt/1.35 Figtree,Arial,sans-serif;background:#fff}
  #printArea section{break-after:page}#printArea section:last-child{break-after:auto}#printArea h1{font-size:17pt;margin:0 0 2mm}#printArea h2{font-size:13pt;margin:5mm 0 2mm}
  #printArea .ph{display:flex;justify-content:space-between;border-bottom:1.5pt solid #000;padding-bottom:2mm;margin-bottom:4mm;font-size:9pt}
@@ -127,6 +138,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <span><b>NAKOM</b><small>FURNITURE &amp; DESIGN</small></span></a>
 <input id="pname" aria-label="Projekt neve" value="Új projekt">
 <div class="hbtn">
+
 <button class="btn sm ghost" id="newBtn" type="button">Új projekt</button>
 <button class="btn sm" id="shareBtn" type="button">Mentés és link</button>
 <button class="btn sm" id="cartBtn" type="button">Kosár (<span id="cartN">0</span>)</button>
@@ -214,6 +226,7 @@ tr.g td{background:#2F2924;font-weight:700;color:var(--acc)}
 <label>Telefon<input name="tel" type="tel" autocomplete="tel"></label><label>Település<input name="hely"></label><label>Megjegyzés<textarea name="msg" rows="3"></textarea></label>
 <div class="row"><button class="btn" type="button" data-close>Mégse</button><button class="btn pri" type="submit">Elküldöm</button></div><p class="note" id="qRes" role="status"></p></form></div>
 <div class="dlg" id="sDlg" role="dialog" aria-modal="true" aria-labelledby="sT"><div class="box"><h3 id="sT">Projekt mentve</h3><p class="note">Ezzel a linkkel a teljes projekt – szoba és összes elem – visszatölthető és elküldhető.</p><input id="sLink" readonly aria-label="A projekt linkje"><div class="row"><button class="btn" type="button" data-close>Bezár</button><button class="btn pri" type="button" id="sCopy">Link másolása</button></div></div></div>
+
 <div class="toast" id="toast" role="status"></div>
 
 <script src="../assets/vendor/three.min.js"></script>
@@ -359,7 +372,7 @@ function calc() {
     B.parts.forEach(p => {
       const mat = p.mat === 'H' ? (/Hátfal/.test(p.name) && it.cfg.back !== 'hdf' ? 'MDF hátfal 3 mm' : 'HDF 3 mm') : DECORS[p.mat === 'F' ? it.cfg.f : it.cfg.c].n + ' 18 mm';
       if (p.mat !== 'H') { const di = p.mat === 'F' ? it.cfg.f : it.cfg.c; m2[di] = (m2[di] || 0) + p.L * p.W * p.q / 1e6; }
-      const q = {...p, item:it.name, matName:mat, tag:it.name}; all.push(q); (groups[mat] = groups[mat] || []).push(q);
+      const q = {...p, item:it.name, iid:it.id, matName:mat, tag:it.name}; all.push(q); (groups[mat] = groups[mat] || []).push(q);
       let len = 0; if (/H1/.test(p.edge)) len += p.L; if (/H2/.test(p.edge)) len += 2 * p.L; if (/Sz2/.test(p.edge)) len += 2 * p.W;
       if (p.el2) el2 += len * p.q / 1000; else el1 += len * p.q / 1000;
       cutLen += (p.L + p.W) * p.q / 1000;
@@ -781,6 +794,7 @@ $('#qForm').addEventListener('submit', async e => { e.preventDefault(); const f 
     location.href = 'mailto:' + NAKOM_EMAIL + '?subject=' + encodeURIComponent('Ajánlatkérés ' + oid + ' – ' + P.name) + '&body=' + encodeURIComponent(body);
     res.textContent = 'Megnyitottuk az e-mail-programodat a kitöltött ajánlatkéréssel. Ha nem nyílt meg, írj nekünk: ' + NAKOM_EMAIL; } });
 
+
 // init
 (async () => {
   let ok = false;
@@ -789,6 +803,7 @@ $('#qForm').addEventListener('submit', async e => { e.preventDefault(); const f 
   if (!ok) { try { ok = load(JSON.parse(localStorage.getItem('nakom-projekt') || 'null')); } catch (e) {} }
   P.items.forEach(snap); resize(); refresh(true); fitView(); drawCart(); loop();
   tab('room'); // mindig a szoba beállításával indul
+  
 })();
 addEventListener('hashchange', async () => { if (location.hash.startsWith('#p-')) { try { if (load(await unpackHash(location.hash))) { refresh(true); fitView(); } } catch (e) {} } });
 }
